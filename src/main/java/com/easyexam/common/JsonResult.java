@@ -1,4 +1,4 @@
-package com.easyexam.entity.common;
+package com.easyexam.common;
 
 public class JsonResult {
 

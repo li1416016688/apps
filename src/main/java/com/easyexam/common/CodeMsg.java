@@ -1,4 +1,4 @@
-package com.easyexam.entity.common;
+package com.easyexam.common;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.easyexam.entity.dao")
+@MapperScan("com.easyexam.dao")
 public class EasyExamApplication {
 
     public static void main(String[] args) {
