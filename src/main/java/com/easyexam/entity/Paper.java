@@ -1,7 +1,7 @@
 /**
  * 试卷信息，通常用paper表示
  */
-package com.easyexam.entity.entity;
+package com.easyexam.entity;
 
 import lombok.Data;
 

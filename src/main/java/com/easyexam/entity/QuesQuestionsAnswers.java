@@ -1,17 +1,14 @@
-package com.easyexam.entity.entity;
+/**
+ * Q&A型问题，问答题
+ */
+package com.easyexam.entity;
 
 import lombok.Data;
 
 @Data
-public class QuesSingleChoose {
+public class QuesQuestionsAnswers {
     private int id;
     private String question;
-    private String chooseA;
-    private String chooseB;
-    private String chooseC;
-    private String chooseD;
-    private String chooseE;
-    private String chooseF;
     private String answer;
     private int subjectId;
     private Subject subject;
