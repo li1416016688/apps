@@ -1,7 +1,7 @@
 /**
  * 判断题
  */
-package com.easyexam.entity.entity;
+package com.easyexam.entity;
 
 import lombok.Data;
 

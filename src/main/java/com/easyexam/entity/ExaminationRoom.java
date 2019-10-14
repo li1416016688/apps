@@ -1,7 +1,7 @@
 /**
  * 考场信息，在很多地方用room表示
  */
-package com.easyexam.entity.entity;
+package com.easyexam.entity;
 
 import lombok.Data;
 
