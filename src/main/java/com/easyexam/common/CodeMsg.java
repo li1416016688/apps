@@ -13,13 +13,9 @@ public class CodeMsg {
     @Value("${code.0000}")
     private String example;
 
-    @Value("${code.1001}")
-    private String success;
+    @Value("${code.2341}")
+    private String subjectIdNotFound;
 
-    @Value("${code.2501}")
-    private String idCardError;
-
-    @Value("${code.2502}")
-    private String passwordError;
-
+    @Value("${code.2342}")
+    private String ExcelCellIsNull;
 }
