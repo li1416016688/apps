@@ -17,5 +17,11 @@ public class CodeMsg {
     private String subjectIdNotFound;
 
     @Value("${code.2342}")
+    private String ExcelNotFound;
+
+    @Value("${code.2343}")
     private String ExcelCellIsNull;
+
+    @Value("${code.2344}")
+    private String ExcelSheetNotFound;
 }
