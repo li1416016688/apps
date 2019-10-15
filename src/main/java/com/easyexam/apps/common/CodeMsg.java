@@ -1,4 +1,4 @@
-package com.easyexam.common;
+package com.easyexam.apps.common;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +14,12 @@ public class CodeMsg {
     private String example;
     @Value("${code.1011}")
     private String singleChoose;
+    @Value("${code.1012}")
+    private String multipleChoose;
+    @Value("${code.1013}")
+    private String judge;
+    @Value("${code.1014}")
+    private String questionAnswers;
 
     @Value("${code.2341}")
     private String subjectIdNotFound;
