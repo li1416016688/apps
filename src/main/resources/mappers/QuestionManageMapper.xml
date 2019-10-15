@@ -4,6 +4,65 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.easyexam.apps.dao.QuestionManageDao">
+    <insert id="importQuesSingleChoose" parameterType="java.util.List">
+        INSERT INTO `q_single_choose`
+        (`question`, `choose_a`, `choose_b`, `choose_c`, `choose_d`,
+        `choose_e`,`choose_f`, `answer`, `subject_id`, `level`, `tag`)
+        VALUES
+        <foreach collection="list" item="quesSingleChoose" separator=",">
+            (
+            #{quesSingleChoose.question},#{quesSingleChoose.chooseA},
+            #{quesSingleChoose.chooseB},#{quesSingleChoose.chooseC},
+            #{quesSingleChoose.chooseD},#{quesSingleChoose.chooseE},
+            #{quesSingleChoose.chooseF},#{quesSingleChoose.answer},
+            #{quesSingleChoose.subjectId},#{quesSingleChoose.level},
+            #{quesSingleChoose.tag}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="importQuesMultipleChoose" parameterType="java.util.List">
+        INSERT INTO `q_multiple_choose`
+        (`question`, `choose_a`, `choose_b`, `choose_c`, `choose_d`,
+        `choose_e`,`choose_f`, `answer`, `subject_id`, `level`, `tag`)
+        VALUES
+        <foreach collection="list" item="quesMultipleChoose" separator=",">
+            (
+            #{quesMultipleChoose.question},#{quesMultipleChoose.chooseA},
+            #{quesMultipleChoose.chooseB},#{quesMultipleChoose.chooseC},
+            #{quesMultipleChoose.chooseD},#{quesMultipleChoose.chooseE},
+            #{quesMultipleChoose.chooseF},#{quesMultipleChoose.answer},
+            #{quesMultipleChoose.subjectId},#{quesMultipleChoose.level},
+            #{quesMultipleChoose.tag}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="importQuesJudge" parameterType="java.util.List">
+        INSERT INTO `q_judge`
+        (`question`, `answer`, `subject_id`, `level`, `tag`)
+        VALUES
+        <foreach collection="list" item="quesJudge" separator=",">
+            (
+            #{quesJudge.question},#{quesJudge.answer},
+            #{quesJudge.subjectId},#{quesJudge.level},
+            #{quesJudge.tag}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="importQuesQuestionsAnswers" parameterType="java.util.List">
+        INSERT INTO `q_questions_answers`
+        (`question`, `answer`, `subject_id`, `level`, `tag`)
+        VALUES
+        <foreach collection="list" item="quesQuestionsAnswers" separator=",">
+            (
+            #{quesQuestionsAnswers.question},#{quesQuestionsAnswers.answer},
+            #{quesQuestionsAnswers.subjectId},#{quesQuestionsAnswers.level},
+            #{quesQuestionsAnswers.tag}
+            )
+        </foreach>
+    </insert>
 
 
 
