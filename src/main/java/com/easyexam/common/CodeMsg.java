@@ -12,4 +12,14 @@ import org.springframework.stereotype.Component;
 public class CodeMsg {
     @Value("${code.0000}")
     private String example;
+
+    @Value("${code.1001}")
+    private String success;
+
+    @Value("${code.2501}")
+    private String idCardError;
+
+    @Value("${code.2502}")
+    private String passwordError;
+
 }

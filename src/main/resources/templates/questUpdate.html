@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>layui在线调试</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .demo-carousel {
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote">试题管理</blockquote>
+
+<table class="layui-hide" id="demo" lay-filter="test"></table>
+
+<script src="layui/layui.js"></script>
+
+<script type="text/javascript">
+    layui.use(['table', 'element'], function () {
+        var
+            table = layui.table //表格
+            ,
+            element = layui.element; //元素操作
+
+        table.render({
+            elem: '#demo'
+            , height: 420
+            , url: 'singleChooseList.do' //数据接口
+            , title: '单选列表'
+            , page: false //开启分页
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left', totalRowText: '合计：'}
+                    , {field: 'question', title: '题目', width: 500}
+                    , {field: 'chooseA', title: '选项A', width: 100, sort: true, totalRow: true}
+                    , {field: 'chooseB', title: '选项B', width: 100, sort: true}
+                    , {field: 'chooseC', title: '选项C', width: 100, sort: true, totalRow: true}
+                    , {field: 'chooseD', title: '选项D', width: 100}
+					, {field: 'chooseE', title: '选项E', width: 150}
+					, {field: 'chooseF', title: '选项F', width: 150}
+                    , {field: 'answer', title: '答案', width: 200}
+					, {field: 'subjectId', title: 'subjectId', width: 150}
+                    , {field: 'subject', title: '科目', width: 100}
+                    , {field: 'level', title: '难度等级', width: 135, sort: true, totalRow: true}
+                    , {field: 'tag', title: '自定义', width: 135, sort: true, totalRow: true}
+                ]
+            ]
+        });
+    });
+</script>
+</body>
+</html>

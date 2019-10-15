@@ -5,6 +5,8 @@
 
 <mapper namespace="com.easyexam.dao.QuestionManageDao">
 
-
+<select id="findAllQuesSingleChooses" resultType="QuesSingleChoose">
+    select * from q_single_choose
+</select>
 
 </mapper>

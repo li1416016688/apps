@@ -1,4 +1,4 @@
-package com.easyexam.entity;
+package com.easyexam;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
