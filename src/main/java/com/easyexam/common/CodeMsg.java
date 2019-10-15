@@ -12,4 +12,10 @@ import org.springframework.stereotype.Component;
 public class CodeMsg {
     @Value("${code.0000}")
     private String example;
+
+    @Value("${code.2341}")
+    private String subjectIdNotFound;
+
+    @Value("${code.2342}")
+    private String ExcelCellIsNull;
 }
