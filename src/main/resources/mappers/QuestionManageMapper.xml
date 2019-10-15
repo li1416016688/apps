@@ -56,9 +56,25 @@ qmc.choose_c,qmc.choose_d,qmc.choose_e,qmc.choose_f
 from q_multiple_choose qmc LEFT JOIN subject sub
 on qmc.subject_id =sub.id;
     </select>
+    <resultMap id="QuesJudgeMap" type="com.easyexam.apps.entity.QuesJudge">
+        <id property="id" column="id"></id>
+        <result property="question" column="question"></result>
+        <result property="answer" column="answer"></result>
+        <result property="subjectId" column="subject_id"></result>
+        <result property="level" column="level"></result>
+        <result property="tag" column="tag"></result>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
 
-
-
+    <select id="findAllQuesJudge" resultMap="QuesJudgeMap">
+    select qj.id,qj.question
+    ,qj.answer,qj.tag, qj.level,sub.name
+    from q_judge qj LEFT JOIN subject sub
+    on qj.subject_id =sub.id;
+    </select>
 
 
 

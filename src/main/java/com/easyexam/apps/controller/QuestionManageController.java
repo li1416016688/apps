@@ -25,7 +25,7 @@ public class QuestionManageController {
     public JsonResult findAllQuesSingleChoose(){
         List<QuesSingleChoose> allQuesSingleChoose = questionManageService.findAllQuesSingleChoose();
         for (QuesSingleChoose singleChoose:allQuesSingleChoose){
-            System.out.println(singleChoose);
+
         }
         return new JsonResult(1011,codeMsg.getSingleChoose());
     }
@@ -34,7 +34,7 @@ public class QuestionManageController {
     public JsonResult findAllQuesMultipleChoose(){
         List<QuesMultipleChoose> MultipleChooselist = questionManageService.findAllQuesMultipleChoose();
         for (QuesMultipleChoose multipleChoose:MultipleChooselist){
-            System.out.println(multipleChoose);
+
         }
         return new JsonResult(1012,codeMsg.getMultipleChoose());
     }
