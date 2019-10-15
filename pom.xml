@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.easyexam</groupId>
-    <artifactId>entity</artifactId>
+    <artifactId>apps</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>EasyExam</name>
     <description>Demo project for Spring Boot</description>
@@ -140,17 +140,20 @@
         </dependency>
 
         <!-- poi -->
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.11</version>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
         </dependency>
     </dependencies>
+
+
 
     <build>
         <plugins>

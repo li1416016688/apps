@@ -22,9 +22,52 @@
 <body>
 <blockquote class="layui-elem-quote">试题管理</blockquote>
 
+<div class="layui-form searchDiv">
+
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <select name="subjectId" lay-verify="required">
+                <option value="">科目</option>
+                <option value="1">语文</option>
+                <option value="2">英语</option>
+                <option value="3">数学</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="quesId" lay-verify="required">
+                <option value="">题型</option>
+                <option value="1">单选题</option>
+                <option value="2">多选题</option>
+                <option value="3">判断题</option>
+                <option value="4">简答题</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" name="info" required lay-verify="required" placeholder="请输入题目" class="layui-input">
+        </div>
+
+        <div class="layui-input-inline">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" data-type="reload">查询</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
+</body>
+
 <script src="layui/layui.js"></script>
+
+<script src="js/jquery-1.12.2.min.js"></script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 
 <script type="text/javascript">
     layui.use(['table', 'element'], function () {
@@ -35,30 +78,99 @@
 
         table.render({
             elem: '#demo'
-            , height: 420
+            , height: 520
             , url: 'singleChooseList.do' //数据接口
             , title: '单选列表'
-            , page: false //开启分页
+            , page: true //开启分页
+            , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left', totalRowText: '合计：'}
-                    , {field: 'question', title: '题目', width: 500}
-                    , {field: 'chooseA', title: '选项A', width: 100, sort: true, totalRow: true}
-                    , {field: 'chooseB', title: '选项B', width: 100, sort: true}
-                    , {field: 'chooseC', title: '选项C', width: 100, sort: true, totalRow: true}
-                    , {field: 'chooseD', title: '选项D', width: 100}
-					, {field: 'chooseE', title: '选项E', width: 150}
-					, {field: 'chooseF', title: '选项F', width: 150}
-                    , {field: 'answer', title: '答案', width: 200}
-					, {field: 'subjectId', title: 'subjectId', width: 150}
-                    , {field: 'subject', title: '科目', width: 100}
-                    , {field: 'level', title: '难度等级', width: 135, sort: true, totalRow: true}
-                    , {field: 'tag', title: '自定义', width: 135, sort: true, totalRow: true}
+                    , {field: 'question', title: '题目', width: 500, sort: true}
+                    , {field: 'chooseA', title: '选项A', width: 100, align: 'center'}
+                    , {field: 'chooseB', title: '选项B', width: 100, align: 'center'}
+                    , {field: 'chooseC', title: '选项C', width: 100, align: 'center'}
+                    , {field: 'chooseD', title: '选项D', width: 100, align: 'center'}
+                    , {field: 'answer', title: '答案', width: 60, align: 'center'}
+                    // , {field: 'subjectId', title: 'subjectId', width: 40}
+                    //, {field: 'subject', title: '科目', width: 60, align: 'center'}
+                    ,{field:'name', title: '科目'
+                        ,templet: function(d){
+                            return d.subject.name;
+                        }, width : 60 ,align: 'center'
+                    }
+                    , {field: 'level', title: '难度等级', width: 60, sort: true, align: 'center'}
+                    , {field: 'tag', title: '自定义', width: 100, align: 'center'}
+                    , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
                 ]
             ]
         });
+        //监听头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id)
+                , data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'add':
+                    layer.msg('添加');
+                    break;
+                case 'update':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        layer.alert('编辑 [id]：' + checkStatus.data[0].id);
+                    }
+                    break;
+                case 'delete':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.msg('删除');
+                    }
+                    break;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.msg('查看操作');
+            } else if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+
+                    $.ajax({
+
+                    })
+
+                });
+            } else if (layEvent === 'edit') {
+                layer.msg('编辑操作');
+            }
+        });
+
+        var active = {
+            reload: function(){
+                //执行重载
+                table.reload('questionTable', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: { // 额外需要提交的参数\
+                        cTitle: $("#cTitle").val(),
+                        sid: $("#sid").val()
+                    }
+                });
+            }
+        };
+
+        $('.searchDiv').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
     });
 </script>
-</body>
 </html>

@@ -3,10 +3,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.easyexam.dao.QuestionManageDao">
+<mapper namespace="com.easyexam.apps.dao.QuestionManageDao">
 
-<select id="findAllQuesSingleChooses" resultType="QuesSingleChoose">
-    select * from q_single_choose
-</select>
+    <resultMap id="findQuestion" type="QuesSingleChoose">
+        <id property="id" column="id"/>
+        <result property="question" column="question"/>
+        <result property="chooseA" column="choose_a"/>
+        <result property="chooseB" column="choose_b"/>
+        <result property="chooseC" column="choose_c"/>
+        <result property="chooseD" column="choose_d"/>
+        <result property="chooseE" column="choose_e"/>
+        <result property="chooseF" column="choose_f"/>
+        <result property="answer" column="answer"/>
+        <result property="level" column="level"/>
+        <result property="subjectId" column="subjectId"/>
+        <result property="tag" column="tag"/>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+
+
+
+    <select id="findAllQuesSingleChooses" resultMap="findQuestion" parameterType="map">
+        select *
+        from q_single_choose q LEFT JOIN `subject` s ON q.subject_id = s.id
+        <where>
+            1 = 1
+            <if test="subjectId != null">
+                and q.subject_id = #{subjectId}
+            </if>
+            <if test="info != null">
+                and q.question like CONCAT('%','${info}','%')
+            </if>
+        </where>
+
+    </select>
+
+    <select id="finAllQuesMultipleChooses" resultMap="findQuestion" parameterType="map">
+        select *
+        from q_multiple_choose q LEFT JOIN `subject` s ON q.subject_id = s.id
+        <where>
+            1 = 1
+            <if test="subjectId != null">
+                and q.subject_id = #{subjectId}
+            </if>
+            <if test="info != null">
+                and q.question like CONCAT('%','${info}','%')
+            </if>
+        </where>
+    </select>
+
+
 
 </mapper>
