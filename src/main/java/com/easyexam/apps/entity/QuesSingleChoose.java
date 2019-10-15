@@ -22,19 +22,21 @@ public class QuesSingleChoose implements Serializable {
     private String tag;     //标签，目前用户自行填写
     public QuesSingleChoose(){}
 
-    public QuesSingleChoose(int id, String question, String chooseA, String chooseB, String chooseC, String chooseD, String chooseE, String chooseF, String answer, int subjectId, Subject subject, int level, String tag) {
-        this.id = id;
-        this.question = question;
-        this.chooseA = chooseA;
-        this.chooseB = chooseB;
-        this.chooseC = chooseC;
-        this.chooseD = chooseD;
-        this.chooseE = chooseE;
-        this.chooseF = chooseF;
-        this.answer = answer;
-        this.subjectId = subjectId;
-        this.subject = subject;
-        this.level = level;
-        this.tag = tag;
+    @Override
+    public String toString() {
+        return "QuesSingleChoose{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", chooseA='" + chooseA + '\'' +
+                ", chooseB='" + chooseB + '\'' +
+                ", chooseC='" + chooseC + '\'' +
+                ", chooseD='" + chooseD + '\'' +
+                ", chooseE='" + chooseE + '\'' +
+                ", chooseF='" + chooseF + '\'' +
+                ", answer='" + answer + '\'' +
+                ", subject=" + subject +
+                ", level=" + level +
+                ", tag='" + tag + '\'' +
+                '}';
     }
 }
