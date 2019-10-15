@@ -19,6 +19,9 @@ public class ErrorCode {
     // 用户未登录
     public static int USER_NO_LOGIN = 1005;
 
+    //Excel导入成功
+    public static int EXCEL_IMPORT_SUCCESS = 2340;
+
     //Excel导入发生错误，学科不存在或模板有误
     public static int SUBJECT_ID_NOT_FOUND = 2341;
 
@@ -30,5 +33,8 @@ public class ErrorCode {
 
     //Excel导入发生错误，模板信息有误（sheet不存在）
     public static int EXCEL_SHEET_NOT_FOUND=2344;
+
+    //Excel格式异常，请上传xlsx格式的文件模板
+    public static int EXCEL_FILE_TYPE_ERROR=2345;
 
 }

@@ -13,6 +13,12 @@ public class CodeMsg {
     @Value("${code.0000}")
     private String example;
 
+    @Value("${code.2340}")
+    private String ExcelImportSuccess;
+
+    @Value("${code.500}")
+    private String ServerError;
+
     @Value("${code.2341}")
     private String subjectIdNotFound;
 
@@ -24,4 +30,7 @@ public class CodeMsg {
 
     @Value("${code.2344}")
     private String ExcelSheetNotFound;
+
+    @Value("${code.2345}")
+    private String ExcelFileTypeError;
 }
