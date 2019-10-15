@@ -231,28 +231,30 @@ public class ReadExcel {
     }
 
     /**
-     * 获取单元格boolean类型的数据，如果不为boolean则返回null
+     * 获取单元格内容（T或F）返回数据，
+     * 如果是T则返回true，F返回false
+     * 如果不为T或F则返回null
      * @param cell 输入的单元格对象
      * @return
      */
     private Boolean getCellBooleanValue(Cell cell){
         Boolean returnValue = null;
-        int cellType = cell.getCellType();
-        if(cellType == cell.CELL_TYPE_BOOLEAN){
-            boolean value = cell.getBooleanCellValue();
-            returnValue = value;
-        }else{
+        String cellValue = cell.getStringCellValue();
+        if("T".equals(cellValue)){
+            return true;
+        }else if("F".equals(cellValue)){
+            return false;
+        }else {
             return null;
         }
-        return returnValue;
     }
 
     public static void main(String[] args) {
         ReadExcel readExcel = new ReadExcel();
-        List<QuesMultipleChoose> list = readExcel.readMultipleChoose("C:\\Users\\kingi\\Desktop\\题目导入模板 - 副本.xlsx");
+        List<QuesJudge> list = readExcel.readJudge("C:\\Users\\kingi\\Desktop\\题目导入模板 - 副本.xlsx");
         System.out.println(list.size());
-        for(QuesMultipleChoose multipleChoose : list){
-            System.out.println(multipleChoose);
+        for(QuesJudge quesJudge : list){
+            System.out.println(quesJudge);
         }
     }
 }
