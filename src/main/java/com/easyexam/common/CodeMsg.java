@@ -12,4 +12,6 @@ import org.springframework.stereotype.Component;
 public class CodeMsg {
     @Value("${code.0000}")
     private String example;
+    @Value("${code.1011}")
+    private String singleChoose;
 }

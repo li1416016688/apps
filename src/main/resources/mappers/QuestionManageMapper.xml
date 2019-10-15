@@ -4,7 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.easyexam.dao.QuestionManageDao">
-
-
+    <resultMap id="singleChooseMap" type="com.easyexam.entity.QuesSingleChoose">
+        <id property="id" column="id"></id>
+        <result property="question" column="question"></result>
+        <result property="chooseA" column="choose_a"></result>
+        <result property="chooseB" column="choose_b"></result>
+        <result property="chooseC" column="choose_c"></result>
+        <result property="chooseD" column="choose_d"></result>
+        <result property="chooseE" column="choose_e"></result>
+        <result property="chooseF" column="choose_f"></result>
+        <result property="answer" column="answer"></result>
+        <result property="tag" column="tag"></result>
+        <result property="level" column="level"></result>
+        <association property="subject" javaType="Subject">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
+<!--单选-->
+    <select id="findAllQuesSingleChoose" resultMap="singleChooseMap">
+    select qsc.id,qsc.question,qsc.choose_a,qsc.choose_b,qsc.choose_c,qsc.choose_d,qsc.choose_e,qsc.choose_f
+    ,qsc.answer,qsc.tag, qsc.level,sub.name
+    from q_single_choose qsc LEFT JOIN subject sub
+    on qsc.subject_id =sub.id;
+    </select>
 
 </mapper>
