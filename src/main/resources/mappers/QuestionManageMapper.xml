@@ -77,5 +77,22 @@ on qmc.subject_id =sub.id;
     </select>
 
 
-
+    <resultMap id="QuestionsAnswersMap" type="com.easyexam.apps.entity.QuesQuestionsAnswers">
+        <id property="id" column="id"></id>
+        <result property="question" column="question"></result>
+        <result property="answer" column="answer"></result>
+        <result property="subjectId" column="subject_id"></result>
+        <result property="level" column="level"></result>
+        <result property="tag" column="tag"></result>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
+    <select id="findAllQuesQuestionsAnswers" resultMap="QuestionsAnswersMap">
+    select qqa.id,qqa.question
+    ,qqa.answer,qqa.tag, qqa.level,sub.name
+    from q_questions_answers qqa LEFT JOIN subject sub
+    on  qqa.subject_id=sub.id;
+    </select>
 </mapper>
