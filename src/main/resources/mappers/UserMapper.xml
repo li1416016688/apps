@@ -3,8 +3,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.easyexam.dao.UserDao">
-    <select id="findAllUser" resultType="com.easyexam.entity.User">
+<mapper namespace="com.easyexam.apps.dao.UserDao">
+    <select id="findAllUser" resultType="com.easyexam.apps.entity.User">
         select * from p_user
     </select>
 
