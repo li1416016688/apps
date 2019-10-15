@@ -6,6 +6,8 @@
 package com.easyexam.apps.utils;
 
 import com.easyexam.apps.common.CodeMsg;
+import com.easyexam.apps.entity.QuesJudge;
+import com.easyexam.apps.entity.QuesMultipleChoose;
 import com.easyexam.apps.entity.QuesSingleChoose;
 import com.easyexam.apps.exection.MyException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadExcel {
+    //读取单选题
     public List<QuesSingleChoose> readSingleChoose(String filePath) throws NullPointerException{
         XSSFSheet sheet = getXSSFWorkbook(filePath, "单选");
         int rowNum = sheet.getLastRowNum();
@@ -61,6 +64,73 @@ public class ReadExcel {
         return list;
     }
 
+    //读取多选题
+    public List<QuesMultipleChoose> readMultipleChoose(String filePath) throws NullPointerException{
+        XSSFSheet sheet = getXSSFWorkbook(filePath, "多选");
+        int rowNum = sheet.getLastRowNum();
+        QuesMultipleChoose multipleChoose = null;
+        List list = new ArrayList<QuesSingleChoose>();  //最终要返回的list
+        for(int i = 1; i <= rowNum; i++){
+            multipleChoose = new QuesMultipleChoose();
+            XSSFRow row = sheet.getRow(i);
+            //先判断是否为空再放入
+            multipleChoose.setQuestion(getCellStringValue(row.getCell(0)));
+            if (!isNullCell(row.getCell(1))) {
+                multipleChoose.setChooseA(getCellStringValue(row.getCell(1)));
+            }
+            if (!isNullCell(row.getCell(2))) {
+                multipleChoose.setChooseB(getCellStringValue(row.getCell(2)));
+            }
+            if (!isNullCell(row.getCell(3))) {
+                multipleChoose.setChooseC(getCellStringValue(row.getCell(3)));
+            }
+            if (!isNullCell(row.getCell(4))) {
+                multipleChoose.setChooseD(getCellStringValue(row.getCell(4)));
+            }
+            if (!isNullCell(row.getCell(5))) {
+                multipleChoose.setChooseE(getCellStringValue(row.getCell(5)));
+            }
+            if (!isNullCell(row.getCell(6))) {
+                multipleChoose.setChooseF(getCellStringValue(row.getCell(6)));
+            }
+            //对数据格式进行处理
+            String originalAnswer = getCellStringValue(row.getCell(7));
+            String ProcessedAnswer = originalAnswer.replaceAll(",", "&");
+            multipleChoose.setAnswer(ProcessedAnswer);
+            //根据输入的学科名称获取放入的id
+            int id = getSubjectId(filePath, getCellStringValue(row.getCell(8)));
+            multipleChoose.setSubjectId(id);
+
+            multipleChoose.setLevel(getCellIntegerValue(row.getCell(9)));
+            multipleChoose.setTag(getCellStringValue(row.getCell(10)));
+            list.add(multipleChoose);
+        }
+        return list;
+    }
+
+    //读取判断题
+    public List<QuesJudge> readJudge(String filePath) throws NullPointerException{
+        XSSFSheet sheet = getXSSFWorkbook(filePath, "判断");
+        int rowNum = sheet.getLastRowNum();
+        QuesJudge quesJudge = null;
+        List list = new ArrayList<QuesJudge>();  //最终要返回的list
+        for(int i = 1; i <= rowNum; i++){
+            quesJudge = new QuesJudge();
+            XSSFRow row = sheet.getRow(i);
+            //先判断是否为空再放入
+            quesJudge.setQuestion(getCellStringValue(row.getCell(0)));
+            quesJudge.setAnswer(getCellBooleanValue(row.getCell(1)));
+            //根据输入的学科名称获取放入的id
+            int id = getSubjectId(filePath, getCellStringValue(row.getCell(2)));
+            quesJudge.setSubjectId(id);
+
+            quesJudge.setLevel(getCellIntegerValue(row.getCell(3)));
+            quesJudge.setTag(getCellStringValue(row.getCell(4)));
+            list.add(quesJudge);
+        }
+        return list;
+    }
+
     /**
      * 根据文件路径获取Excel工具表
      * @param filePath  文件路径
@@ -92,7 +162,7 @@ public class ReadExcel {
     private int getSubjectId(String filePath, String SubjectName){
         XSSFSheet sheet = getXSSFWorkbook(filePath, "学科");
         Integer targetRow = null;   //科目所在的行的索引号
-        for(int i = 0; i < sheet.getLastRowNum(); i++) {
+        for(int i = 0; i <= sheet.getLastRowNum(); i++) {
             XSSFRow row = sheet.getRow(i);
             XSSFCell cell = row.getCell(0);
             if(cell.getStringCellValue().equals(SubjectName)){
@@ -160,12 +230,29 @@ public class ReadExcel {
         return returnValue;
     }
 
+    /**
+     * 获取单元格boolean类型的数据，如果不为boolean则返回null
+     * @param cell 输入的单元格对象
+     * @return
+     */
+    private Boolean getCellBooleanValue(Cell cell){
+        Boolean returnValue = null;
+        int cellType = cell.getCellType();
+        if(cellType == cell.CELL_TYPE_BOOLEAN){
+            boolean value = cell.getBooleanCellValue();
+            returnValue = value;
+        }else{
+            return null;
+        }
+        return returnValue;
+    }
+
     public static void main(String[] args) {
         ReadExcel readExcel = new ReadExcel();
-        List<QuesSingleChoose> list = readExcel.readSingleChoose("C:\\Users\\kingi\\Desktop\\题目导入模板 - 副本.xlsx");
+        List<QuesMultipleChoose> list = readExcel.readMultipleChoose("C:\\Users\\kingi\\Desktop\\题目导入模板 - 副本.xlsx");
         System.out.println(list.size());
-        for(QuesSingleChoose singleChoose : list){
-            System.out.println(singleChoose);
+        for(QuesMultipleChoose multipleChoose : list){
+            System.out.println(multipleChoose);
         }
     }
 }
