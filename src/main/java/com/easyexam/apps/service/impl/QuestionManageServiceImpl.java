@@ -120,6 +120,8 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 quesMultipleChooses = readExcel.readMultipleChoose(path +"/"+ fileName);
                 quesJudges = readExcel.readJudge(path +"/"+ fileName);
                 quesQuestionsAnswers = readExcel.readQuestionsAnswers(path +"/"+ fileName);
+            }else{
+                return new JsonResult(ErrorCode.SUBJECT_ID_NOT_FOUND,codeMsg.getSubjectIdNotFound());
             }
         } catch (IOException e) {
             e.printStackTrace();
