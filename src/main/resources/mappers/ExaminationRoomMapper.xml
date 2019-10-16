@@ -42,34 +42,38 @@
 
     </resultMap>
     <!--考场-->
-<select id="findAllExaminationRoom" resultMap="ExaminationRoomMap" >
-SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
-s.name,u.name,e.begin_time,e.end_time,p.id
-from examination_room  e
-INNER JOIN subject s on e.subject_id=s.id
-INNER JOIN  p_user u on e.invigilate_id=u.uid
-INNER JOIN paper p on e.paper_id=p.id
--- where
---  LIMIT #{first},#{second}
-</select>
-
-    <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
-     SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
-s.name,u.name,e.begin_time,e.end_time,p.id
-from examination_room  e
-inner JOIN subject s on e.subject_id=s.id
-inner JOIN  p_user u on e.invigilate_id=u.uid
-inner JOIN paper p on e.paper_id=p.id
-where  e.id=#{id}
+    <select id="findAllExaminationRoom" resultMap="ExaminationRoomMap" >
+    SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
+    s.name,u.name,e.begin_time,e.end_time,p.id
+    from examination_room  e
+    INNER JOIN subject s on e.subject_id=s.id
+    INNER JOIN  p_user u on e.invigilate_id=u.uid
+    INNER JOIN paper p on e.paper_id=p.id
+    -- where
+    --  LIMIT #{first},#{second}
     </select>
 
-    <update id="updateExaminationRoom" parameterType="int">
-update examination_room  e
-set e.room_name=#{roomName},e.join_people_num=#{joinPeopleNum},
-e.total_people_num=#{totalPeopleNum},e.address=#{address},
-e.subject_id=#{subjectId},e.invigilate_id=#{invigilateId},
-begin_time=#{beginTime},end_time=#{endTime},
-e.paper_id=#{paperId}
-where e.id=#{id}
+        <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
+    SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
+    s.name,u.name,e.begin_time,e.end_time,p.id
+    from examination_room  e
+    inner JOIN subject s on e.subject_id=s.id
+    inner JOIN  p_user u on e.invigilate_id=u.uid
+    inner JOIN paper p on e.paper_id=p.id
+    where  e.id=#{id}
+        </select>
+
+    <update id="updateExaminationRoom" parameterType="ExaminationRoom">
+    update examination_room
+    set room_name=#{roomName},join_people_num=#{joinPeopleNum},
+    total_people_num=#{totalPeopleNum},address=#{address},
+    subject_id=#{subjectId},invigilate_id=#{invigilateId},
+    begin_time=#{beginTime},end_time=#{endTime},
+    paper_id=#{paperId}
+    where id=#{id}
     </update>
+
+<!--    <delete id=""-->
+
+
 </mapper>

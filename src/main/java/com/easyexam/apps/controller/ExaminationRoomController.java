@@ -26,5 +26,9 @@ public class ExaminationRoomController {
         ExaminationRoom oneExaminationRoom = examinationRoomService.findOneExaminationRoom(id);
         return new JsonResult(1016,codeMsg.getFindoneExaminationroom());
     }
-
+    @PostMapping("examinationRoom/update")
+    public JsonResult updateExaminationRoom(ExaminationRoom room){
+        examinationRoomService.updateExaminationRoom(room);
+        return new JsonResult(1017,codeMsg.getFindoneExaminationroom());
+    }
 }

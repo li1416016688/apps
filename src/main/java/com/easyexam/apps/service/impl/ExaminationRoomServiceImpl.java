@@ -23,4 +23,9 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
         ExaminationRoom oneExaminationRoom = examinationRoomDao.findOneExaminationRoom(id);
         return oneExaminationRoom;
     }
+
+    @Override
+    public void updateExaminationRoom(ExaminationRoom room) {
+        examinationRoomDao.updateExaminationRoom(room);
+    }
 }

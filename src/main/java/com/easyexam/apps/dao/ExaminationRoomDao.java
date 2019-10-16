@@ -11,5 +11,6 @@ import java.util.List;
 public interface ExaminationRoomDao {
     public List<ExaminationRoom>findAllExaminationRoom();
     public ExaminationRoom findOneExaminationRoom(Integer id);
-    public void  updateExaminationRoom(Integer id);
+    public void  updateExaminationRoom(ExaminationRoom room);
+    public void  deleteExaminationRoom(Integer id);
 }
