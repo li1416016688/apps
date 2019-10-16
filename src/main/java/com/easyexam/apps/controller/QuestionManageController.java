@@ -8,8 +8,10 @@ import com.easyexam.apps.entity.QuesMultipleChoose;
 import com.easyexam.apps.entity.QuesQuestionsAnswers;
 import com.easyexam.apps.entity.QuesSingleChoose;
 import com.easyexam.apps.service.QuestionManageService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
@@ -28,6 +30,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,5 +201,40 @@ public class QuestionManageController {
     public JsonResult findQuestById(Integer quesId, Integer id) {
         Object quest = questionManageService.findQuestById(id, quesId);
         return new JsonResult(ErrorCode.FIND_QUESTION_SUCCESS, quest);
+    }
+
+    /**
+     * 下载文件的方法，其中传入的fileName如果为quesTemplate，则下载试题导入的模板文件
+     * @param request
+     * @param response
+     * @param fileName
+     */
+    @RequestMapping("/d")
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response,String fileName){
+        response.setCharacterEncoding(request.getCharacterEncoding());
+        response.setContentType("application/octet-stream");
+        FileInputStream inputStream = null;
+
+        try {
+            if ("quesTemplate".equals(fileName)) {
+                File file = new File(ClassUtils.getDefaultClassLoader().getResource("").getPath() + "/static/tempExcel/quesTemplate.xlsx");
+                inputStream = new FileInputStream(file);
+                response.setHeader("Content-Disposition", "attachment; filename="+file.getName());
+                IOUtils.copy(inputStream,response.getOutputStream());
+                response.flushBuffer();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(inputStream != null){
+                try{
+                    inputStream.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
