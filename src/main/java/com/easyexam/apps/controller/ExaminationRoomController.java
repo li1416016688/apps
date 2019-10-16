@@ -18,12 +18,7 @@ public class ExaminationRoomController {
     private CodeMsg codeMsg;
     @PostMapping("examinationRoom/findAll")
     public JsonResult findAllexaminationRoom(){
-
         List<ExaminationRoom> examinationRoomList = examinationRoomService.findAllExaminationRoom();
-        for(ExaminationRoom roomList:examinationRoomList){
-            System.out.println(roomList);
-        }
-
         return new JsonResult(1015,codeMsg.getFindExaminationroom());
     }
     @PostMapping("examinationRoom/findone")
