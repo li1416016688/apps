@@ -31,4 +31,10 @@ public class ExaminationRoomController {
         examinationRoomService.updateExaminationRoom(room);
         return new JsonResult(1017,codeMsg.getFindoneExaminationroom());
     }
+    @PostMapping("examinationRoom/delete")
+    public JsonResult deleteExaminationRoom(Integer id){
+
+        examinationRoomService.deleteExaminationRoom(id);
+        return new JsonResult(1017,codeMsg.getDeleteExaminationroom());
+    }
 }

@@ -28,4 +28,9 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
     public void updateExaminationRoom(ExaminationRoom room) {
         examinationRoomDao.updateExaminationRoom(room);
     }
+
+    @Override
+    public void deleteExaminationRoom(Integer id) {
+        examinationRoomDao.deleteExaminationRoom(id);
+    }
 }

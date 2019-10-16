@@ -53,7 +53,7 @@
     --  LIMIT #{first},#{second}
     </select>
 
-        <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
+    <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
     SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
     s.name,u.name,e.begin_time,e.end_time,p.id
     from examination_room  e
@@ -61,7 +61,7 @@
     inner JOIN  p_user u on e.invigilate_id=u.uid
     inner JOIN paper p on e.paper_id=p.id
     where  e.id=#{id}
-        </select>
+    </select>
 
     <update id="updateExaminationRoom" parameterType="ExaminationRoom">
     update examination_room
@@ -73,7 +73,9 @@
     where id=#{id}
     </update>
 
-<!--    <delete id=""-->
+    <delete id="deleteExaminationRoom" parameterType="int">
+        delete from  examination_room where id=#{id}
+    </delete>
 
 
 </mapper>

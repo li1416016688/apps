@@ -19,7 +19,8 @@ public class CodeMsg {
     private String findoneExaminationroom;
     @Value("${code.1017}")
     private String updateExaminationroom;
-
+    @Value("${code.1018}")
+    private String deleteExaminationroom;
 
     @Value("${code.2340}")
     private String ExcelImportSuccess;
