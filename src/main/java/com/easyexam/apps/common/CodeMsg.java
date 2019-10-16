@@ -21,10 +21,43 @@ public class CodeMsg {
     @Value("${code.1014}")
     private String questionAnswers;
 
+    @Value("${code.2330}")
+    private String AddQuesSuccess;
+
+    @Value("${code.2331}")
+    private String AddQuesAnswerWrong;
+
+    @Value("${code.2332}")
+    private String AtLeastOneChoose;
+
+    @Value("${code.2333}")
+    private String AddQuesMultipleAnswerWrong;
+
+    @Value("${code.2334}")
+    private String AddQuesQuesAnswersAnswerWrong;
+
+    @Value("${code.2337}")
+    private String DataTooLong;
+
+    @Value("${code.2338}")
+    private String AddQuesSubjectWrong;
+
+    @Value("${code.2339}")
+    private String AddQuesLevelWrong;
+
+    @Value("${code.2340}")
+    private String ExcelImportSuccess;
+
+    @Value("${code.500}")
+    private String ServerError;
+
     @Value("${code.2341}")
     private String subjectIdNotFound;
 
     @Value("${code.2342}")
+    private String ExcelNotFound;
+
+    @Value("${code.2343}")
     private String ExcelCellIsNull;
 
     @Value("${code.2001}")
@@ -44,4 +77,10 @@ public class CodeMsg {
 
     @Value("${code.1102}")
     private String findQuesSuccess;
+
+    @Value("${code.2344}")
+    private String ExcelSheetNotFound;
+
+    @Value("${code.2345}")
+    private String ExcelFileTypeError;
 }
