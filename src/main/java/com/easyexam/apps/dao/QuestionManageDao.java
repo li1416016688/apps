@@ -4,18 +4,11 @@ import com.easyexam.apps.entity.QuesJudge;
 import com.easyexam.apps.entity.QuesMultipleChoose;
 import com.easyexam.apps.entity.QuesQuestionsAnswers;
 import com.easyexam.apps.entity.QuesSingleChoose;
-
-import java.util.List;
-import java.util.Set;
-
-import com.easyexam.apps.entity.QuesJudge;
-import com.easyexam.apps.entity.QuesMultipleChoose;
-import com.easyexam.apps.entity.QuesQuestionsAnswers;
-import com.easyexam.apps.entity.QuesSingleChoose;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface QuestionManageDao {
@@ -47,7 +40,6 @@ public interface QuestionManageDao {
 
     int deleteQuestionsAnswerById(Integer id);
 
-
     int updateSingleChooseById(QuesSingleChoose quesSingleChoose);
 
     int updateMultipleChooseById(QuesMultipleChoose quesMultipleChoose);
@@ -63,5 +55,7 @@ public interface QuestionManageDao {
     QuesJudge findQuesJudgeById(Integer id);
 
     QuesQuestionsAnswers findQuestionsAnswerById(Integer id);
+
+
 
 }
