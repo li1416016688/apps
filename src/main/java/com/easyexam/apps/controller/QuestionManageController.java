@@ -40,7 +40,7 @@ public class QuestionManageController {
     QuestionManageService questionManageService;
 
     /**
-     *
+     * 导入excel
      * @param file 必须为xlsx后缀文件
      * @param sheetName ="singleChoose"/"multipleChoose"/"judge"/"questionsAnswers"/"all" 不区分大小写
      * @return
@@ -58,6 +58,11 @@ public class QuestionManageController {
         }
     }
 
+    /**
+     * 添加一个单选题；其中选项不能为空A；其他约束参见config/questionConfig.properties
+     * @param quesSingleChoose
+     * @return
+     */
     @PostMapping("/addQuesSingleChoose")
     @ResponseBody
     public JsonResult addQuesSingleChoose(QuesSingleChoose quesSingleChoose){
@@ -65,22 +70,35 @@ public class QuestionManageController {
         return jsonResult;
     }
 
+    /**
+     * 添加一个多选题，其中答案必须包含&符号，其他约束参见config/questionConfig.properties
+     * @param quesMultipleChoose
+     * @return
+     */
     @PostMapping("/addQuesMultipleChoose")
     @ResponseBody
     public JsonResult addQuesMultipleChoose(QuesMultipleChoose quesMultipleChoose){
         JsonResult jsonResult = questionManageService.addQuesMultipleChoose(quesMultipleChoose);
         return jsonResult;
-
     }
 
+    /**
+     * 添加一个判断题，其中答案必须为boolean类型，其他约束参见config/questionConfig.properties
+     * @param quesJudge
+     * @return
+     */
     @PostMapping("/addQuesJudge")
     @ResponseBody
     public JsonResult addQuesJudge(QuesJudge quesJudge){
         JsonResult jsonResult = questionManageService.addQuesJudge(quesJudge);
         return jsonResult;
-
     }
 
+    /**
+     * 添加一个问答题，约束参见config/questionConfig.properties
+     * @param quesQuestionsAnswers
+     * @return
+     */
     @PostMapping("/addQuesQuestionsAnswers")
     @ResponseBody
     public JsonResult addQuesQuestionsAnswers(QuesQuestionsAnswers quesQuestionsAnswers){
