@@ -5,9 +5,13 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class Paper {
     private int id;
+    private String name;
+    private Date createTime;
     private int subjectId;  //科目id
     private int Subject;
     private int checkId;    //改卷人id，对应User表主键
