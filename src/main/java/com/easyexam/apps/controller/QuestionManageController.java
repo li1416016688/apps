@@ -58,32 +58,35 @@ public class QuestionManageController {
         }
     }
 
-    @GetMapping("/addQuesSingleChoose")
+    @PostMapping("/addQuesSingleChoose")
     @ResponseBody
-    public JsonResult addQuesSingleChoose(@RequestBody QuesSingleChoose quesSingleChoose){
+    public JsonResult addQuesSingleChoose(QuesSingleChoose quesSingleChoose){
         JsonResult jsonResult = questionManageService.addQuesSingleChoose(quesSingleChoose);
         return jsonResult;
     }
 
-    @GetMapping("/addQuesMultipleChoose")
+    @PostMapping("/addQuesMultipleChoose")
     @ResponseBody
-    public JsonResult addQuesMultipleChoose(@RequestBody QuesMultipleChoose quesMultipleChoose){
+    public JsonResult addQuesMultipleChoose(QuesMultipleChoose quesMultipleChoose){
         JsonResult jsonResult = questionManageService.addQuesMultipleChoose(quesMultipleChoose);
         return jsonResult;
+
     }
 
-    @GetMapping("/addQuesJudge")
+    @PostMapping("/addQuesJudge")
     @ResponseBody
-    public JsonResult addQuesJudge(@RequestBody QuesJudge quesJudge){
+    public JsonResult addQuesJudge(QuesJudge quesJudge){
         JsonResult jsonResult = questionManageService.addQuesJudge(quesJudge);
         return jsonResult;
+
     }
 
-    @GetMapping("/addQuesQuestionsAnswers")
+    @PostMapping("/addQuesQuestionsAnswers")
     @ResponseBody
-    public JsonResult addQuesQuestionsAnswers(@RequestBody QuesQuestionsAnswers quesQuestionsAnswers){
+    public JsonResult addQuesQuestionsAnswers(QuesQuestionsAnswers quesQuestionsAnswers){
         JsonResult jsonResult = questionManageService.addQuesQuestionsAnswers(quesQuestionsAnswers);
         return jsonResult;
+
     }
 
     @RequestMapping("/singleChoose")

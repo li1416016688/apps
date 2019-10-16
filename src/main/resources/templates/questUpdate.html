@@ -55,7 +55,9 @@
     </div>
 
     <form class="layui-form" id="add-form" style="display: none" lay-filter="example">
-        <input hidden type="text" name="id">
+
+        <input hidden type="text" id="ques_id" name="id">
+
         <div class="layui-form-item">
             <label class="layui-form-label">科目：</label>
             <div class="layui-input-block">
@@ -135,6 +137,97 @@
             <label class="layui-form-label">自定义：</label>
             <div class="layui-input-block">
                 <input type="text" name="tag" id="tag" lay-verify="title" class="layui-input" style="width: 300px">
+            </div>
+        </div>
+
+        <!--<div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>-->
+    </form>
+    <form class="layui-form" id="add-form2" style="display: none" lay-filter="example2">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">科目：</label>
+            <div class="layui-input-block">
+                <select name="subjectId" id="" class="courseName" style="width: 300px">
+                    <option value="">请选择科目...</option>
+                    <option value="1">语文</option>
+                    <option value="2">英语</option>
+                    <option value="3">数学</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">题目类型：</label>
+            <div class="layui-input-block">
+                <select name="questId"  class="typeName" style="width: 300px">
+                    <option value="">请选择题目类型...</option>
+                    <option value="1">单选题</option>
+                    <option value="2">多选题</option>
+                    <option value="3">判断题</option>
+                    <option value="4">简答题</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">题干：</label>
+            <div class="layui-input-block">
+                <input type="text" name="question"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选项A：</label>
+            <div class="layui-input-block">
+                <input type="text" name="chooseA"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选项B：</label>
+            <div class="layui-input-block">
+                <input type="text" name="chooseB"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选项C：</label>
+            <div class="layui-input-block">
+                <input type="text" name="chooseC"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选项D：</label>
+            <div class="layui-input-block">
+                <input type="text" name="chooseD" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">答案：</label>
+            <div class="layui-input-block">
+                <input type="text" name="answer"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">难度：</label>
+            <div class="layui-input-block">
+                <input type="number" name="level"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">自定义：</label>
+            <div class="layui-input-block">
+                <input type="text" name="tag"  lay-verify="title" class="layui-input" style="width: 300px">
             </div>
         </div>
 
@@ -277,7 +370,7 @@
                     shade: 0,
                     btn: ['提交', '重置']
                     , btn1: function (index, layero) {
-
+                        $("#ques_id").val(0);
                         var questId = $("#quesId").val();
                         var url = "";
                         if (questId == 1) {
@@ -320,39 +413,41 @@
         });
 
         $("#addButton").click(function () {
-            //编辑
+            //添加
             table.reload("questionTable");
 
             layer.open({
                 type: 1,
                 area: ['500px', '600px'],
                 title: '添加'
-                , content: $("#add-form"),
+                , content: $("#add-form2"),
                 shade: 0,
                 btn: ['提交', '重置']
                 , btn1: function (index, layero) {
                     var questId = $("#quesId").val();
                     var url = "";
                     if (questId == 1) {
-                        url = "updateQuesSingleChoose.do"
+                        url = "addQuesSingleChoose"
                     } else if (questId == 2) {
-                        url = "updateQuesMultipleChoose.do"
+                        url = "addQuesMultipleChoose"
                     } else if (questId == 3) {
-                        url = "updateQuesJudge.do"
+                        url = "addQuesJudge"
                     } else if (questId == 4) {
-                        url = "updateQuesQuestionsAnswers.do"
+                        url = "addQuesQuestionsAnswer"
                     }
+
+
+
                     $.ajax({
                         url: url,
                         type: "post",
-                        dataType: "json",
-                        data : $("#add-form").serialize(),
+                        data : $("#add-form2").serialize(),
                         success: function (data) {
-                            if (data.code == 1101) {
+                            if (data.code == 2330) {
                                 layer.closeAll();
-                                layer.msg("修改成功");
+                                layer.msg("添加成功");
                             } else {
-                                layer.msg("修改失败");
+                                layer.msg(data.info);
                             }
                         }
                     });

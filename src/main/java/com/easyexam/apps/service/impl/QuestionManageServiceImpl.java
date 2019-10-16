@@ -6,10 +6,12 @@ import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.common.QuestionConfig;
 import com.easyexam.apps.dao.QuestionManageDao;
 import com.easyexam.apps.entity.*;
+import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.exection.SheetNotFoundException;
 import com.easyexam.apps.exection.SubjectNotFoundException;
 import com.easyexam.apps.service.QuestionManageService;
 import com.easyexam.apps.utils.ReadExcel;
+import com.github.pagehelper.PageHelper;
 import com.sun.org.apache.bcel.internal.generic.TargetLostException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -252,39 +254,39 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         //数据合法性验证：answer
         int answerLenth = questionConfig.getMultipleChooseAnswer();
         String answer = quesMultipleChoose.getAnswer();
-        if(answer.length() >answerLenth || !answer.contains("&")){
-            return new JsonResult(ErrorCode.ADD_QUES_MULTIPLE_ANSWER_WRONG,codeMsg.getAddQuesMultipleAnswerWrong());
+        if (answer.length() > answerLenth || !answer.contains("&")) {
+            return new JsonResult(ErrorCode.ADD_QUES_MULTIPLE_ANSWER_WRONG, codeMsg.getAddQuesMultipleAnswerWrong());
         }
 
         //数据合法性验证：subjectId；从redis查询，如果有则返回，如果没有则从数据库查询科目信息
         int subjectId = quesMultipleChoose.getSubjectId();
         Set<Integer> subjects = redisTemplate.opsForSet().members("subject");
         boolean redisContains = true;
-        for(Integer id : subjects){
-            if(id == subjectId){
+        for (Integer id : subjects) {
+            if (id == subjectId) {
                 redisContains = false;
                 break;
             }
         }
-        if(redisContains){
+        if (redisContains) {
             //验证不通过，去数据库查询，并趁热写入redis
             Set<Integer> allSubjectId = questionManageDao.findAllSubjectId();
-            for(Integer id:allSubjectId){
-                redisTemplate.opsForSet().add("subject",id);
+            for (Integer id : allSubjectId) {
+                redisTemplate.opsForSet().add("subject", id);
             }
-            redisTemplate.expire("subject",900, TimeUnit.SECONDS);
+            redisTemplate.expire("subject", 900, TimeUnit.SECONDS);
             boolean mysqlContains = allSubjectId.contains(subjectId);
-            if(!mysqlContains){
+            if (!mysqlContains) {
                 //不包含这个id
-                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG,codeMsg.getAddQuesSubjectWrong());
+                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG, codeMsg.getAddQuesSubjectWrong());
             }
         }
 
         //数据合法性验证：level
         int level = quesMultipleChoose.getLevel();
         int maxLevel = questionConfig.getMultipleChooseMaxLevel();
-        if(level > maxLevel || level <= 0){
-            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG,codeMsg.getAddQuesLevelWrong());
+        if (level > maxLevel || level <= 0) {
+            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG, codeMsg.getAddQuesLevelWrong());
         }
 
         /**数据合法性验证：
@@ -294,18 +296,18 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         int chooseLenth = questionConfig.getMultipleChooseChoose();
         int tagLenth = questionConfig.getMultipleChooseTag();
         String tag = quesMultipleChoose.getTag();
-        if(tag != null){
-            if(tag.length() > tagLenth){
+        if (tag != null) {
+            if (tag.length() > tagLenth) {
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
             }
         }
         //恐怖的6个选项的验证
         String chooseA = quesMultipleChoose.getChooseA();
 
-        if(chooseA == null){
-            return new JsonResult(ErrorCode.AT_LEAST_ONE_CHOOSE,codeMsg.getAtLeastOneChoose());
-        }else{
-            if(chooseA.length() > chooseLenth)
+        if (chooseA == null) {
+            return new JsonResult(ErrorCode.AT_LEAST_ONE_CHOOSE, codeMsg.getAtLeastOneChoose());
+        } else {
+            if (chooseA.length() > chooseLenth)
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
         }
         String chooseB = quesMultipleChoose.getChooseB();
@@ -313,11 +315,11 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         String chooseD = quesMultipleChoose.getChooseD();
         String chooseE = quesMultipleChoose.getChooseE();
         String chooseF = quesMultipleChoose.getChooseF();
-        List<String> chooseList = Arrays.asList(chooseB,chooseC,chooseD,chooseE,chooseF);
+        List<String> chooseList = Arrays.asList(chooseB, chooseC, chooseD, chooseE, chooseF);
 
-        for(String choose : chooseList){
-            if(choose != null){
-                if(choose.length() > chooseLenth){
+        for (String choose : chooseList) {
+            if (choose != null) {
+                if (choose.length() > chooseLenth) {
                     return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
                 }
             }
@@ -327,10 +329,14 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         List<QuesMultipleChoose> quesMultipleChooses = new ArrayList<>();
         quesMultipleChooses.add(quesMultipleChoose);
         int i = questionManageDao.importQuesMultipleChoose(quesMultipleChooses);
-        if(i==1) {
+        if (i == 1) {
             return new JsonResult(ErrorCode.ADD_QUES_SUCCESS, codeMsg.getAddQuesSuccess());
-        }else{
+        } else {
             return new JsonResult(ErrorCode.SERVER_ERROR, codeMsg.getServerError());
+        }
+    }
+
+    @Override
     public void deleteQuestionsAnswerById(Integer id) {
         int i = questionManageDao.deleteQuestionsAnswerById(id);
         if (i <= 0) {
@@ -405,39 +411,39 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         //数据合法性验证：answer
         int answerLenth = questionConfig.getQuesAnswersAnswer();
         String answer = quesQuestionsAnswers.getAnswer();
-        if(answer.length() >answerLenth || !Character.isLetter(answer.charAt(0))){
-            return new JsonResult(ErrorCode.ADD_QUES_QUESANSWERS_ANSWER_WRONG,codeMsg.getAddQuesQuesAnswersAnswerWrong());
+        if (answer.length() > answerLenth || !Character.isLetter(answer.charAt(0))) {
+            return new JsonResult(ErrorCode.ADD_QUES_QUESANSWERS_ANSWER_WRONG, codeMsg.getAddQuesQuesAnswersAnswerWrong());
         }
 
         //数据合法性验证：subjectId；从redis查询，如果有则返回，如果没有则从数据库查询科目信息
         int subjectId = quesQuestionsAnswers.getSubjectId();
         Set<Integer> subjects = redisTemplate.opsForSet().members("subject");
         boolean redisContains = true;
-        for(Integer id : subjects){
-            if(id == subjectId){
+        for (Integer id : subjects) {
+            if (id == subjectId) {
                 redisContains = false;
                 break;
             }
         }
-        if(redisContains){
+        if (redisContains) {
             //验证不通过，去数据库查询，并趁热写入redis
             Set<Integer> allSubjectId = questionManageDao.findAllSubjectId();
-            for(Integer id:allSubjectId){
-                redisTemplate.opsForSet().add("subject",id);
+            for (Integer id : allSubjectId) {
+                redisTemplate.opsForSet().add("subject", id);
             }
-            redisTemplate.expire("subject",900, TimeUnit.SECONDS);
+            redisTemplate.expire("subject", 900, TimeUnit.SECONDS);
             boolean mysqlContains = allSubjectId.contains(subjectId);
-            if(!mysqlContains){
+            if (!mysqlContains) {
                 //不包含这个id
-                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG,codeMsg.getAddQuesSubjectWrong());
+                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG, codeMsg.getAddQuesSubjectWrong());
             }
         }
 
         //数据合法性验证：level
         int level = quesQuestionsAnswers.getLevel();
         int maxLevel = questionConfig.getQuesAnswersMaxLevel();
-        if(level > maxLevel || level <= 0){
-            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG,codeMsg.getAddQuesLevelWrong());
+        if (level > maxLevel || level <= 0) {
+            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG, codeMsg.getAddQuesLevelWrong());
         }
 
         /**数据合法性验证：
@@ -446,14 +452,14 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         int questionLenth = questionConfig.getQuesAnswersQuestion();
         int tagLenth = questionConfig.getQuesAnswersTag();
         String question = quesQuestionsAnswers.getQuestion();
-        if(question != null){
-            if(question.length() > questionLenth){
+        if (question != null) {
+            if (question.length() > questionLenth) {
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
             }
         }
         String tag = quesQuestionsAnswers.getTag();
-        if(tag != null){
-            if(tag.length() > tagLenth){
+        if (tag != null) {
+            if (tag.length() > tagLenth) {
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
             }
         }
@@ -462,11 +468,14 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         List<QuesQuestionsAnswers> quesQuestionsAnswersList = new ArrayList<>();
         quesQuestionsAnswersList.add(quesQuestionsAnswers);
         int i = questionManageDao.importQuesQuestionsAnswers(quesQuestionsAnswersList);
-        if(i==1) {
+        if (i == 1) {
             return new JsonResult(ErrorCode.ADD_QUES_SUCCESS, codeMsg.getAddQuesSuccess());
-        }else{
+        } else {
             return new JsonResult(ErrorCode.SERVER_ERROR, codeMsg.getServerError());
         }
+    }
+
+    @Override
     public void updateQuestionById(Object e, Integer quesId) {
         int i = 0;
         if (quesId == 1) {

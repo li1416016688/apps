@@ -4,6 +4,9 @@ public class ErrorCode {
     private int code;
     private String msg;
 
+    //服务器错误
+    public static int SERVER_ERROR = 500;
+
     // success
     public static int SUCCESS = 1001;
 
