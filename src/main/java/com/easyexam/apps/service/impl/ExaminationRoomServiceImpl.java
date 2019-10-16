@@ -3,6 +3,7 @@ package com.easyexam.apps.service.impl;
 import com.easyexam.apps.dao.ExaminationRoomDao;
 import com.easyexam.apps.entity.ExaminationRoom;
 import com.easyexam.apps.service.ExaminationRoomService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,10 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
     private ExaminationRoomDao examinationRoomDao;
 
     @Override
-    public List<ExaminationRoom> findAllExaminationRoom() {
-        List<ExaminationRoom> examinationRoomList = examinationRoomDao.findAllExaminationRoom();
-        return examinationRoomList;
+    public List<ExaminationRoom> findAllExaminationRoom(Integer subjectId, Integer invigilateId ,Integer paperId, String info, Integer page, Integer limit) {
+        PageHelper.startPage(page, limit);
+        List<ExaminationRoom> examinationRoomList = examinationRoomDao.findAllExaminationRoom(subjectId, invigilateId, paperId, info);
+        return examinationRoomList ;
     }
 
     @Override

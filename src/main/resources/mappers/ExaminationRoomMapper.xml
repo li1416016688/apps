@@ -22,6 +22,8 @@
 
         <collection property="paper" javaType="com.easyexam.apps.entity.Paper">
             <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+            <result property="creatTime" column="creat_time"></result>
             <result property="subjectId" column="subject_id"></result>
             <result property="checkId" column="check_id"></result>
             <result property="makeId" column="make_id"></result>
@@ -42,20 +44,31 @@
 
     </resultMap>
     <!--考场-->
-    <select id="findAllExaminationRoom" resultMap="ExaminationRoomMap" >
-    SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
-    s.name,u.name,e.begin_time,e.end_time,p.id
-    from examination_room  e
+    <select id="findAllExaminationRoom" resultMap="ExaminationRoomMap" parameterType="map">
+    SELECT * from examination_room  e
     INNER JOIN subject s on e.subject_id=s.id
     INNER JOIN  p_user u on e.invigilate_id=u.uid
     INNER JOIN paper p on e.paper_id=p.id
-    -- where
-    --  LIMIT #{first},#{second}
+    <where>
+        1=1
+        <if test="e.subject_id !=null">
+            and e.subject_id=#{subjectId}
+        </if>
+       <if test="e.invigilate_id !=null">
+           and e.invigilate_id=#{invigilateId}
+       </if>
+       <if test="e.paper_id !=null">
+           and= e.paper_id=#{paperId}
+       </if>
+        <if test="info != null">
+            and e.room_name like CONCAT('%','${info}','%')
+        </if>
+    </where>
     </select>
 
     <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
     SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
-    s.name,u.name,e.begin_time,e.end_time,p.id
+    s.name,u.name,e.begin_time,e.end_time,p.name
     from examination_room  e
     inner JOIN subject s on e.subject_id=s.id
     inner JOIN  p_user u on e.invigilate_id=u.uid
