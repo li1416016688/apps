@@ -1,6 +1,8 @@
 package com.easyexam.apps.dao;
 
 import com.easyexam.apps.entity.ExaminationRoom;
+import io.swagger.models.auth.In;
+import net.bytebuddy.description.field.FieldDescription;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -8,5 +10,6 @@ import java.util.List;
 @Repository
 public interface ExaminationRoomDao {
     public List<ExaminationRoom>findAllExaminationRoom();
-
+    public ExaminationRoom findOneExaminationRoom(Integer id);
+    public void  updateExaminationRoom(Integer id);
 }

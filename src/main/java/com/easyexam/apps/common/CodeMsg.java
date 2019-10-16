@@ -15,6 +15,8 @@ public class CodeMsg {
 
     @Value("${code.1015}")
     private String findExaminationroom;
+    @Value("${code.1016}")
+    private String findoneExaminationroom;
 
     @Value("${code.2340}")
     private String ExcelImportSuccess;

@@ -17,4 +17,10 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
         List<ExaminationRoom> examinationRoomList = examinationRoomDao.findAllExaminationRoom();
         return examinationRoomList;
     }
+
+    @Override
+    public ExaminationRoom findOneExaminationRoom(Integer id) {
+        ExaminationRoom oneExaminationRoom = examinationRoomDao.findOneExaminationRoom(id);
+        return oneExaminationRoom;
+    }
 }

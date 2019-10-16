@@ -8,5 +8,6 @@ import java.util.List;
 public interface ExaminationRoomService {
 
     public List<ExaminationRoom> findAllExaminationRoom();
+    public ExaminationRoom findOneExaminationRoom(Integer id);
 
 }
