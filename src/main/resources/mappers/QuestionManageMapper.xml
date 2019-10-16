@@ -64,7 +64,217 @@
         </foreach>
     </insert>
 
+    <select id="findAllSubjectId" resultType="Integer">
+        select id from `subject`;
+    </select>
 
+    <resultMap id="findQuestion" type="QuesSingleChoose">
+        <id property="id" column="id"/>
+        <result property="question" column="question"/>
+        <result property="chooseA" column="choose_a"/>
+        <result property="chooseB" column="choose_b"/>
+        <result property="chooseC" column="choose_c"/>
+        <result property="chooseD" column="choose_d"/>
+        <result property="chooseE" column="choose_e"/>
+        <result property="chooseF" column="choose_f"/>
+        <result property="answer" column="answer"/>
+        <result property="level" column="level"/>
+        <result property="subjectId" column="subjectId"/>
+        <result property="tag" column="tag"/>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+
+    <select id="findAllQuesSingleChooses" resultMap="findQuestion" parameterType="map">
+        select *
+        from q_single_choose q LEFT JOIN `subject` s ON q.subject_id = s.id
+        <where>
+            1 = 1
+            <if test="subjectId != null">
+                and q.subject_id = #{subjectId}
+            </if>
+            <if test="info != null">
+                and q.question like CONCAT('%','${info}','%')
+            </if>
+        </where>
+
+    </select>
+
+    <resultMap id="finAllQuesMultipleChoosesMap" type="QuesSingleChoose">
+        <id property="id" column="id"/>
+        <result property="question" column="question"/>
+        <result property="chooseA" column="choose_a"/>
+        <result property="chooseB" column="choose_b"/>
+        <result property="chooseC" column="choose_c"/>
+        <result property="chooseD" column="choose_d"/>
+        <result property="chooseE" column="choose_e"/>
+        <result property="chooseF" column="choose_f"/>
+        <result property="answer" column="answer"/>
+        <result property="level" column="level"/>
+        <result property="subjectId" column="subjectId"/>
+        <result property="tag" column="tag"/>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+    <select id="finAllQuesMultipleChooses" resultMap="finAllQuesMultipleChoosesMap" parameterType="map">
+        select *
+        from q_multiple_choose q LEFT JOIN `subject` s ON q.subject_id = s.id
+        <where>
+            1 = 1
+            <if test="subjectId != null">
+                and q.subject_id = #{subjectId}
+            </if>
+            <if test="info != null">
+                and q.question like CONCAT('%','${info}','%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="findAllQuesJudgesMap" type="QuesQuestionsAnswers">
+        <id property="id" column="id"/>
+        <result property="question" column="question"/>
+        <result property="answer" column="answer"/>
+        <result property="subjectId" column="subject_id"/>
+        <result property="level" column="level"/>
+        <result property="tag" column="tag"/>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllQuesJudges" resultMap="findAllQuesJudgesMap" parameterType="map">
+        select *
+        from q_judge qj
+                 LEFT JOIN subject sub ON qj.subject_id = sub.id
+        <where>
+            1 = 1
+            <if test="subjectId != null">
+                and qj.subject_id = #{subjectId}
+            </if>
+            <if test="info != null">
+                and qj.question like CONCAT('%','${info}','%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="QuestionsAnswersMap" type="QuesQuestionsAnswers">
+        <id property="id" column="id"/>
+        <result property="question" column="question"/>
+        <result property="answer" column="answer"/>
+        <result property="subjectId" column="subject_id"/>
+        <result property="level" column="level"/>
+        <result property="tag" column="tag"/>
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+
+    <select id="findAllQuesQuestionsAnswers" resultMap="QuestionsAnswersMap" parameterType="map">
+        select *
+        from q_questions_answers qqa LEFT JOIN subject sub ON qqa.subject_id=sub.id
+        <where>
+            1 = 1
+            <if test="subjectId != null">
+                and qqa.subject_id = #{subjectId}
+            </if>
+            <if test="info != null">
+                and qqa.question like CONCAT('%','${info}','%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteSingleChooseById" parameterType="Integer">
+        delete from q_single_choose where id = #{id}
+    </delete>
+
+    <delete id="deleteMultipleChooseById" parameterType="Integer">
+        delete from q_multiple_choose where id = #{id}
+    </delete>
+
+    <delete id="deleteQuesJudgeById" parameterType="Integer">
+        delete from q_judge where id = #{id}
+    </delete>
+
+    <delete id="deleteQuestionsAnswerById" parameterType="Integer">
+        delete from q_questions_answers where id = #{id}
+    </delete>
+
+    <update id="updateSingleChooseById" parameterType="QuesSingleChoose">
+        update q_single_choose set
+                                   question = #{question},
+                                   choose_a = #{chooseA},
+                                   choose_b = #{chooseB},
+                                   choose_c = #{chooseC},
+                                   choose_d = #{chooseD},
+                                   choose_e = #{chooseE},
+                                   choose_f = #{chooseF},
+                                   answer = #{answer},
+                                   subject_id = #{subjectId},
+                                   level = #{level},
+                                   tag = #{tag}
+        where id = #{id}
+    </update>
+
+    <update id="updateMultipleChooseById" parameterType="QuesMultipleChoose">
+        update q_single_choose set
+                                   question = #{question},
+                                   choose_a = #{chooseA},
+                                   choose_b = #{chooseB},
+                                   choose_c = #{chooseC},
+                                   choose_d = #{chooseD},
+                                   choose_e = #{chooseE},
+                                   choose_f = #{chooseF},
+                                   answer = #{answer},
+                                   subject_id = #{subjectId},
+                                   level = #{level},
+                                   tag = #{tag}
+        where id = #{id}
+    </update>
+
+    <update id="updateQuesJudgeById" parameterType="QuesJudge">
+        update q_judge set
+                            question = #{question},
+                            answer = #{answer},
+                            subject_id = #{subjectId},
+                            level = #{level},
+                            tag = #{tag}
+        where id = #{id}
+    </update>
+
+    <update id="updateQuestionsAnswerById" parameterType="QuesQuestionsAnswers">
+        update q_questions_answers set
+                           question = #{question},
+                           answer = #{answer},
+                           subject_id = #{subjectId},
+                           level = #{level},
+                           tag = #{tag}
+        where id = #{id}
+    </update>
+
+    <select id="findQuesSingleChooseById" parameterType="Integer" resultType="QuesSingleChoose">
+        select * from q_single_choose where id = #{id}
+    </select>
+
+    <select id="findQuesMultipleChooseById" parameterType="Integer" resultType="QuesMultipleChoose">
+        select * from q_multiple_choose where id = #{id}
+    </select>
+
+    <select id="findQuesJudgeById" parameterType="Integer" resultType="QuesJudge">
+        select * from q_judge where id = #{id}
+    </select>
+
+    <select id="findQuestionsAnswerById" parameterType="Integer" resultType="QuesQuestionsAnswers">
+        select * from q_questions_answers where id = #{id}
+    </select>
 
 
 

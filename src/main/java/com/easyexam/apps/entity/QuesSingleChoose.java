@@ -2,6 +2,8 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 public class QuesSingleChoose {
     private int id;
@@ -120,5 +122,24 @@ public class QuesSingleChoose {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+    public QuesSingleChoose(){}
+
+    @Override
+    public String toString() {
+        return "QuesSingleChoose{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", chooseA='" + chooseA + '\'' +
+                ", chooseB='" + chooseB + '\'' +
+                ", chooseC='" + chooseC + '\'' +
+                ", chooseD='" + chooseD + '\'' +
+                ", chooseE='" + chooseE + '\'' +
+                ", chooseF='" + chooseF + '\'' +
+                ", answer='" + answer + '\'' +
+                ", subject=" + subject +
+                ", level=" + level +
+                ", tag='" + tag + '\'' +
+                '}';
     }
 }

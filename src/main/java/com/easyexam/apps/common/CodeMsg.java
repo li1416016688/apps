@@ -12,6 +12,38 @@ import org.springframework.stereotype.Component;
 public class CodeMsg {
     @Value("${code.0000}")
     private String example;
+    @Value("${code.1011}")
+    private String singleChoose;
+    @Value("${code.1012}")
+    private String multipleChoose;
+    @Value("${code.1013}")
+    private String judge;
+    @Value("${code.1014}")
+    private String questionAnswers;
+
+    @Value("${code.2330}")
+    private String AddQuesSuccess;
+
+    @Value("${code.2331}")
+    private String AddQuesAnswerWrong;
+
+    @Value("${code.2332}")
+    private String AtLeastOneChoose;
+
+    @Value("${code.2333}")
+    private String AddQuesMultipleAnswerWrong;
+
+    @Value("${code.2334}")
+    private String AddQuesQuesAnswersAnswerWrong;
+
+    @Value("${code.2337}")
+    private String DataTooLong;
+
+    @Value("${code.2338}")
+    private String AddQuesSubjectWrong;
+
+    @Value("${code.2339}")
+    private String AddQuesLevelWrong;
 
     @Value("${code.1015}")
     private String findExaminationroom;
@@ -36,6 +68,24 @@ public class CodeMsg {
 
     @Value("${code.2343}")
     private String ExcelCellIsNull;
+
+    @Value("${code.2001}")
+    private String deleteQuesFail;
+
+    @Value("${code.1100}")
+    private String deleteQuesSuccess;
+
+    @Value("${code.2002}")
+    private String updateQuesFail;
+
+    @Value("${code.1101}")
+    private String updateQuesSuccess;
+
+    @Value("${code.2003}")
+    private String findQuesFail;
+
+    @Value("${code.1102}")
+    private String findQuesSuccess;
 
     @Value("${code.2344}")
     private String ExcelSheetNotFound;
