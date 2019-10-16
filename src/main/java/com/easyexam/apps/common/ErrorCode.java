@@ -19,6 +19,30 @@ public class ErrorCode {
     // 用户未登录
     public static int USER_NO_LOGIN = 1005;
 
+    //添加题目成功
+    public static int ADD_QUES_SUCCESS=2330;
+
+    //添加单选题时答案不为1位字母
+    public static int ADD_QUES_ANSWER_WRONG=2331;
+
+    //选择题至少需要一个选项
+    public static int AT_LEAST_ONE_CHOOSE=2332;
+
+    //多选题格式错误（不含&）
+    public static int ADD_QUES_MULTIPLE_ANSWER_WRONG=2333;
+
+    //问答题答案限制30000字，请重新录入
+    public static int ADD_QUES_QUESANSWERS_ANSWER_WRONG=2334;
+
+    //数据内容太长，请重新输录入
+    public static int DATA_TOO_LONG=2337;
+
+    //没有找到对应学科，请重新录入
+    public static int ADD_QUES_SUBJECT_WRONG=2338;
+
+    //难度等级为1~5，请重新录入
+    public static int ADD_QUES_LEVEL_WRONG=2339;
+
     //Excel导入成功
     public static int EXCEL_IMPORT_SUCCESS = 2340;
 
