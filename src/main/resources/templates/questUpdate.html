@@ -240,9 +240,7 @@
         </div>-->
     </form>
 
-    <form class="layui-form" id="excelAddForm" style="display: none"
-          lay-filter="example3" method="post" action="importExcel"
-          enctype="multipart/form-data">
+    <form class="layui-form" id="excelAddForm" style="display: none" lay-filter="example3">
         <div class="layui-form-item" style="margin: 10px 0 20px 8px">
             <a href="d?fileName=quesTemplate" download="" class="layui-btn">下载模板文件</a>
         </div>
@@ -250,7 +248,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">解析类型：</label>
             <div class="layui-input-block" style="width:270px">
-                <select name="sheetName"  class="typeName">
+                <select name="sheetName"  class="typeName" id="sheetName">
                     <option value="">请选择需要解析的表格...</option>
                     <option value="singleChoose">单选题</option>
                     <option value="multipleChoose">多选题</option>
@@ -264,7 +262,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">上传模板：</label>
             <div class="layui-input-block"  style="width:270px">
-                <input type="file" name="file" />
+                <input type="file" name="file" id="excelFile" />
             </div>
         </div>
 
@@ -517,31 +515,7 @@
                 area: ['500px', '600px'],
                 title: '模板添加'
                 , content: $("#excelAddForm"),
-                shade: 0,
-                /*btn: ['提交', '重置']
-                , btn1: function (index, layero) {
-                    $.ajax({
-                        // ToDo:ajax请求待完善
-                        url: "importExcel",
-                        type: "post",
-                        data : $("#excelAddForm").serialize(),
-                        success: function (data) {
-                            if (data.code == 2340) {
-                                layer.closeAll();
-                                layer.msg("添加成功");
-                            } else {
-                                layer.msg(data.info);
-                            }
-                        }
-                    });
-                },
-                btn2: function (index, layero) {
-                    return false;
-                },
-                cancel: function (layero, index) {
-                    layer.closeAll();
-                }*/
-
+                shade: 0
             });
         });
 
@@ -565,7 +539,24 @@
         });
 
         $("#uploadExcel").on('click',function () {
-            $("#excelAddForm").submit();
+            var files = $("#excelFile").prop('files');
+            var data = new FormData();
+            data.append('file',files[0]);
+            data.append('sheetName',$('#sheetName').val());
+            $.ajax({
+                type:"POST",
+                url:"importExcel",
+                data:data,
+                cache:false,
+                processData:false,
+                contentType:false,
+                success:function(retData){
+                    layer.msg(retData.info);
+                },
+                error:function (retData) {
+                    layer.msg(retData.info);
+                }
+            });
         });
     });
 </script>
