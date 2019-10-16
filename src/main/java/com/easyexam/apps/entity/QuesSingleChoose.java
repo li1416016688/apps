@@ -1,6 +1,5 @@
 package com.easyexam.apps.entity;
 
-import com.sun.xml.internal.ws.developer.Serialization;
 import lombok.Data;
 
 import java.io.Serializable;

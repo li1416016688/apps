@@ -3,10 +3,13 @@ package com.easyexam.apps.exection;
 import com.easyexam.apps.common.JsonResult;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLException;
 
 /*@ControllerAdvice
 @ResponseBody*/
-//@RestControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionResolver {
 
     @ExceptionHandler(MyException.class)
@@ -33,4 +36,5 @@ public class GlobalExceptionResolver {
         ex.printStackTrace();
         return new JsonResult(0, ex.getMessage());
     }
+
 }

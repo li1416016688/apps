@@ -16,4 +16,16 @@ public interface QuestionManageService {
     List<QuesJudge> findAllQuesJudges(Integer subjectId,  String info, Integer page, Integer limit);
 
     List<QuesQuestionsAnswers> findAllQuesQuestionsAnswers(Integer subjectId, String info, Integer page, Integer limit);
+
+    void deleteSingleChooseById(Integer id);
+
+    void deleteMultipleChooseById(Integer id);
+
+    void deleteQuesJudgeById(Integer id);
+
+    void deleteQuestionsAnswerById(Integer id);
+
+    void updateQuestionById(Object e, Integer quesId);
+
+    Object findQuestById(Integer id, Integer quesId);
 }

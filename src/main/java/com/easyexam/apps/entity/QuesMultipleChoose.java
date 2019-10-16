@@ -17,7 +17,6 @@ public class QuesMultipleChoose {
     private Subject subject;
     private int level;
     private String tag;     //标签，目前用户自行填写
-
     @Override
     public String toString() {
         return "QuesMultipleChoose{" +

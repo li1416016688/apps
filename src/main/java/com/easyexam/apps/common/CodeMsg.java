@@ -26,4 +26,22 @@ public class CodeMsg {
 
     @Value("${code.2342}")
     private String ExcelCellIsNull;
+
+    @Value("${code.2001}")
+    private String deleteQuesFail;
+
+    @Value("${code.1100}")
+    private String deleteQuesSuccess;
+
+    @Value("${code.2002}")
+    private String updateQuesFail;
+
+    @Value("${code.1101}")
+    private String updateQuesSuccess;
+
+    @Value("${code.2003}")
+    private String findQuesFail;
+
+    @Value("${code.1102}")
+    private String findQuesSuccess;
 }

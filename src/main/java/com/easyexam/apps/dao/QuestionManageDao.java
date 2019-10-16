@@ -24,4 +24,29 @@ public interface QuestionManageDao {
     List<QuesQuestionsAnswers> findAllQuesQuestionsAnswers(@Param(value = "subjectId") Integer subjectId,
                                                            @Param(value = "info") String info);
 
+    int deleteSingleChooseById(Integer id);
+
+    int deleteMultipleChooseById(Integer id);
+
+    int deleteQuesJudgeById(Integer id);
+
+    int deleteQuestionsAnswerById(Integer id);
+
+
+    int updateSingleChooseById(QuesSingleChoose quesSingleChoose);
+
+    int updateMultipleChooseById(QuesMultipleChoose quesMultipleChoose);
+
+    int updateQuesJudgeById(QuesJudge quesJudge);
+
+    int updateQuestionsAnswerById(QuesQuestionsAnswers quesQuestionsAnswers);
+
+    QuesSingleChoose findQuesSingleChooseById(Integer id);
+
+    QuesMultipleChoose findQuesMultipleChooseById(Integer id);
+
+    QuesJudge findQuesJudgeById(Integer id);
+
+    QuesQuestionsAnswers findQuestionsAnswerById(Integer id);
+
 }
