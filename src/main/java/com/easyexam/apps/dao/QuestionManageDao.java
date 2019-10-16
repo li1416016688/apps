@@ -1,5 +1,10 @@
 package com.easyexam.apps.dao;
 
+import com.easyexam.apps.entity.*;
+
+import java.util.List;
+import java.util.Set;
+
 import com.easyexam.apps.entity.QuesJudge;
 import com.easyexam.apps.entity.QuesMultipleChoose;
 import com.easyexam.apps.entity.QuesQuestionsAnswers;
@@ -40,6 +45,7 @@ public interface QuestionManageDao {
 
     int deleteQuestionsAnswerById(Integer id);
 
+
     int updateSingleChooseById(QuesSingleChoose quesSingleChoose);
 
     int updateMultipleChooseById(QuesMultipleChoose quesMultipleChoose);
@@ -55,7 +61,5 @@ public interface QuestionManageDao {
     QuesJudge findQuesJudgeById(Integer id);
 
     QuesQuestionsAnswers findQuestionsAnswerById(Integer id);
-
-
 
 }

@@ -45,6 +45,15 @@ public class CodeMsg {
     @Value("${code.2339}")
     private String AddQuesLevelWrong;
 
+    @Value("${code.1015}")
+    private String findExaminationroom;
+    @Value("${code.1016}")
+    private String findoneExaminationroom;
+    @Value("${code.1017}")
+    private String updateExaminationroom;
+    @Value("${code.1018}")
+    private String deleteExaminationroom;
+
     @Value("${code.2340}")
     private String ExcelImportSuccess;
 
