@@ -64,6 +64,10 @@
         </foreach>
     </insert>
 
+    <select id="findAllSubjectId" resultType="Integer">
+        select id from `subject`;
+    </select>
+
 
 
 </mapper>

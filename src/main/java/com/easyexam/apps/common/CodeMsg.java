@@ -13,6 +13,30 @@ public class CodeMsg {
     @Value("${code.0000}")
     private String example;
 
+    @Value("${code.2330}")
+    private String AddQuesSuccess;
+
+    @Value("${code.2331}")
+    private String AddQuesAnswerWrong;
+
+    @Value("${code.2332}")
+    private String AtLeastOneChoose;
+
+    @Value("${code.2333}")
+    private String AddQuesMultipleAnswerWrong;
+
+    @Value("${code.2334}")
+    private String AddQuesQuesAnswersAnswerWrong;
+
+    @Value("${code.2337}")
+    private String DataTooLong;
+
+    @Value("${code.2338}")
+    private String AddQuesSubjectWrong;
+
+    @Value("${code.2339}")
+    private String AddQuesLevelWrong;
+
     @Value("${code.2340}")
     private String ExcelImportSuccess;
 

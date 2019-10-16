@@ -3,12 +3,14 @@ package com.easyexam.apps.controller;
 import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
+import com.easyexam.apps.entity.QuesJudge;
+import com.easyexam.apps.entity.QuesMultipleChoose;
+import com.easyexam.apps.entity.QuesQuestionsAnswers;
+import com.easyexam.apps.entity.QuesSingleChoose;
 import com.easyexam.apps.service.QuestionManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -37,5 +39,33 @@ public class QuestionManageController {
             //文件类型错误，直接返回
             return new JsonResult(ErrorCode.EXCEL_FILE_TYPE_ERROR,codeMsg.getExcelFileTypeError());
         }
+    }
+
+    @GetMapping("/addQuesSingleChoose")
+    @ResponseBody
+    public JsonResult addQuesSingleChoose(@RequestBody QuesSingleChoose quesSingleChoose){
+        JsonResult jsonResult = questionManageService.addQuesSingleChoose(quesSingleChoose);
+        return jsonResult;
+    }
+
+    @GetMapping("/addQuesMultipleChoose")
+    @ResponseBody
+    public JsonResult addQuesMultipleChoose(@RequestBody QuesMultipleChoose quesMultipleChoose){
+        JsonResult jsonResult = questionManageService.addQuesMultipleChoose(quesMultipleChoose);
+        return jsonResult;
+    }
+
+    @GetMapping("/addQuesJudge")
+    @ResponseBody
+    public JsonResult addQuesJudge(@RequestBody QuesJudge quesJudge){
+        JsonResult jsonResult = questionManageService.addQuesJudge(quesJudge);
+        return jsonResult;
+    }
+
+    @GetMapping("/addQuesQuestionsAnswers")
+    @ResponseBody
+    public JsonResult addQuesQuestionsAnswers(@RequestBody QuesQuestionsAnswers quesQuestionsAnswers){
+        JsonResult jsonResult = questionManageService.addQuesQuestionsAnswers(quesQuestionsAnswers);
+        return jsonResult;
     }
 }
