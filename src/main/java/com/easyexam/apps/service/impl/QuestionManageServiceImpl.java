@@ -143,23 +143,28 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         //写入数据库
         int count = 0;      //计数器
         int totalCount = 0; //总数计数器
-        if(quesSingleChooses != null){
-            count = questionManageDao.importQuesSingleChoose(quesSingleChooses);
-            totalCount = totalCount + count;
-        }
-        if(quesMultipleChooses != null){
-            count = questionManageDao.importQuesMultipleChoose(quesMultipleChooses);
-            totalCount = totalCount + count;
-        }
-        if(quesJudges != null){
-            System.out.println(quesJudges);
-            count = questionManageDao.importQuesJudge(quesJudges);
-            totalCount = totalCount + count;
-        }
-        if(quesQuestionsAnswers != null){
-            System.out.println(quesQuestionsAnswers);
-            count = questionManageDao.importQuesQuestionsAnswers(quesQuestionsAnswers);
-            totalCount = totalCount + count;
+        System.out.println(quesSingleChooses.isEmpty());
+        try {
+            if (!quesSingleChooses.isEmpty()) {
+                count = questionManageDao.importQuesSingleChoose(quesSingleChooses);
+                totalCount = totalCount + count;
+            }
+            if (!quesMultipleChooses.isEmpty()) {
+                count = questionManageDao.importQuesMultipleChoose(quesMultipleChooses);
+                totalCount = totalCount + count;
+            }
+            if (!quesJudges.isEmpty()) {
+                System.out.println(quesJudges);
+                count = questionManageDao.importQuesJudge(quesJudges);
+                totalCount = totalCount + count;
+            }
+            if (!quesQuestionsAnswers.isEmpty()) {
+                System.out.println(quesQuestionsAnswers);
+                count = questionManageDao.importQuesQuestionsAnswers(quesQuestionsAnswers);
+                totalCount = totalCount + count;
+            }
+        }catch (NullPointerException e){
+            return new JsonResult(ErrorCode.EXCEL_CELL_IS_NULL,codeMsg.getExcelCellIsNull());
         }
 
         return new JsonResult(ErrorCode.EXCEL_IMPORT_SUCCESS,codeMsg.getExcelImportSuccess()+totalCount);
