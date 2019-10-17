@@ -46,7 +46,7 @@ public class CodeMsg {
     private String AddQuesLevelWrong;
 
     @Value("${code.1015}")
-    private String findExaminationroom;
+    private String findAllExaminationroom;
     @Value("${code.1016}")
     private String findoneExaminationroom;
     @Value("${code.1017}")

@@ -22,4 +22,5 @@ public class ExaminationRoom {
     private Date endTime;
     private int paperId;    //试卷id
     private Paper paper;
+
 }

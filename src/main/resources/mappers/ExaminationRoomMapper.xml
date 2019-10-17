@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.easyexam.apps.dao.ExaminationRoomDao">
-    <resultMap id="ExaminationRoomMap" type="com.easyexam.apps.entity.ExaminationRoom">
+    <resultMap id="ExaminationRoomMap" type="com.easyexam.apps.entity.ExaminationRoom" autoMapping="true">
         <id property="id" column="id"></id>
         <result property="roomName" column="room_name"></result>
         <result property="joinPeopleNum" column="join_people_num"></result>
@@ -15,65 +15,55 @@
         <result property="beginTime" column="begin_time"></result>
         <result property="endTime" column="end_time"></result>
         <result property="paperId" column="paper_id"></result>
-        <association property="subject" javaType="com.easyexam.apps.entity.Subject">
+
+        <association property="subject" javaType="com.easyexam.apps.entity.Subject" autoMapping="true">
             <id property="id" column="id"></id>
-            <result property="name" column="name"></result>
+            <result property="name" column="sname"></result>
         </association>
 
-        <collection property="paper" javaType="com.easyexam.apps.entity.Paper">
+        <collection property="paper" javaType="com.easyexam.apps.entity.Paper" autoMapping="true">
             <id property="id" column="id"></id>
-            <result property="name" column="name"></result>
-            <result property="creatTime" column="creat_time"></result>
+            <result property="name" column="pname"></result>
+            <result property="createTime" column="create_time"></result>
             <result property="subjectId" column="subject_id"></result>
             <result property="checkId" column="check_id"></result>
             <result property="makeId" column="make_id"></result>
+            <result property="level" column="level"></result>
 
         </collection>
 
 
-        <collection property="invigilate" javaType="com.easyexam.apps.entity.User">
+        <collection property="invigilate" javaType="com.easyexam.apps.entity.User" autoMapping="true">
             <id property="uid" column="uid"></id>
-            <result property="name" column="name"></result>
+            <result property="name" column="uname"></result>
             <result property="password" column="password"></result>
-            <!--                <result property="age" column="age"></result>-->
-            <!--                <result property="sex" column="sex"></result>-->
-            <!--                <result property="position" column="position"></result>-->
-            <!--                <result property="remark" column="remark"></result>-->
         </collection>
 
 
     </resultMap>
     <!--考场-->
-    <select id="findAllExaminationRoom" resultMap="ExaminationRoomMap" parameterType="map">
-    SELECT * from examination_room  e
-    INNER JOIN subject s on e.subject_id=s.id
-    INNER JOIN  p_user u on e.invigilate_id=u.uid
-    INNER JOIN paper p on e.paper_id=p.id
-    <where>
-        1=1
-        <if test="e.subject_id !=null">
-            and e.subject_id=#{subjectId}
-        </if>
-       <if test="e.invigilate_id !=null">
-           and e.invigilate_id=#{invigilateId}
-       </if>
-       <if test="e.paper_id !=null">
-           and= e.paper_id=#{paperId}
-       </if>
-        <if test="info != null">
-            and e.room_name like CONCAT('%','${info}','%')
-        </if>
-    </where>
+
+
+    <select id="findAllExaminationRoom" resultMap="ExaminationRoomMap" >
+    SELECT examination_room.id ,examination_room.room_name ,
+    examination_room.join_people_num  ,examination_room.total_people_num ,
+    examination_room.address,  subject.name sname,
+    p_user.name uname,   examination_room.begin_time,
+    examination_room.end_time  ,  paper.name  pname ,paper.level
+    from examination_room
+    INNER JOIN subject on examination_room.subject_id = subject.id
+    INNER JOIN  p_user  on examination_room.invigilate_id = p_user.uid
+    INNER JOIN paper on examination_room.paper_id = paper.id
     </select>
 
     <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
-    SELECT e.id ,e.room_name ,e.join_people_num ,e.total_people_num,e.address,
-    s.name,u.name,e.begin_time,e.end_time,p.name
-    from examination_room  e
-    inner JOIN subject s on e.subject_id=s.id
-    inner JOIN  p_user u on e.invigilate_id=u.uid
-    inner JOIN paper p on e.paper_id=p.id
-    where  e.id=#{id}
+      SELECT examination_room.id ,examination_room.room_name ,
+      examination_room.join_people_num  ,examination_room.total_people_num ,
+      examination_room.address,  subject.name sname,
+      p_user.name uname,   examination_room.begin_time,
+      examination_room.end_time  ,  paper.name  pname ,paper.level
+      from examination_room
+    where  examination_room.id=#{id}
     </select>
 
     <update id="updateExaminationRoom" parameterType="ExaminationRoom">

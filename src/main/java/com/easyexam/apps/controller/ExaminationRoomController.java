@@ -6,26 +6,27 @@ import com.easyexam.apps.entity.ExaminationRoom;
 import com.easyexam.apps.service.ExaminationRoomService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class ExaminationRoomController {
     @Autowired
     private ExaminationRoomService examinationRoomService;
     @Autowired
     private CodeMsg codeMsg;
-    @PostMapping("/examinationRoom/findAll")
-    public Map findAllexaminationRoom(Integer subjectId, Integer invigilateId , Integer paperId, String info, Integer page, Integer limit){
+    @RequestMapping(value = "/examinationRoom/findAll" ,method = RequestMethod.GET)
+    public Map findAllexaminationRoom(Integer page, Integer limit){
         HashMap<String, Object> map = new HashMap<>();
-        List<ExaminationRoom> examinationRoomList = examinationRoomService.findAllExaminationRoom(subjectId, invigilateId, paperId, info,page, limit);
+        List<ExaminationRoom> examinationRoomList = examinationRoomService.findAllExaminationRoom(page, limit);
+        map.put("msg","");
         map.put("count", ((Page)examinationRoomList).getTotal());
         map.put("data", examinationRoomList);
-        map.put("code", 1015);
+        map.put("code", 0);
         return map;
     }
     @PostMapping("examinationRoom/findone")
