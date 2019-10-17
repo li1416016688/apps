@@ -17,6 +17,9 @@ public class ErrorCode {
 
     public static int PASSWORD_ERROR = 2502; // 密码错误
 
+    public static int STUDENT_REGISTER_FAIL=3501;//注册失败
+    public static int TOPIC_NOT_ENOUGH=2503;//题库试题不够，或输入试题数不合法
+
     public static int DELETE_QUESTION_FAIL = 4001; // 删除试题失败
 
     public static int DELETE_QUESTION_SUCCESS = 1100; //删除试题成功

@@ -46,7 +46,7 @@ public class CodeMsg {
     private String AddQuesLevelWrong;
 
     @Value("${code.1015}")
-    private String findExaminationroom;
+    private String findAllExaminationroom;
     @Value("${code.1016}")
     private String findoneExaminationroom;
     @Value("${code.1017}")
@@ -104,4 +104,16 @@ public class CodeMsg {
 
     @Value("${code.2401}")
     private String AddQuesRedis;
+
+    @Value("${code.2501}")
+    private String idCardError;
+
+    @Value("${code.1001}")
+    private String success;
+    @Value("${code.2502}")
+    private String passwordError;
+    @Value("${code.3501}")
+    private String studentRegisterFail;
+    @Value("${code.2503}")
+    private String topicNotEnough;
 }
