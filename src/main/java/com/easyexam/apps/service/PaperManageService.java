@@ -5,5 +5,5 @@ import com.easyexam.apps.pojo.RandomPaper;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface PaperManageService {
-    public JsonResult createRandomPaper(RandomPaper randomPaper);
+    public JsonResult createRandomPaper(RandomPaper randomPaper,int makeId);
 }

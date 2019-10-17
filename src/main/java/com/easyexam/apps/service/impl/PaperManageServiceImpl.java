@@ -11,7 +11,9 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaperManageServiceImpl implements PaperManageService {
@@ -23,7 +25,7 @@ public class PaperManageServiceImpl implements PaperManageService {
     RandomQues randomQues;
 
     @Override
-    public JsonResult createRandomPaper(RandomPaper randomPaper) {
+    public JsonResult createRandomPaper(RandomPaper randomPaper,int makeId) {
         List<Integer> questionCount = randomPaper.getQuestionCount();
 
         //数据有效性验证
@@ -38,9 +40,44 @@ public class PaperManageServiceImpl implements PaperManageService {
         List<Integer> questionsAnswers = randomQues.getQuestionsAnswers(randomPaper.getQuestionCount(), randomPaper.getSubjectId(), randomPaper.getLevel());
 
         //将生成的试卷分别写入数据库
+        String name = randomPaper.getName();
+        int subjectId = randomPaper.getSubjectId();
+        Integer level = randomPaper.getLevel();
+        HashMap paperInfo = new HashMap<>();
+        paperInfo.put("name",name);
+        paperInfo.put("subjectId",subjectId);
+        paperInfo.put("makeId",makeId);
+        paperInfo.put("level",level);
+        int insertNum = paperManageDao.createPaper(paperInfo);  //返回插入的行数
+        Integer paperId = (Integer) paperInfo.get("id");        //返回插入的试卷id
+        if(insertNum != 1){
+            return new JsonResult(ErrorCode.SERVER_ERROR,codeMsg.getServerError());
+        }
+        //开始写入单选题
+        HashMap quesInfo = new HashMap<>();
+        quesInfo.put("paperId",paperId);
+        quesInfo.put("questionId",singleChooseIds);
+        quesInfo.put("questionType",1);
+        paperManageDao.insertQuesIntoPaper(quesInfo);
+        //开始写入多选题
+        quesInfo.put("paperId",paperId);
+        quesInfo.put("questionId",multipleChooseIds);
+        quesInfo.put("questionType",2);
+        paperManageDao.insertQuesIntoPaper(quesInfo);
+        //开始写入判断题
+        quesInfo.put("paperId",paperId);
+        quesInfo.put("questionId",judgeIds);
+        quesInfo.put("questionType",3);
+        paperManageDao.insertQuesIntoPaper(quesInfo);
+        //开始写入问答题
+        quesInfo.put("paperId",paperId);
+        quesInfo.put("questionId",questionsAnswers);
+        quesInfo.put("questionType",4);
+        paperManageDao.insertQuesIntoPaper(quesInfo);
 
         //将试卷返回前端
 
-        return new JsonResult(2350,singleChooseIds);
+        return new JsonResult(2350,"id is:"+paperId);
     }
 }
+

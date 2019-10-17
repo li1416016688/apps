@@ -1,5 +1,9 @@
 package com.easyexam.apps.dao;
 
+import com.easyexam.apps.pojo.RandomPaper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,4 +17,10 @@ public interface PaperManageDao {
      * @return 返回值为符合条件的所有id的List
      */
     List<Integer> findListFromQuesTable(Map info);
+
+    //创建试卷模板，返回值为创建的id
+    int createPaper(HashMap info);
+
+    //对卷子写入题目
+    int insertQuesIntoPaper(HashMap info);
 }

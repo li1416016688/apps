@@ -23,11 +23,10 @@ public class PaperManageController {
      * 三种参数，返回值为提示代码和整张试卷信息，方便后续设定分数
      * 重要！！该方法传入的json格式如下：
      * {
+     * 	"name":"xxx等级考试",
      * 	"level":3,
      * 	"subjectId":1,
      * 	"questionCount":[10,5,5,5],
-     * 	"questions":[],
-     * 	"quesScores":[]
      * }
      * @param randomPaper
      * @return
@@ -35,7 +34,10 @@ public class PaperManageController {
     @GetMapping("/createRandomExamPaper.do")
     @ResponseBody
     public JsonResult createRandomPaper(@RequestBody RandomPaper randomPaper){
-        JsonResult jsonResult = paperManageService.createRandomPaper(randomPaper);
+        //利用shiro获取发送该请求用户的id，这个id是makeId（创建者），这里为了方便测试，将其设定为1；
+        //ToDo:删除这个测试用makeId
+        int makeId = 1;
+        JsonResult jsonResult = paperManageService.createRandomPaper(randomPaper,makeId);
         return jsonResult;
     }
 }
