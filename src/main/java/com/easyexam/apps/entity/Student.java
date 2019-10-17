@@ -11,4 +11,5 @@ public class Student {
     private String phone;
     private String sex;
     private int candidateNumber;    //考号信息
+    private String rdesc;//角色描述
 }

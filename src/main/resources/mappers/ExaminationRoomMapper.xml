@@ -21,7 +21,7 @@
             <result property="name" column="sname"></result>
         </association>
 
-        <collection property="paper" javaType="com.easyexam.apps.entity.Paper" autoMapping="true">
+        <collection property="paper" ofType="com.easyexam.apps.entity.Paper" autoMapping="true">
             <id property="id" column="id"></id>
             <result property="name" column="pname"></result>
             <result property="createTime" column="create_time"></result>
@@ -33,7 +33,7 @@
         </collection>
 
 
-        <collection property="invigilate" javaType="com.easyexam.apps.entity.User" autoMapping="true">
+        <collection property="invigilate" ofType="com.easyexam.apps.entity.User" autoMapping="true">
             <id property="uid" column="uid"></id>
             <result property="name" column="uname"></result>
             <result property="password" column="password"></result>
