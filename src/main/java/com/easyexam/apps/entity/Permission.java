@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Data
 public class Permission implements Serializable {
 
-    private Integer permId;
+    private Integer pid;
     private String permName;
     private String permDesc;
     private String type;

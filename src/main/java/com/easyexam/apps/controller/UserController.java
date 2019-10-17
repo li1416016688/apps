@@ -19,20 +19,29 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @RequestMapping("/findAllUser.do")
-    public JsonResult findAll(Integer page, Integer limit){
+    public Map<String,Object> findAll1(Integer page, Integer limit){
         List<User> list = userService.findAll(page, limit);
         Map<String, Object> map = new HashMap<>();
         map.put("code",0);
         map.put("count",((Page)list).getTotal());
         map.put("data",list);
-
-        return new JsonResult(0,map);
-    }
-    @RequestMapping("/test")
-    public JsonResult test(){
-        return new JsonResult(0,"test");
+        return map;
     }
 
+    @RequestMapping("/deleteOneUser.do")
+    public JsonResult deleteOneUser(Integer uid){
+       return userService.deleteOneUser(uid);
+    }
+
+    @RequestMapping("/updateUser.do")
+    public JsonResult updateUser(User user){
+        return userService.updateUser(user);
+    }
+
+    @RequestMapping("/findUser.do")
+    public JsonResult findUser(Integer uid){
+        User user = userService.findUser(uid);
+        return new JsonResult(1, user);
+    }
 }

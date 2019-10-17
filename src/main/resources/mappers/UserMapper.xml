@@ -8,5 +8,22 @@
         select * from p_user
     </select>
 
+    <delete id="deleteUser" >
+        delete from p_user where uid = #{uid} and uid != 1
+    </delete>
+
+    <delete id="deleteUserRole" >
+        delete from p_user_role where uid = #{uid}
+    </delete>
+
+    <update id="updateUser">
+        update p_user set name=#{name}, password=#{password}, age=#{age}, sex=#{sex},
+        position=#{position}, remark=#{remark} where uid=#{uid}
+    </update>
+
+    <select id="findUser" resultType="com.easyexam.apps.entity.User">
+        select * from p_user where uid = #{uid}
+    </select>
+
 
 </mapper>

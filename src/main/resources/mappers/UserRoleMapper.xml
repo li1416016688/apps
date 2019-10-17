@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easyexam.apps.dao.UserRoleDao">
+    <delete id="deleteUserRole">
+        delete from p_user_role where uid = #{uid}
+    </delete>
+
+    <insert id="addUserRole">
+        insert into p_user_role (uid, rid) values
+        <foreach collection="rids" item="rid" separator=",">
+            (#{uid}, #{rid})
+        </foreach>
+    </insert>
+
+    <resultMap id="findRole" type="com.easyexam.apps.entity.UserRole">
+        <id property="id" column="id"></id>
+        <collection property="role" ofType="com.easyexam.apps.entity.Role">
+            <result property="rname" column="rname"></result>
+            <result property="rdesc" column="rdesc"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findById" resultMap="findRole">
+        select * from p_user_role ur
+        left join p_role r on ur.rid = r.rid
+        where ur.uid = #{uid}
+    </select>
+
+
+</mapper>

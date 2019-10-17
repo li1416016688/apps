@@ -19,5 +19,12 @@ public class ErrorCode {
     public static int PASSWORD_ERROR = 1004;
     // 用户未登录
     public static int USER_NO_LOGIN = 1005;
-
+    //删除异常
+    public static int EXCEPTION_DELETE = 3211;
+    //查找为空
+    public static int EXCEPTION_NOPOINT = 2231;
+    //添加错误
+    public static int EXCEPTION_INSERT = 3212;
+    //添加错误
+    public static int EXCEPTION_UPDATE = 3213;
 }
