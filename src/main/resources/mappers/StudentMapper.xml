@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyexam.apps.dao.StudentDao">
+
+    <select id="studentLogin" resultType="com.easyexam.apps.entity.Student">
+        select * from student where id_card=#{idCard}
+    </select>
+
+    <insert id="studentRegister">
+        insert into student (name,id_card,password,phone,sex) values(#{name},#{idCard},#{password},#{phone},#{sex})
+    </insert>
+
+    <select id="findAllSubject" resultType="com.easyexam.apps.entity.Subject">
+        select * from subject
+    </select>
+
+    <select id="findAllComplexity" resultType="com.easyexam.apps.entity.Complexity">
+        select * from complexity
+    </select>
+
+    <select id="findAllSingleChooseByLevel" resultType="com.easyexam.apps.entity.QuesSingleChoose">
+        select * from q_single_choose
+        <where>
+            <if test="level != null">
+                and  level=#{level}
+            </if>
+            <if test="subjectId != null">
+                and  subject_id=#{subjectId}
+            </if>
+        </where>
+    </select>
+    <select id="findAllMultipleChooseByLevel" resultType="com.easyexam.apps.entity.QuesMultipleChoose">
+        select * from q_multiple_choose
+        <where>
+            <if test="level != null">
+                and  level=#{level}
+            </if>
+            <if test="subjectId != null">
+                and  subject_id=#{subjectId}
+            </if>
+        </where>
+    </select>
+    <select id="findAllJudgeByLevel" resultType="com.easyexam.apps.entity.QuesJudge">
+        select * from q_judge
+        <where>
+            <if test="level != null">
+                and  level=#{level}
+            </if>
+            <if test="subjectId != null">
+                and  subject_id=#{subjectId}
+            </if>
+        </where>
+    </select>
+    <select id="findAllQuestionsAnswers" resultType="com.easyexam.apps.entity.QuesQuestionsAnswers">
+        select * from q_questions_answers
+        <where>
+            <if test="level != null">
+                and  level=#{level}
+            </if>
+            <if test="subjectId != null">
+                and  subject_id=#{subjectId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findQuesSingleChooseById"  resultType="com.easyexam.apps.entity.QuesSingleChoose">
+        select * from q_single_choose where id=#{id}
+    </select>
+    <select id="findQuesMultipleChooseById" resultType="com.easyexam.apps.entity.QuesMultipleChoose">
+        select * from q_multiple_choose where id=#{id}
+    </select>
+    <select id="findQuesJudgeById" resultType="com.easyexam.apps.entity.QuesJudge">
+        select * from q_judge where id=#{id}
+    </select>
+    <select id="findQuesQuestionsAnswersById" resultType="com.easyexam.apps.entity.QuesQuestionsAnswers">
+        select * from q_questions_answers where id=#{id}
+    </select>
+</mapper>

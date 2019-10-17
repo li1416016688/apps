@@ -92,4 +92,16 @@ public class CodeMsg {
 
     @Value("${code.2345}")
     private String ExcelFileTypeError;
+
+    @Value("${code.2501}")
+    private String idCardError;
+
+    @Value("${code.1001}")
+    private String success;
+    @Value("${code.2502}")
+    private String passwordError;
+    @Value("${code.3501}")
+    private String studentRegisterFail;
+    @Value("${code.2503}")
+    private String topicNotEnough;
 }
