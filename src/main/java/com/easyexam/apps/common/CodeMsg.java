@@ -83,4 +83,10 @@ public class CodeMsg {
 
     @Value("${code.2345}")
     private String ExcelFileTypeError;
+
+    @Value("${code.2350}")
+    private String CreatePaperSuccess;
+
+    @Value("${code.2351}")
+    private String CreatePaperParamLost;
 }
