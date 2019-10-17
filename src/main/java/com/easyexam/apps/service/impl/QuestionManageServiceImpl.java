@@ -587,7 +587,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 } else if (paperQuestion.getQuestionType() == 4) {
                     questionsAnswersList.add(questionManageDao.findQuestionsAnswerById(paperQuestion.getQuestionId()));
                 } else {
-                    throw new MyException(0, "展示数据异常");
+                    throw new MyException(0, "展示添加的数据列表异常");
                 }
 
             }
