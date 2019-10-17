@@ -61,4 +61,6 @@ public interface QuestionManageDao {
 
     QuesQuestionsAnswers findQuestionsAnswerById(Integer id);
 
+    QuestionType findQuestionType(Integer questionType);
+
 }

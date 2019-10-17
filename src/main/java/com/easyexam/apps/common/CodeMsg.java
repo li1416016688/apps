@@ -104,4 +104,10 @@ public class CodeMsg {
     private String studentRegisterFail;
     @Value("${code.2503}")
     private String topicNotEnough;
+
+    @Value("${code.2350}")
+    private String CreatePaperSuccess;
+
+    @Value("${code.2351}")
+    private String CreatePaperParamLost;
 }

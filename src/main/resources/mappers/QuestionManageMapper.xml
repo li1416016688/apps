@@ -276,6 +276,8 @@
         select * from q_questions_answers where id = #{id}
     </select>
 
-
+    <select id="findQuestionType" parameterType="Integer" resultType="questionType">
+        select * from q_question_type where question_type = #{0}
+    </select>
 
 </mapper>
