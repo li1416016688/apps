@@ -21,6 +21,14 @@ public class PaperManageController {
      * 该接口为生成题目的接口，需要传入
      * level/subjectId/questionCount
      * 三种参数，返回值为提示代码和整张试卷信息，方便后续设定分数
+     * 重要！！该方法传入的json格式如下：
+     * {
+     * 	"level":3,
+     * 	"subjectId":1,
+     * 	"questionCount":[10,5,5,5],
+     * 	"questions":[],
+     * 	"quesScores":[]
+     * }
      * @param randomPaper
      * @return
      */

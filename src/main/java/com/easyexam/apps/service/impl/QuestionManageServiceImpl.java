@@ -3,7 +3,7 @@ package com.easyexam.apps.service.impl;
 import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
-import com.easyexam.apps.common.QuestionConfig;
+import com.easyexam.apps.config.QuestionConfig;
 import com.easyexam.apps.dao.QuestionManageDao;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
