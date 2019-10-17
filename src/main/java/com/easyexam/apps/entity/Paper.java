@@ -18,4 +18,5 @@ public class Paper {
     private User checker;
     private int makeId;     //生成人id，对应User表主键
     private User maker;
+    private int level;
 }

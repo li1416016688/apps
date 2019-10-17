@@ -1,9 +1,6 @@
 package com.easyexam.apps.dao;
 
-import com.easyexam.apps.entity.QuesJudge;
-import com.easyexam.apps.entity.QuesMultipleChoose;
-import com.easyexam.apps.entity.QuesQuestionsAnswers;
-import com.easyexam.apps.entity.QuesSingleChoose;
+import com.easyexam.apps.entity.*;
 
 import java.util.List;
 import java.util.Set;
