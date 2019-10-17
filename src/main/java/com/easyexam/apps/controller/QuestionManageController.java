@@ -237,14 +237,14 @@ public class QuestionManageController {
     @ResponseBody
     public JsonResult addQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
         questionManageService.addQuestPaperRedis(paperQuestion, uid);
-        return new JsonResult(1, "添加成功");
+        return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
     @RequestMapping("/deleteQuestToRedis")
     @ResponseBody
     public JsonResult deleteQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
         questionManageService.deleteQuestToRedis(paperQuestion, uid);
-        return new JsonResult(1, "移除成功");
+        return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
 
@@ -259,7 +259,7 @@ public class QuestionManageController {
     @ResponseBody
     public JsonResult addQuesToMySql(Paper paper) {
         questionManageService.addQuestToMysql(paper, true);
-        return new JsonResult(1, "生成成功");
+        return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
 }

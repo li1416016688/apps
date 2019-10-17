@@ -116,4 +116,9 @@ public class CodeMsg {
     private String studentRegisterFail;
     @Value("${code.2503}")
     private String topicNotEnough;
+    @Value("${code.2101}")
+    private String showQuesListOnRedis;
+
+    @Value("${code.2102}")
+    private String AutoCreatePaper;
 }
