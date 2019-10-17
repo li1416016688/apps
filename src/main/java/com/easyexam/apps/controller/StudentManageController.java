@@ -1,16 +1,17 @@
 package com.easyexam.apps.controller;
 
 import com.easyexam.apps.common.CodeMsg;
+import com.easyexam.apps.common.ErrorCode;
+import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.ExaminationRoom;
 import com.easyexam.apps.entity.Student;
+import com.easyexam.apps.entity.StudentPaper;
+import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentManageService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ public class StudentManageController {
     private StudentManageService studentManageService;
     @Autowired
     private CodeMsg codeMsg;
+    @Autowired(required = false)
+    private ErrorCode errorCode;
 
     //查找所有的考场信息
     @RequestMapping(value = "/Examinee/findAll" ,method = RequestMethod.GET)
@@ -36,8 +39,18 @@ public class StudentManageController {
 //        System.out.println();
         return map;
     }
-
-
+@RequestMapping(value = "/Examinee/findOne")
+    public JsonResult findOneExaminee(Integer id){
+    Student student = new Student();
+    if (id==null){
+            return new JsonResult(2400,codeMsg.getStudentFindoneError());
+        }else if (id!=student.getId()){
+        return new JsonResult(4001,codeMsg.getStudentNotFindone());
+    }
+    StudentPaper oneExaminee = studentManageService.findOneExaminee(id);
+        System.out.println(oneExaminee);
+        return new JsonResult(1019,codeMsg.getStudentFindoneSuccess());
+    }
 
 
 

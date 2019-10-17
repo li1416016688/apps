@@ -110,4 +110,11 @@ public class CodeMsg {
 
     @Value("${code.2351}")
     private String CreatePaperParamLost;
+
+    @Value("${code.2400}")
+    private String studentFindoneError;
+    @Value("${code.4001}")
+    private String studentNotFindone;
+    @Value("${code.1019}")
+    private String studentFindoneSuccess;
 }

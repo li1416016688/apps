@@ -1,4 +1,4 @@
-package com.easyexam.apps.common;
+package com.easyexam.apps.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

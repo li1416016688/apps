@@ -7,8 +7,8 @@
 <mapper namespace="com.easyexam.apps.dao.StudentManageDao">
     <resultMap id="studentMap" type="com.easyexam.apps.entity.StudentPaper" autoMapping="true">
         <id property="id" column="id"></id>
-        <result property="stu_id" column="stuId"></result>
-        <result property="room_id" column="roomId"></result>
+        <result property="stuId" column="stu_id"></result>
+        <result property="roomId" column="room_id"></result>
         <result property="score" column="score"></result>
         <result property="paperQues" column="paper_ques" typeHandler="com.easyexam.apps.config.MySqlJsonHandler"/>
         <association property="student" javaType="com.easyexam.apps.entity.Student" autoMapping="true">
@@ -55,6 +55,32 @@ on EasyExam.examination_room.id =EasyExam.student_paper.room_id
 where p_role.rid=3
 
 </select>
+<select id="findOneExaminee" resultMap="studentMap">
+SELECT
+student.id,
+student.`name` stuName,
+student.id_card,
+student.phone,
+student.sex,
+student.candidate_number,
+examination_room.room_name,
+student_paper.score,
+student_paper.paper_ques,
+p_role.rdesc
+FROM
+student
+
+left JOIN student_role
+on EasyExam.student_role.student_id=EasyExam.student.id
+left JOIN p_role
+on EasyExam.p_role.rid =EasyExam.student_role.role_id
+left JOIN student_paper
+on EasyExam.student.id =EasyExam.student_paper.stu_id
+left JOIN examination_room
+on EasyExam.examination_room.id =EasyExam.student_paper.room_id
+where p_role.rid=3 and student.id=#{stuId}
+</select>
+
 
 
 </mapper>

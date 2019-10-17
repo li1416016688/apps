@@ -79,4 +79,6 @@ public class ErrorCode {
     //随机生成失败，缺少必要的参数
     public static int CREATE_PAPER_PARAM_LOST=2351;
 
+
+
 }
