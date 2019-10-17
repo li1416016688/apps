@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>layui在线调试</title>
+    <title>试题管理</title>
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <style>
         body {
@@ -52,6 +52,7 @@
             </div>
         </div>
         <button class="layui-btn" id="addButton">添加</button>
+        <button class="layui-btn" id="addByExcelButton">模板添加</button>
     </div>
 
     <form class="layui-form" id="add-form" style="display: none" lay-filter="example">
@@ -237,6 +238,49 @@
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>-->
+    </form>
+
+    <form class="layui-form" id="excelAddForm" style="display: none" lay-filter="example3">
+        <div class="layui-form-item" style="margin: 10px 0 20px 8px">
+            <a href="d?fileName=quesTemplate" download="" class="layui-btn">下载模板文件</a>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">解析类型：</label>
+            <div class="layui-input-block" style="width:270px">
+                <select name="sheetName"  class="typeName" id="sheetName">
+                    <option value="">请选择需要解析的表格...</option>
+                    <option value="singleChoose">单选题</option>
+                    <option value="multipleChoose">多选题</option>
+                    <option value="judge">判断题</option>
+                    <option value="questionsAnswers">简答题</option>
+                    <option value="all">全部</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">上传模板：</label>
+            <div class="layui-input-block"  style="width:270px">
+                <input type="file" name="file" id="excelFile" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block"  style="width:270px">
+                <input type="button" id="uploadExcel" value="上传" class="layui-btn" />
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="margin: 20px 40px;font-size:14px;color:#999;">
+            模板导入说明：<br/>
+            &nbsp;&nbsp;&nbsp;下载模板文件后，可以将题目放入表格中，每行一题，不同类型的题目分别
+            放入不同的表中。其中灰色的单元格不可修改编辑，否则可能导致上传失败。<br/>
+            &nbsp;&nbsp;&nbsp;上传成功后，系统会自动进行解析，稍等片刻后即可提示成功导入总条数。<br/>
+            &nbsp;&nbsp;&nbsp;注意：模板中的"学科"和"judge"单元格不可进行任何编辑，否则会导致上传失败！<br/><br/>
+            &nbsp;&nbsp;&nbsp;请正确选择题目类型，系统会根据选择的类型读取对应的表格，如果有多种体型，请选择
+            "全部解析"，但使用模板前请确定模板各表格均为空白，避免题目重复导入。
+        </div>
     </form>
 </div>
 
@@ -453,13 +497,25 @@
                     });
                 },
                 btn2: function (index, layero) {
-                    alert("2222");
                     return false;
                 },
                 cancel: function (layero, index) {
                     layer.closeAll();
                 }
 
+            });
+        });
+
+        //表格模板导入添加
+        $("#addByExcelButton").click(function (){
+            // table.reload("questionTable");
+
+            layer.open({
+                type: 1,
+                area: ['500px', '600px'],
+                title: '模板添加'
+                , content: $("#excelAddForm"),
+                shade: 0
             });
         });
 
@@ -480,6 +536,27 @@
 
         $('#queryButton').on('click', function () {
             tableReload();
+        });
+
+        $("#uploadExcel").on('click',function () {
+            var files = $("#excelFile").prop('files');
+            var data = new FormData();
+            data.append('file',files[0]);
+            data.append('sheetName',$('#sheetName').val());
+            $.ajax({
+                type:"POST",
+                url:"importExcel",
+                data:data,
+                cache:false,
+                processData:false,
+                contentType:false,
+                success:function(retData){
+                    layer.msg(retData.info);
+                },
+                error:function (retData) {
+                    layer.msg(retData.info);
+                }
+            });
         });
     });
 </script>
