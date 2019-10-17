@@ -3,10 +3,7 @@ package com.easyexam.apps.controller;
 import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
-import com.easyexam.apps.entity.QuesJudge;
-import com.easyexam.apps.entity.QuesMultipleChoose;
-import com.easyexam.apps.entity.QuesQuestionsAnswers;
-import com.easyexam.apps.entity.QuesSingleChoose;
+import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.QuestionManageService;
 import com.github.pagehelper.Page;
@@ -171,10 +168,33 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.FIND_QUESTION_SUCCESS, quest);
     }
 
-    @RequestMapping("/addQuestPaper")
-    public JsonResult addQuestPaper() {
+    @RequestMapping("/addQuestToRedis")
+    @ResponseBody
+    public JsonResult addQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
+        questionManageService.addQuestPaperRedis(paperQuestion, uid);
+        return new JsonResult(1, "添加成功");
+    }
 
-        return null;
+    @RequestMapping("/deleteQuestToRedis")
+    @ResponseBody
+    public JsonResult deleteQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
+        questionManageService.deleteQuestToRedis(paperQuestion, uid);
+        return new JsonResult(1, "移除成功");
+    }
+
+
+    @RequestMapping("/showPaperListOnRedis")
+    @ResponseBody
+    public JsonResult showPaperListOnRedis(Integer uid) {
+        Map<String, Object> map = questionManageService.showPaperListOnRedis(uid);
+        return new JsonResult(1, map);
+    }
+
+    @RequestMapping("/addQuesToMySql")
+    @ResponseBody
+    public JsonResult addQuesToMySql(Paper paper) {
+        questionManageService.addQuestToMysql(paper, true);
+        return new JsonResult(1, "生成成功");
     }
 
 }

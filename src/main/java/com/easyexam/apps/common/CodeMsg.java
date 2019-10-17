@@ -92,4 +92,10 @@ public class CodeMsg {
 
     @Value("${code.2345}")
     private String ExcelFileTypeError;
+
+    @Value("${code.1103}")
+    private String FindUserError;
+
+    @Value("${code.2401}")
+    private String AddQuesRedis;
 }

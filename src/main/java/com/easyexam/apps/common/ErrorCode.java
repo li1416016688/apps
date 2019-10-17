@@ -70,4 +70,8 @@ public class ErrorCode {
     //Excel格式异常，请上传xlsx格式的文件模板
     public static int EXCEL_FILE_TYPE_ERROR=2345;
 
+    public static int FIND_USER_ERROR=1103;
+
+    public static int ADD_QUES_REDIS_FAIL=2401; //添加试题到redis失败
+
 }

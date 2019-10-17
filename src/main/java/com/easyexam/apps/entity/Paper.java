@@ -5,23 +5,20 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class Paper {
+public class Paper implements Serializable {
     private int id;
     private String name;
     private Date createTime;
-    private int subjectId;  //科目id
-    private int Subject;
-    private int checkId;    //改卷人id，对应User表主键
-    private User checker;
+    private Integer checkId;    //改卷人id，对应User表主键
     private int makeId;     //生成人id，对应User表主键
+    private int subjectId;  //科目id
+    private int level;
+
+    private User checker;
     private User maker;
 
-    private List<QuesSingleChoose> quesSingleChooseList;
-    private List<QuesMultipleChoose> quesMultipleChooseList;
-    private List<QuesJudge> quesJudgeList;
-    private List<QuesQuestionsAnswers> quesQuestionsAnswersList;
 }
