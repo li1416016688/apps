@@ -65,8 +65,7 @@
     </insert>
 
     <select id="findAllSubjectId" resultType="Integer">
-        select id
-        from `subject`;
+        select id from `subject`;
     </select>
 
     <resultMap id="findQuestion" type="QuesSingleChoose">
@@ -87,6 +86,7 @@
             <result property="name" column="name"/>
         </association>
     </resultMap>
+
 
     <select id="findAllQuesSingleChooses" resultMap="findQuestion" parameterType="map">
         select *
@@ -194,6 +194,7 @@
             <result property="name" column="name"/>
         </association>
     </resultMap>
+
 
     <select id="findAllQuesQuestionsAnswers" resultMap="QuestionsAnswersMap" parameterType="map">
         select *

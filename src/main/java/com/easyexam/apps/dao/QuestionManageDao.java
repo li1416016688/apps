@@ -1,6 +1,14 @@
 package com.easyexam.apps.dao;
 
 import com.easyexam.apps.entity.*;
+
+import java.util.List;
+import java.util.Set;
+
+import com.easyexam.apps.entity.QuesJudge;
+import com.easyexam.apps.entity.QuesMultipleChoose;
+import com.easyexam.apps.entity.QuesQuestionsAnswers;
+import com.easyexam.apps.entity.QuesSingleChoose;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

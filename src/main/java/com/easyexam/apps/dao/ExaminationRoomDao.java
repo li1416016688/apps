@@ -10,9 +10,11 @@ import java.util.List;
 
 @Repository
 public interface ExaminationRoomDao {
-    public List<ExaminationRoom>findAllExaminationRoom(@Param(value = "subjectId") Integer subjectId,
-      @Param("invigilateId")Integer invigilateId ,@Param("paperId")Integer paperId ,@Param(value = "info") String info);
+    public List<ExaminationRoom>findAllExaminationRoom();
     public ExaminationRoom findOneExaminationRoom( Integer id);
     public void  updateExaminationRoom(ExaminationRoom room);
     public void  deleteExaminationRoom(Integer id);
+    public void  addExaminationRoom(ExaminationRoom room);
+
+
 }

@@ -70,6 +70,12 @@ public class ErrorCode {
     //Excel格式异常，请上传xlsx格式的文件模板
     public static int EXCEL_FILE_TYPE_ERROR=2345;
 
+    //试卷生成成功
+    public static int CREATE_PAPER_SUCCESS=2350;
+
+    //随机生成失败，缺少必要的参数
+    public static int CREATE_PAPER_PARAM_LOST=2351;
+
     public static int FIND_USER_ERROR=1103;
 
     public static int ADD_QUES_REDIS_FAIL=2401; //添加试题到redis失败

@@ -1,6 +1,7 @@
 package com.easyexam.apps.entity;
 
 import lombok.Data;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public class StudentPaper {
     private Integer roomId;
     private ExaminationRoom room;
     private int score;
-    private PaperQues paperQues;
+    private com.alibaba.fastjson.JSONObject paperQues;
 }
