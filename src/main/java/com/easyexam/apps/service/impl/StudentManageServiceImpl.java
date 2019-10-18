@@ -26,7 +26,7 @@ public class StudentManageServiceImpl implements StudentManageService {
 
     @Override
     public List<Student> findAllExamineeId(){
-        List<Student> examineeIdList = studentManageDao.findAllExaminee();
+        List<Student> examineeIdList = studentManageDao.findAllExamineeId();
         return examineeIdList;
     }
     @Override

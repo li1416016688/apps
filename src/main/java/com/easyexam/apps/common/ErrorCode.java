@@ -1,5 +1,8 @@
 package com.easyexam.apps.common;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ErrorCode {
     private int code;
     private String msg;

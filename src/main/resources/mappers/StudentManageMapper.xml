@@ -5,7 +5,7 @@
 
 
 <mapper namespace="com.easyexam.apps.dao.StudentManageDao">
-    <resultMap id="studentMap" type="com.easyexam.apps.entity.StudentPaper" autoMapping="true">
+    <resultMap id="studentMap" type="com.easyexam.apps.entity.StudentPaper" >
         <id property="id" column="id"></id>
         <result property="stuId" column="stu_id"></result>
         <result property="roomId" column="room_id"></result>
@@ -22,12 +22,30 @@
             <result property="rdesc" column="rdesc"></result>
 
         </association>
-        <association property="room" javaType="com.easyexam.apps.entity.ExaminationRoom" autoMapping="true">
+        <association property="room" javaType="com.easyexam.apps.entity.ExaminationRoom" >
             <id property="id" column="id"></id>
             <result property="roomName" column="room_name"></result>
         </association>
 
     </resultMap>
+
+
+
+
+    <resultMap id="stuMap" type="com.easyexam.apps.entity.Student" autoMapping="true">
+<!--        <id property="id" column="id"></id>-->
+<!--        <result property="name" column="stuName"></result>-->
+<!--        <result property="idCard" column="id_card"></result>-->
+<!--        <result property="password" column="password"></result>-->
+<!--        <result property="phone" column="phone"></result>-->
+<!--        <result property="sex" column="sex"></result>-->
+<!--        <result property="candidateNumber" column="candidate_number"></result>-->
+<!--        <result property="rdesc" column="rdesc"></result>-->
+
+    </resultMap>
+
+
+
     <!--考场-->
     <select id="findAllExaminee" resultMap="studentMap" >
 SELECT
@@ -81,8 +99,8 @@ on EasyExam.examination_room.id =EasyExam.student_paper.room_id
 where p_role.rid=3 and student.id=#{stuId}
 </select>
 
-    <select id="findAllExamineeId" parameterType="com.easyexam.apps.entity.Student">
-        select id ,name ,phone from student
+    <select id="findAllExamineeId" resultMap="stuMap">
+        select id ,name ,phone ,id_card from student
     </select>
 
 
@@ -92,10 +110,14 @@ student.`password`=#{password},
 student.phone=#{phone},student.sex=#{sex} WHERE student.id =#{id}
 </update>
 
- <insert id="addExaminee" parameterType="com.easyexam.apps.entity.Student">
-        INSERT into student (student.name ,student.id_card ,student.phone,student.`password`,student.sex)VALUES(#{name},#{idCard},#{phone},#{password},#{sex})
+ <insert id="addExaminee" parameterType="com.easyexam.apps.entity.Student" keyProperty="id" useGeneratedKeys="true">
+     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+         select  last_insert_id()
+     </selectKey>
+        INSERT into student (student.name ,student.id_card ,student.phone,student.`password`,student.sex,candidate_number)VALUES(#{name},#{idCard},#{phone},#{password},#{sex},#{candidateNumber})
  </insert>
-    <insert id="addExamineeRole" parameterType="com.easyexam.apps.entity.StudentRole">
+    <insert id="addExamineeRole" parameterType="com.easyexam.apps.entity.StudentRole" >
+
     INSERT INTO student_role (student_role.student_id,student_role.role_id)VALUES(#{studentId},#{roleId})
     </insert>
 
