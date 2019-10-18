@@ -5,10 +5,11 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class PaperQues {
+public class PaperQues implements Serializable {
     private List<QuesSingleChoose> quesSingleChooses;
     private List<QuesMultipleChoose> quesMultipleChooses;
     private List<QuesJudge> quesJudges;

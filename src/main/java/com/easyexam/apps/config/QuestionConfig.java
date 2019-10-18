@@ -60,4 +60,6 @@ public class QuestionConfig {
 
     @Value("${quesAnswers.tag}")
     private int QuesAnswersTag;
+
+
 }

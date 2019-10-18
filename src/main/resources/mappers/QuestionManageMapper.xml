@@ -99,6 +99,12 @@
             <if test="info != null">
                 and q.question like CONCAT('%','${info}','%')
             </if>
+            <if test="ids != null">
+                and q.id in
+                <foreach collection="ids" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
+            </if>
         </where>
 
     </select>
@@ -133,6 +139,12 @@
             <if test="info != null">
                 and q.question like CONCAT('%','${info}','%')
             </if>
+            <if test="ids != null">
+                and q.id in
+                <foreach collection="ids" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
+            </if>
         </where>
     </select>
 
@@ -152,7 +164,7 @@
     <select id="findAllQuesJudges" resultMap="findAllQuesJudgesMap" parameterType="map">
         select *
         from q_judge qj
-                 LEFT JOIN subject sub ON qj.subject_id = sub.id
+        LEFT JOIN subject sub ON qj.subject_id = sub.id
         <where>
             1 = 1
             <if test="subjectId != null">
@@ -160,6 +172,12 @@
             </if>
             <if test="info != null">
                 and qj.question like CONCAT('%','${info}','%')
+            </if>
+            <if test="ids != null">
+                and qj.id in
+                <foreach collection="ids" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
             </if>
         </where>
     </select>
@@ -189,95 +207,153 @@
             <if test="info != null">
                 and qqa.question like CONCAT('%','${info}','%')
             </if>
+            <if test="ids != null">
+                and qqa.id in
+                <foreach collection="ids" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
+            </if>
         </where>
     </select>
 
     <delete id="deleteSingleChooseById" parameterType="Integer">
-        delete from q_single_choose where id = #{id}
+        delete
+        from q_single_choose
+        where id = #{id}
     </delete>
 
     <delete id="deleteMultipleChooseById" parameterType="Integer">
-        delete from q_multiple_choose where id = #{id}
+        delete
+        from q_multiple_choose
+        where id = #{id}
     </delete>
 
     <delete id="deleteQuesJudgeById" parameterType="Integer">
-        delete from q_judge where id = #{id}
+        delete
+        from q_judge
+        where id = #{id}
     </delete>
 
     <delete id="deleteQuestionsAnswerById" parameterType="Integer">
-        delete from q_questions_answers where id = #{id}
+        delete
+        from q_questions_answers
+        where id = #{id}
     </delete>
 
     <update id="updateSingleChooseById" parameterType="QuesSingleChoose">
-        update q_single_choose set
-                                   question = #{question},
-                                   choose_a = #{chooseA},
-                                   choose_b = #{chooseB},
-                                   choose_c = #{chooseC},
-                                   choose_d = #{chooseD},
-                                   choose_e = #{chooseE},
-                                   choose_f = #{chooseF},
-                                   answer = #{answer},
-                                   subject_id = #{subjectId},
-                                   level = #{level},
-                                   tag = #{tag}
+        update q_single_choose
+        set question   = #{question},
+            choose_a   = #{chooseA},
+            choose_b   = #{chooseB},
+            choose_c   = #{chooseC},
+            choose_d   = #{chooseD},
+            choose_e   = #{chooseE},
+            choose_f   = #{chooseF},
+            answer     = #{answer},
+            subject_id = #{subjectId},
+            level      = #{level},
+            tag        = #{tag}
         where id = #{id}
     </update>
 
     <update id="updateMultipleChooseById" parameterType="QuesMultipleChoose">
-        update q_single_choose set
-                                   question = #{question},
-                                   choose_a = #{chooseA},
-                                   choose_b = #{chooseB},
-                                   choose_c = #{chooseC},
-                                   choose_d = #{chooseD},
-                                   choose_e = #{chooseE},
-                                   choose_f = #{chooseF},
-                                   answer = #{answer},
-                                   subject_id = #{subjectId},
-                                   level = #{level},
-                                   tag = #{tag}
+        update q_single_choose
+        set question   = #{question},
+            choose_a   = #{chooseA},
+            choose_b   = #{chooseB},
+            choose_c   = #{chooseC},
+            choose_d   = #{chooseD},
+            choose_e   = #{chooseE},
+            choose_f   = #{chooseF},
+            answer     = #{answer},
+            subject_id = #{subjectId},
+            level      = #{level},
+            tag        = #{tag}
         where id = #{id}
     </update>
 
     <update id="updateQuesJudgeById" parameterType="QuesJudge">
-        update q_judge set
-                            question = #{question},
-                            answer = #{answer},
-                            subject_id = #{subjectId},
-                            level = #{level},
-                            tag = #{tag}
+        update q_judge
+        set question   = #{question},
+            answer     = #{answer},
+            subject_id = #{subjectId},
+            level      = #{level},
+            tag        = #{tag}
         where id = #{id}
     </update>
 
     <update id="updateQuestionsAnswerById" parameterType="QuesQuestionsAnswers">
-        update q_questions_answers set
-                           question = #{question},
-                           answer = #{answer},
-                           subject_id = #{subjectId},
-                           level = #{level},
-                           tag = #{tag}
+        update q_questions_answers
+        set question   = #{question},
+            answer     = #{answer},
+            subject_id = #{subjectId},
+            level      = #{level},
+            tag        = #{tag}
         where id = #{id}
     </update>
 
     <select id="findQuesSingleChooseById" parameterType="Integer" resultType="QuesSingleChoose">
-        select * from q_single_choose where id = #{id}
+        select *
+        from q_single_choose
+        where id = #{id}
     </select>
 
     <select id="findQuesMultipleChooseById" parameterType="Integer" resultType="QuesMultipleChoose">
-        select * from q_multiple_choose where id = #{id}
+        select *
+        from q_multiple_choose
+        where id = #{id}
     </select>
 
     <select id="findQuesJudgeById" parameterType="Integer" resultType="QuesJudge">
-        select * from q_judge where id = #{id}
+        select *
+        from q_judge
+        where id = #{id}
     </select>
 
     <select id="findQuestionsAnswerById" parameterType="Integer" resultType="QuesQuestionsAnswers">
-        select * from q_questions_answers where id = #{id}
+        select *
+        from q_questions_answers
+        where id = #{id}
     </select>
 
-    <select id="findQuestionType" parameterType="Integer" resultType="questionType">
-        select * from q_question_type where question_type = #{0}
+    <select id="findUserById" resultType="user" parameterType="Integer">
+        select *
+        from p_user
+        where uid = #{uid}
     </select>
+
+    <insert id="addPaperToMySql" parameterType="String">
+        insert into paper_question (paper_id,question_id, question_type, score) values
+        <foreach collection="list" item="paperQuestion" separator="," index="index">
+            (
+            #{paperQuestion.paperId},
+            #{paperQuestion.questionId},
+            #{paperQuestion.questionType},
+            #{paperQuestion.score}
+            )
+        </foreach>
+
+    </insert>
+
+    <select id="findQuestionType" parameterType="Integer" resultType="questionType">
+        select * from q_question_type where question_type = #{questionType}
+    </select>
+
+    <select id="findQuestionTypes" resultType="questionType">
+        select * from q_question_type
+    </select>
+
+
+    <select id="findSubjectName" resultType="subject" parameterType="String">
+        select * from subject where name = #{subjectName}
+    </select>
+
+    <insert id="autoCreatePaper" parameterType="paper">
+        insert into paper (subject_id, check_id, make_id, name, create_time, level)
+        values (#{subjcetId}, #{checkId}, #{makeId}, #{name}, now(), #{level})
+        <selectKey keyColumn="id">
+            select last_insert_id();
+        </selectKey>
+    </insert>
 
 </mapper>

@@ -69,6 +69,18 @@ public class CodeMsg {
     @Value("${code.2343}")
     private String ExcelCellIsNull;
 
+    @Value("${code.3211}")
+    private String DeleteException;
+
+    @Value("${code.2231}")
+    private String NoPointException;
+
+    @Value("${code.3212}")
+    private String InsertException;
+
+    @Value("${code.3213}")
+    private String UpdateException;
+
     @Value("${code.2001}")
     private String deleteQuesFail;
 
@@ -93,6 +105,21 @@ public class CodeMsg {
     @Value("${code.2345}")
     private String ExcelFileTypeError;
 
+    @Value("${code.2350}")
+    private String CreatePaperSuccess;
+
+    @Value("${code.2351}")
+    private String CreatePaperParamLost;
+
+    @Value("${code.2352}")
+    private String DeletePaperSuccess ;
+
+    @Value("${code.1103}")
+    private String FindUserError;
+
+    @Value("${code.2401}")
+    private String AddQuesRedis;
+
     @Value("${code.2501}")
     private String idCardError;
 
@@ -104,6 +131,11 @@ public class CodeMsg {
     private String studentRegisterFail;
     @Value("${code.2503}")
     private String topicNotEnough;
+    @Value("${code.2101}")
+    private String showQuesListOnRedis;
+
+    @Value("${code.2102}")
+    private String AutoCreatePaper;
 
     @Value("${code.2350}")
     private String CreatePaperSuccess;

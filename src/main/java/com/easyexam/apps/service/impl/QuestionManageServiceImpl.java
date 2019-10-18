@@ -29,6 +29,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
     @Autowired
     private QuestionConfig questionConfig;
 
@@ -41,25 +42,25 @@ public class QuestionManageServiceImpl implements QuestionManageService {
     @Override
     public List<QuesSingleChoose> findAllQuesSingleChooses(Integer subjectId, String info, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        return questionManageDao.findAllQuesSingleChooses(subjectId, info);
+        return questionManageDao.findAllQuesSingleChooses(subjectId, info, null);
     }
 
     @Override
     public List<QuesMultipleChoose> finAllQuesMultipleChooses(Integer subjectId, String info, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        return questionManageDao.finAllQuesMultipleChooses(subjectId, info);
+        return questionManageDao.finAllQuesMultipleChooses(subjectId, info, null);
     }
 
     @Override
     public List<QuesJudge> findAllQuesJudges(Integer subjectId, String info, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        return questionManageDao.findAllQuesJudges(subjectId, info);
+        return questionManageDao.findAllQuesJudges(subjectId, info, null);
     }
 
     @Override
     public List<QuesQuestionsAnswers> findAllQuesQuestionsAnswers(Integer subjectId, String info, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        return questionManageDao.findAllQuesQuestionsAnswers(subjectId, info);
+        return questionManageDao.findAllQuesQuestionsAnswers(subjectId, info, null);
     }
 
     @Override
@@ -90,13 +91,13 @@ public class QuestionManageServiceImpl implements QuestionManageService {
     public JsonResult importQuestionFromExcel(MultipartFile file, String sheetName) {
         Date date = new Date();
         String path = ClassUtils.getDefaultClassLoader().getResource("").getPath() + "/static/tempExcel";
-        String fileName = date.getTime()+".xlsx";
-        File tempFile = new File(path,fileName);
+        String fileName = date.getTime() + ".xlsx";
+        File tempFile = new File(path, fileName);
         try {
             file.transferTo(tempFile);
         } catch (IOException e) {
             e.printStackTrace();
-            return new JsonResult(ErrorCode.SERVER_ERROR,codeMsg.getServerError());
+            return new JsonResult(ErrorCode.SERVER_ERROR, codeMsg.getServerError());
         }
 
         //写入完成，读取进List
@@ -105,11 +106,11 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         List<QuesJudge> quesJudges = null;
         List<QuesQuestionsAnswers> quesQuestionsAnswers = null;
         try {
-            if("singleChoose".equalsIgnoreCase(sheetName)){
-                quesSingleChooses = readExcel.readSingleChoose(path +"/"+ fileName);
-            }else if("multipleChoose".equalsIgnoreCase(sheetName)){
-                quesMultipleChooses = readExcel.readMultipleChoose(path +"/"+ fileName);
-            }else if("judge".equalsIgnoreCase(sheetName)){
+            if ("singleChoose".equalsIgnoreCase(sheetName)) {
+                quesSingleChooses = readExcel.readSingleChoose(path + "/" + fileName);
+            } else if ("multipleChoose".equalsIgnoreCase(sheetName)) {
+                quesMultipleChooses = readExcel.readMultipleChoose(path + "/" + fileName);
+            } else if ("judge".equalsIgnoreCase(sheetName)) {
                 quesJudges = readExcel.readJudge(path + fileName);
             }else if("questionsAnswers".equalsIgnoreCase(sheetName)){
                 quesQuestionsAnswers = readExcel.readQuestionsAnswers(path +"/"+ fileName);
@@ -123,16 +124,16 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new JsonResult(ErrorCode.SERVER_ERROR,codeMsg.getServerError());
+            return new JsonResult(ErrorCode.SERVER_ERROR, codeMsg.getServerError());
         } catch (SheetNotFoundException e) {
             e.printStackTrace();
-            return new JsonResult(ErrorCode.EXCEL_SHEET_NOT_FOUND,codeMsg.getExcelSheetNotFound());
+            return new JsonResult(ErrorCode.EXCEL_SHEET_NOT_FOUND, codeMsg.getExcelSheetNotFound());
         } catch (SubjectNotFoundException e) {
             e.printStackTrace();
-            return new JsonResult(ErrorCode.SUBJECT_ID_NOT_FOUND,codeMsg.getSubjectIdNotFound());
-        } catch (NullPointerException e){
+            return new JsonResult(ErrorCode.SUBJECT_ID_NOT_FOUND, codeMsg.getSubjectIdNotFound());
+        } catch (NullPointerException e) {
             e.printStackTrace();
-            return new JsonResult(ErrorCode.EXCEL_CELL_IS_NULL,codeMsg.getExcelCellIsNull());
+            return new JsonResult(ErrorCode.EXCEL_CELL_IS_NULL, codeMsg.getExcelCellIsNull());
         }
 
         //删除文件
@@ -165,7 +166,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             return new JsonResult(ErrorCode.EXCEL_CELL_IS_NULL,codeMsg.getExcelCellIsNull());
         }
 
-        return new JsonResult(ErrorCode.EXCEL_IMPORT_SUCCESS,codeMsg.getExcelImportSuccess()+totalCount);
+        return new JsonResult(ErrorCode.EXCEL_IMPORT_SUCCESS, codeMsg.getExcelImportSuccess() + totalCount);
     }
 
     @Override
@@ -173,39 +174,39 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         //数据合法性验证：answer
         int answerLenth = questionConfig.getSingleChooseAnswer();
         String answer = quesSingleChoose.getAnswer();
-        if(answer.length() >answerLenth || !Character.isLetter(answer.charAt(0))){
-            return new JsonResult(ErrorCode.ADD_QUES_ANSWER_WRONG,codeMsg.getAddQuesAnswerWrong());
+        if (answer.length() > answerLenth || !Character.isLetter(answer.charAt(0))) {
+            return new JsonResult(ErrorCode.ADD_QUES_ANSWER_WRONG, codeMsg.getAddQuesAnswerWrong());
         }
 
         //数据合法性验证：subjectId；从redis查询，如果有则返回，如果没有则从数据库查询科目信息
         int subjectId = quesSingleChoose.getSubjectId();
         Set<Integer> subjects = redisTemplate.opsForSet().members("subject");
         boolean redisContains = true;
-        for(Integer id : subjects){
-            if(id == subjectId){
+        for (Integer id : subjects) {
+            if (id == subjectId) {
                 redisContains = false;
                 break;
             }
         }
-        if(redisContains){
+        if (redisContains) {
             //验证不通过，去数据库查询，并趁热写入redis
             Set<Integer> allSubjectId = questionManageDao.findAllSubjectId();
-            for(Integer id:allSubjectId){
-                redisTemplate.opsForSet().add("subject",id);
+            for (Integer id : allSubjectId) {
+                redisTemplate.opsForSet().add("subject", id);
             }
-            redisTemplate.expire("subject",900, TimeUnit.SECONDS);
+            redisTemplate.expire("subject", 900, TimeUnit.SECONDS);
             boolean mysqlContains = allSubjectId.contains(subjectId);
-            if(!mysqlContains){
+            if (!mysqlContains) {
                 //不包含这个id
-                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG,codeMsg.getAddQuesSubjectWrong());
+                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG, codeMsg.getAddQuesSubjectWrong());
             }
         }
 
         //数据合法性验证：level
         int level = quesSingleChoose.getLevel();
         int maxLevel = questionConfig.getSingleChooseMaxLevel();
-        if(level > maxLevel || level <= 0){
-            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG,codeMsg.getAddQuesLevelWrong());
+        if (level > maxLevel || level <= 0) {
+            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG, codeMsg.getAddQuesLevelWrong());
         }
 
         /**数据合法性验证：
@@ -215,17 +216,17 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         int chooseLenth = questionConfig.getSingleChooseChoose();
         int tagLenth = questionConfig.getSingleChooseTag();
         String tag = quesSingleChoose.getTag();
-        if(tag != null){
-            if(tag.length() > tagLenth){
+        if (tag != null) {
+            if (tag.length() > tagLenth) {
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
             }
         }
         //恐怖的6个选项的验证
         String chooseA = quesSingleChoose.getChooseA();
-        if(chooseA == null){
-            return new JsonResult(ErrorCode.AT_LEAST_ONE_CHOOSE,codeMsg.getAtLeastOneChoose());
-        }else{
-            if(chooseA.length() > chooseLenth)
+        if (chooseA == null) {
+            return new JsonResult(ErrorCode.AT_LEAST_ONE_CHOOSE, codeMsg.getAtLeastOneChoose());
+        } else {
+            if (chooseA.length() > chooseLenth)
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
         }
         String chooseB = quesSingleChoose.getChooseB();
@@ -233,11 +234,11 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         String chooseD = quesSingleChoose.getChooseD();
         String chooseE = quesSingleChoose.getChooseE();
         String chooseF = quesSingleChoose.getChooseF();
-        List<String> chooseList = Arrays.asList(chooseB,chooseC,chooseD,chooseE,chooseF);
+        List<String> chooseList = Arrays.asList(chooseB, chooseC, chooseD, chooseE, chooseF);
 
-        for(String choose : chooseList){
-            if(choose != null){
-                if(choose.length() > chooseLenth){
+        for (String choose : chooseList) {
+            if (choose != null) {
+                if (choose.length() > chooseLenth) {
                     return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
                 }
             }
@@ -247,9 +248,9 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         List<QuesSingleChoose> quesSingleChooses = new ArrayList<>();
         quesSingleChooses.add(quesSingleChoose);
         int i = questionManageDao.importQuesSingleChoose(quesSingleChooses);
-        if(i==1) {
+        if (i == 1) {
             return new JsonResult(ErrorCode.ADD_QUES_SUCCESS, codeMsg.getAddQuesSuccess());
-        }else{
+        } else {
             return new JsonResult(ErrorCode.SERVER_ERROR, codeMsg.getServerError());
         }
     }
@@ -355,31 +356,31 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         int subjectId = quesJudge.getSubjectId();
         Set<Integer> subjects = redisTemplate.opsForSet().members("subject");
         boolean redisContains = true;
-        for(Integer id : subjects){
-            if(id == subjectId){
+        for (Integer id : subjects) {
+            if (id == subjectId) {
                 redisContains = false;
                 break;
             }
         }
-        if(redisContains){
+        if (redisContains) {
             //验证不通过，去数据库查询，并趁热写入redis
             Set<Integer> allSubjectId = questionManageDao.findAllSubjectId();
-            for(Integer id:allSubjectId){
-                redisTemplate.opsForSet().add("subject",id);
+            for (Integer id : allSubjectId) {
+                redisTemplate.opsForSet().add("subject", id);
             }
-            redisTemplate.expire("subject",900, TimeUnit.SECONDS);
+            redisTemplate.expire("subject", 900, TimeUnit.SECONDS);
             boolean mysqlContains = allSubjectId.contains(subjectId);
-            if(!mysqlContains){
+            if (!mysqlContains) {
                 //不包含这个id
-                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG,codeMsg.getAddQuesSubjectWrong());
+                return new JsonResult(ErrorCode.ADD_QUES_SUBJECT_WRONG, codeMsg.getAddQuesSubjectWrong());
             }
         }
 
         //数据合法性验证：level
         int level = quesJudge.getLevel();
         int maxLevel = questionConfig.getJudgeMaxLevel();
-        if(level > maxLevel || level <= 0){
-            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG,codeMsg.getAddQuesLevelWrong());
+        if (level > maxLevel || level <= 0) {
+            return new JsonResult(ErrorCode.ADD_QUES_LEVEL_WRONG, codeMsg.getAddQuesLevelWrong());
         }
 
         /**数据合法性验证：
@@ -388,14 +389,14 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         int questionLenth = questionConfig.getJudgeQuestion();
         int tagLenth = questionConfig.getJudgeTag();
         String question = quesJudge.getQuestion();
-        if(question != null){
-            if(question.length() > questionLenth){
+        if (question != null) {
+            if (question.length() > questionLenth) {
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
             }
         }
         String tag = quesJudge.getTag();
-        if(tag != null){
-            if(tag.length() > tagLenth){
+        if (tag != null) {
+            if (tag.length() > tagLenth) {
                 return new JsonResult(ErrorCode.DATA_TOO_LONG, codeMsg.getDataTooLong());
             }
         }
@@ -404,9 +405,9 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         List<QuesJudge> quesJudges = new ArrayList<>();
         quesJudges.add(quesJudge);
         int i = questionManageDao.importQuesJudge(quesJudges);
-        if(i==1) {
+        if (i == 1) {
             return new JsonResult(ErrorCode.ADD_QUES_SUCCESS, codeMsg.getAddQuesSuccess());
-        }else{
+        } else {
             return new JsonResult(ErrorCode.SERVER_ERROR, codeMsg.getServerError());
         }
     }
@@ -527,4 +528,144 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         }
         return new JsonResult(ErrorCode.FIND_QUESTION_FAIL, codeMsg.getFindQuesFail());
     }
+
+    @Override
+    public void addQuestPaperRedis(PaperQuestion paperQuestion, Integer uid) {
+
+        User user = questionManageDao.findUserById(uid);
+        if (user == null) {
+            throw new MyException(ErrorCode.FIND_USER_ERROR, codeMsg.getFindUserError());
+        }
+
+        QuestionType questionType = questionManageDao.findQuestionType(paperQuestion.getQuestionType());
+
+        if (questionType == null) {
+            throw new MyException(ErrorCode.ADD_QUES_REDIS_FAIL, codeMsg.getAddQuesRedis());
+        } else  {
+            redisTemplate.opsForHash().put( user.getName() + ":" +user.getUid() + ":" + questionType.getQuestionName(), paperQuestion.getQuestionId(), paperQuestion);
+        }
+
+    }
+
+    @Override
+    public void deleteQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
+
+        User user = questionManageDao.findUserById(uid);
+
+        if (user == null) {
+            throw new MyException(ErrorCode.FIND_USER_ERROR, codeMsg.getFindUserError());
+        }
+
+        QuestionType questionType = questionManageDao.findQuestionType(paperQuestion.getQuestionType());
+
+        if (questionType == null) {
+            throw new MyException(ErrorCode.ADD_QUES_REDIS_FAIL, codeMsg.getAddQuesRedis());
+        } else  {
+            redisTemplate.opsForHash().delete(user.getName() + ":" +user.getUid() + ":" + questionType.getQuestionName(), paperQuestion.getQuestionId());
+        }
+
+    }
+
+    //向前端展示购物车列表
+    @Override
+    public Map<String, Object> showPaperListOnRedis(Integer uid) {
+
+        Paper paper = new Paper();
+        paper.setMakeId(uid);
+        List<PaperQuestion> paperQuestions = addQuestToMysql(paper, false);
+
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        List<QuesSingleChoose> singleChooseList = new ArrayList<>();
+        List<QuesMultipleChoose> multipleChooseList = new ArrayList<>();
+        List<QuesJudge> judgeList = new ArrayList<>();
+        List<QuesQuestionsAnswers> questionsAnswersList = new ArrayList<>();
+
+        //遍历生成试卷的中间表
+        for (PaperQuestion paperQuestion : paperQuestions) {
+            if (questionManageDao.findQuestionType(paperQuestion.getQuestionType()) != null) {
+                if (paperQuestion.getQuestionType() == 1) {
+                    singleChooseList.add(questionManageDao.findQuesSingleChooseById(paperQuestion.getQuestionId()));
+                } else if (paperQuestion.getQuestionType() == 2) {
+                    multipleChooseList.add(questionManageDao.findQuesMultipleChooseById(paperQuestion.getQuestionId()));
+                } else if (paperQuestion.getQuestionType() == 3) {
+                    judgeList.add(questionManageDao.findQuesJudgeById(paperQuestion.getQuestionId()));
+                } else if (paperQuestion.getQuestionType() == 4) {
+                    questionsAnswersList.add(questionManageDao.findQuestionsAnswerById(paperQuestion.getQuestionId()));
+                } else {
+                    throw new MyException(ErrorCode.SHOW_QUES_LIST_REDIS_FAIL, codeMsg.getShowQuesListOnRedis());
+                }
+
+            }
+        }
+
+        map.put("QuesSingleChoose", singleChooseList);
+        map.put("QuesMultipleChoose", multipleChooseList);
+        map.put("QuesJudge", judgeList);
+        map.put("QuesQuestionsAnswers", questionsAnswersList);
+
+        return map;
+    }
+
+    @Override
+    public List<PaperQuestion> addQuestToMysql(Paper paper, boolean bo) {
+        User user = questionManageDao.findUserById(paper.getMakeId());
+        if (user == null) {
+            throw new MyException(ErrorCode.FIND_USER_ERROR, codeMsg.getFindUserError());
+        }
+
+        List<QuestionType> questionTypes = questionManageDao.findQuestionTypes();
+
+        if (questionTypes == null) {
+            throw new MyException(ErrorCode.ADD_QUES_REDIS_FAIL, codeMsg.getAddQuesRedis());
+        }
+
+        //临时集合用来保存键和值
+        List<Integer> quesList = new ArrayList<>();
+        List<PaperQuestion> paperQuestionsList = new ArrayList<>();
+
+        for (QuestionType questionType : questionTypes) {
+            LinkedHashMap<Integer, PaperQuestion> quesSingleChooseMap = (LinkedHashMap<Integer, PaperQuestion>) redisTemplate.opsForHash().entries(user.getName() + ":" +user.getUid() + ":" + questionType.getQuestionName());
+            for (Map.Entry<Integer, PaperQuestion> vo : quesSingleChooseMap.entrySet()) {
+                quesList.add(vo.getKey());
+                paperQuestionsList.add(vo.getValue());
+            }
+        }
+
+        //遍历Redis上的各种题型
+        LinkedHashMap<Integer, PaperQuestion> quesSingleChooseMap = (LinkedHashMap<Integer, PaperQuestion>) redisTemplate.opsForHash().entries(user.getName() + user.getUid() + ":" + "QuesSingleChoose");
+        for (Map.Entry<Integer, PaperQuestion> vo : quesSingleChooseMap.entrySet()) {
+            quesList.add(vo.getKey());
+            paperQuestionsList.add(vo.getValue());
+        }
+
+        for (PaperQuestion paperQuestion : paperQuestionsList) {
+            System.out.println(paperQuestion);
+        }
+
+        if (bo) {
+
+            int i1 = questionManageDao.autoCreatePaper(paper);
+            if (i1 <= 0) {
+                throw new MyException(ErrorCode.AUTO_CREATE_PAPER_FAIL, codeMsg.getAutoCreatePaper());
+            }
+
+            int id = paper.getId();
+
+            for (PaperQuestion paperQuestion : paperQuestionsList) {
+                paperQuestion.setPaperId(id);
+            }
+
+            int i = paperQuestionsList.size();
+
+            int j = questionManageDao.addPaperToMySql(paperQuestionsList);
+
+            if (j != i) {
+                throw new MyException(ErrorCode.AUTO_CREATE_PAPER_FAIL, codeMsg.getAutoCreatePaper());
+            }
+        }
+
+        return paperQuestionsList;
+    }
+
 }

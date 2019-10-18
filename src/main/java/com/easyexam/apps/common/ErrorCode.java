@@ -15,6 +15,14 @@ public class ErrorCode {
 
     // 用户未登录
     public static int USER_NO_LOGIN = 1005;
+    //删除异常
+    public static int EXCEPTION_DELETE = 3211;
+    //查找为空
+    public static int EXCEPTION_NOPOINT = 2231;
+    //添加错误
+    public static int EXCEPTION_INSERT = 3212;
+    //添加错误
+    public static int EXCEPTION_UPDATE = 3213;
 
     public static int ID_CARD_ERROR=2501;//身份证错误
 
@@ -82,6 +90,16 @@ public class ErrorCode {
     //随机生成失败，缺少必要的参数
     public static int CREATE_PAPER_PARAM_LOST=2351;
 
+    //试卷模板删除成功
+    public static int DELETE_PAPER_SUCCESS=2352;
+
+    public static int FIND_USER_ERROR=1103;
+
+    public static int ADD_QUES_REDIS_FAIL=2401; //添加试题到redis失败
+
+    public static int SHOW_QUES_LIST_REDIS_FAIL=2101;
+
+    public static int AUTO_CREATE_PAPER_FAIL=2102;
 
 
 }
