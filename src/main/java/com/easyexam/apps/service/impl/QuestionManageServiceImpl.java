@@ -621,23 +621,21 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         }
 
         //临时集合用来保存键和值
-        List<Integer> quesList = new ArrayList<>();
         List<PaperQuestion> paperQuestionsList = new ArrayList<>();
 
+        //遍历Redis上的各种题型
         for (QuestionType questionType : questionTypes) {
             LinkedHashMap<Integer, PaperQuestion> quesSingleChooseMap = (LinkedHashMap<Integer, PaperQuestion>) redisTemplate.opsForHash().entries(user.getName() + ":" +user.getUid() + ":" + questionType.getQuestionName());
             for (Map.Entry<Integer, PaperQuestion> vo : quesSingleChooseMap.entrySet()) {
-                quesList.add(vo.getKey());
                 paperQuestionsList.add(vo.getValue());
             }
         }
 
-        //遍历Redis上的各种题型
+        /*
         LinkedHashMap<Integer, PaperQuestion> quesSingleChooseMap = (LinkedHashMap<Integer, PaperQuestion>) redisTemplate.opsForHash().entries(user.getName() + user.getUid() + ":" + "QuesSingleChoose");
         for (Map.Entry<Integer, PaperQuestion> vo : quesSingleChooseMap.entrySet()) {
-            quesList.add(vo.getKey());
             paperQuestionsList.add(vo.getValue());
-        }
+        }*/
 
         for (PaperQuestion paperQuestion : paperQuestionsList) {
             System.out.println(paperQuestion);

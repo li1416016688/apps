@@ -7,16 +7,14 @@ import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentService;
 import com.easyexam.apps.utils.CreateRandom;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class StudentServiceImpl implements StudentService{

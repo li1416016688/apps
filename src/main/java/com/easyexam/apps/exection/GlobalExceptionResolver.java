@@ -2,11 +2,13 @@ package com.easyexam.apps.exection;
 
 import com.easyexam.apps.common.JsonResult;
 import org.apache.shiro.authz.AuthorizationException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/*@ControllerAdvice
-@ResponseBody*/
+@ControllerAdvice
+@ResponseBody
 @RestControllerAdvice
 public class GlobalExceptionResolver {
 

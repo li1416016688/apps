@@ -7,6 +7,7 @@ import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.QuestionManageService;
 import com.github.pagehelper.Page;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,9 +35,47 @@ public class QuestionManageController {
     @Autowired
     QuestionManageService questionManageService;
 
+    @RequiresPermissions({"test:type"})
     @RequestMapping("/singleChoose")
     public String singleChoose() {
         return "questUpdate";
+    }
+
+    /**
+     * 展示所有的题目并进行分页
+     */
+    @RequestMapping("/singleChooseList.do")
+    @ResponseBody
+    @RequiresPermissions({"test:type"})
+    public Map listQuesChoose(Integer page, Integer limit, Integer subjectId, Integer quesId, String questionInfo) {
+
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        if (quesId == null) {
+            quesId = 1;
+        }
+        if (quesId == 2) {
+            List<QuesMultipleChoose> list = questionManageService.finAllQuesMultipleChooses(subjectId, questionInfo, page, limit);
+            map.put("count", ((Page) list).getTotal());
+            map.put("data", list);
+        } else if (quesId == 3) {
+            List<QuesJudge> list = questionManageService.findAllQuesJudges(subjectId, questionInfo, page, limit);
+            map.put("count", ((Page) list).getTotal());
+            map.put("data", list);
+        } else if (quesId == 4) {
+            List<QuesQuestionsAnswers> list = questionManageService.findAllQuesQuestionsAnswers(subjectId, questionInfo, page, limit);
+            map.put("count", ((Page) list).getTotal());
+            map.put("data", list);
+        } else {
+            List<QuesSingleChoose> list = questionManageService.findAllQuesSingleChooses(subjectId, questionInfo, page, limit);
+            map.put("count", ((Page) list).getTotal());
+            map.put("data", list);
+        }
+
+        map.put("code", 0);
+        return map;
+
     }
 
 
@@ -102,6 +141,12 @@ public class QuestionManageController {
      * @param quesQuestionsAnswers
      * @return
      */
+
+    /**
+     * 添加简答题
+     * @param quesQuestionsAnswers
+     * @return
+     */
     @PostMapping("/addQuesQuestionsAnswers")
     @ResponseBody
     public JsonResult addQuesQuestionsAnswers(QuesQuestionsAnswers quesQuestionsAnswers) {
@@ -111,39 +156,10 @@ public class QuestionManageController {
     }
 
 
-    @RequestMapping("/singleChooseList.do")
-    @ResponseBody
-    public Map listQuesChoose(Integer page, Integer limit, Integer subjectId, Integer quesId, String questionInfo) {
 
-
-        HashMap<String, Object> map = new HashMap<>();
-
-        if (quesId == null) {
-            quesId = 1;
-        }
-        if (quesId == 2) {
-            List<QuesMultipleChoose> list = questionManageService.finAllQuesMultipleChooses(subjectId, questionInfo, page, limit);
-            map.put("count", ((Page) list).getTotal());
-            map.put("data", list);
-        } else if (quesId == 3) {
-            List<QuesJudge> list = questionManageService.findAllQuesJudges(subjectId, questionInfo, page, limit);
-            map.put("count", ((Page) list).getTotal());
-            map.put("data", list);
-        } else if (quesId == 4) {
-            List<QuesQuestionsAnswers> list = questionManageService.findAllQuesQuestionsAnswers(subjectId, questionInfo, page, limit);
-            map.put("count", ((Page) list).getTotal());
-            map.put("data", list);
-        } else {
-            List<QuesSingleChoose> list = questionManageService.findAllQuesSingleChooses(subjectId, questionInfo, page, limit);
-            map.put("count", ((Page) list).getTotal());
-            map.put("data", list);
-        }
-
-        map.put("code", 0);
-        return map;
-
-    }
-
+    /**
+     * 删除试题
+     */
     @RequestMapping("/deleteQues.do")
     @ResponseBody
     public JsonResult deleteQuestById(Integer quesId, Integer id) {
@@ -163,6 +179,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.DELETE_QUESTION_SUCCESS, codeMsg.getDeleteQuesSuccess());
     }
 
+    /**
+     * 修改单选题
+     */
     @RequestMapping("/updateQuesSingleChoose.do")
     @ResponseBody
     public JsonResult updateQuesSingleChoose(QuesSingleChoose quesSingleChoose) {
@@ -170,6 +189,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.UPDATE_QUESTION_SUCCESS, codeMsg.getUpdateQuesSuccess());
     }
 
+    /**
+     * 修改多选题
+     */
     @RequestMapping("/updateQuesMultipleChoose.do")
     @ResponseBody
     public JsonResult updateQuesMultipleChoose(QuesMultipleChoose quesMultipleChoose) {
@@ -177,6 +199,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.UPDATE_QUESTION_SUCCESS, codeMsg.getUpdateQuesFail());
     }
 
+    /**
+     * 修改判断题
+     */
     @RequestMapping("/updateQuesJudge.do")
     @ResponseBody
     public JsonResult updateQuesJudge(QuesJudge quesJudge) {
@@ -184,6 +209,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.UPDATE_QUESTION_SUCCESS, codeMsg.getUpdateQuesFail());
     }
 
+    /**
+     * 修改简答题
+     */
     @RequestMapping("/updateQuesQuestionsAnswers.do")
     @ResponseBody
     public JsonResult updateQuesQuestionsAnswers(QuesQuestionsAnswers quesQuestionsAnswers) {
@@ -191,6 +219,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.UPDATE_QUESTION_SUCCESS, codeMsg.getUpdateQuesFail());
     }
 
+    /**
+     * 通过试题Id查询试题
+     */
     @RequestMapping("findQues.do")
     @ResponseBody
     public JsonResult findQuestById(Integer quesId, Integer id) {
@@ -233,6 +264,9 @@ public class QuestionManageController {
         }
     }
 
+    /**
+     * 手动生成试卷,将试题放入redis购物车中
+     */
     @RequestMapping("/addQuestToRedis")
     @ResponseBody
     public JsonResult addQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
@@ -240,6 +274,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
+    /**
+     * 手动生成试卷,将试题redis购物车中移除
+     */
     @RequestMapping("/deleteQuestToRedis")
     @ResponseBody
     public JsonResult deleteQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
@@ -247,7 +284,9 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
-
+    /**
+     * 手动生成试卷,将试题redis购物车中试题展示到前台
+     */
     @RequestMapping("/showPaperListOnRedis")
     @ResponseBody
     public JsonResult showPaperListOnRedis(Integer uid) {
@@ -255,6 +294,9 @@ public class QuestionManageController {
         return new JsonResult(1, map);
     }
 
+    /**
+     * 手动生成试卷,将试题redis购物车中试题提交到MySQL
+     */
     @RequestMapping("/addQuesToMySql")
     @ResponseBody
     public JsonResult addQuesToMySql(Paper paper) {
