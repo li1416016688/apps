@@ -15,8 +15,6 @@ public class Paper implements Serializable {
     private Date createTime;
     private int subjectId;  //科目id
     private Subject subject;
-    private int checkId;    //改卷人id，对应User表主键
-    private User checker;
     private int makeId;     //生成人id，对应User表主键
     private User maker;
     private int level;  //难度

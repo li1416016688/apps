@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easyexam.apps.dao.RoleDao">
+    <select id="findAllRole" resultType="com.easyexam.apps.entity.Role">
+        select * from p_role
+    </select>
+    <insert id="addRole">
+        <selectKey keyProperty="rid"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+        insert into p_role (rname,rdesc) values (#{rname}, #{rdesc})
+
+    </insert>
+
+    <insert id="addRolePermission">
+        insert into p_role_permission (rid, pid) values
+        <foreach collection="pid" item="pid" separator=",">
+            ( #{rid}, #{pid})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRole">
+        delete from p_role where rid = #{rid}
+    </delete>
+    <delete id="deleteRoleUser">
+        delete from p_role_permission where rid = #{rid}
+    </delete>
+
+    <update id="updateRole">
+        update p_role set rname=#{rname}, rdesc=#{rdesc} where rid=#{rid}
+    </update>
+
+</mapper>
