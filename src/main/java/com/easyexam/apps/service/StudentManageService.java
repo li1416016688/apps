@@ -9,5 +9,9 @@ public interface StudentManageService {
 
     public List<Student> findAllExaminee(Integer page, Integer limit);
 
+    public List<Student> findAllExamineeId();
     public StudentPaper findOneExaminee(Integer id);
+
+    public  void  updateExaminee(Student student);
+
 }

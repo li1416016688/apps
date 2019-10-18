@@ -11,9 +11,12 @@ public interface StudentManageDao {
 
     public List<Student> findAllExaminee();
 
+
+    public List<Student> findAllExamineeId();
+
     public StudentPaper findOneExaminee(Integer id);
 
-//    public
+    public  void  updateExaminee(Student student);
 
 
 }

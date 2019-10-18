@@ -81,6 +81,15 @@ on EasyExam.examination_room.id =EasyExam.student_paper.room_id
 where p_role.rid=3 and student.id=#{stuId}
 </select>
 
+    <select id="findAllExamineeId" parameterType="com.easyexam.apps.entity.Student">
+        select id ,name ,phone from student
+    </select>
 
+
+<update id="updateExaminee" parameterType="com.easyexam.apps.entity.Student">
+UPDATE student set student.name=#{name} ,
+student.`password`=#{password},
+student.phone=#{phone},student.sex=#{sex} WHERE student.id =#{id}
+</update>
 
 </mapper>
