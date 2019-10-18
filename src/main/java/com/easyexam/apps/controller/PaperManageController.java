@@ -37,8 +37,8 @@ public class PaperManageController {
     @GetMapping("/createRandomExamPaper.do")
     @ResponseBody
     public JsonResult createRandomPaper(@RequestBody RandomPaper randomPaper){
-        //利用shiro获取发送该请求用户的id，这个id是makeId（创建者），这里为了方便测试，将其设定为1；
-        //ToDo:删除这个测试用makeId
+        //ToDo:利用shiro获取发送该请求用户的id，这个id是makeId（创建者），这里为了方便测试，将其设定为1；
+        // 删除这个测试用makeId
         int makeId = 1;
         JsonResult jsonResult = paperManageService.createRandomPaper(randomPaper,makeId);
         return jsonResult;

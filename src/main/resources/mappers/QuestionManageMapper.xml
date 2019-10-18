@@ -81,6 +81,7 @@
         <result property="level" column="level"/>
         <result property="subjectId" column="subjectId"/>
         <result property="tag" column="tag"/>
+        <result property="questionType" column="question_type"/>
         <association property="subject" javaType="com.easyexam.apps.entity.Subject">
             <id property="id" column="id"/>
             <result property="name" column="name"/>
@@ -122,6 +123,7 @@
         <result property="level" column="level"/>
         <result property="subjectId" column="subjectId"/>
         <result property="tag" column="tag"/>
+        <result property="questionType" column="question_type"/>
         <association property="subject" javaType="com.easyexam.apps.entity.Subject">
             <id property="id" column="id"/>
             <result property="name" column="name"/>
@@ -155,6 +157,7 @@
         <result property="subjectId" column="subject_id"/>
         <result property="level" column="level"/>
         <result property="tag" column="tag"/>
+        <result property="questionType" column="question_type"/>
         <association property="subject" javaType="com.easyexam.apps.entity.Subject">
             <id property="id" column="id"/>
             <result property="name" column="name"/>
@@ -189,6 +192,7 @@
         <result property="subjectId" column="subject_id"/>
         <result property="level" column="level"/>
         <result property="tag" column="tag"/>
+        <result property="questionType" column="question_type"/>
         <association property="subject" javaType="com.easyexam.apps.entity.Subject">
             <id property="id" column="id"/>
             <result property="name" column="name"/>
@@ -349,8 +353,8 @@
     </select>
 
     <insert id="autoCreatePaper" parameterType="paper">
-        insert into paper (subject_id, check_id, make_id, name, create_time, level)
-        values (#{subjcetId}, #{checkId}, #{makeId}, #{name}, now(), #{level})
+        insert into paper (subject_id, make_id, name, create_time, level)
+        values (#{subjectId}, #{makeId}, #{name}, now(), #{level})
         <selectKey keyColumn="id">
             select last_insert_id();
         </selectKey>

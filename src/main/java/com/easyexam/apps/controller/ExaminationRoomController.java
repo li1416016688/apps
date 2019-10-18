@@ -5,6 +5,7 @@ import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.ExaminationRoom;
 import com.easyexam.apps.service.ExaminationRoomService;
 import com.github.pagehelper.Page;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class ExaminationRoomController {
     private CodeMsg codeMsg;
 
     //查找所有的考场信息
+    @RequiresPermissions({"room:list"})
     @RequestMapping(value = "/examinationRoom/findAll" ,method = RequestMethod.GET)
     public Map findAllexaminationRoom(Integer page, Integer limit){
         HashMap<String, Object> map = new HashMap<>();

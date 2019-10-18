@@ -406,6 +406,7 @@
             } else if (layEvent === 'edit') {
                 //编辑
                 form.val("example", data);
+                console.log(data);
                 layer.open({
                     type: 1,
                     area: ['500px', '600px'],
@@ -414,7 +415,6 @@
                     shade: 0,
                     btn: ['提交', '重置']
                     , btn1: function (index, layero) {
-                        $("#ques_id").val(0);
                         var questId = $("#quesId").val();
                         var url = "";
                         if (questId == 1) {
@@ -508,7 +508,6 @@
 
         //表格模板导入添加
         $("#addByExcelButton").click(function (){
-            // table.reload("questionTable");
 
             layer.open({
                 type: 1,

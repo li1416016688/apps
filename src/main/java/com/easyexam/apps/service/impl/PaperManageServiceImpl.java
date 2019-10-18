@@ -75,7 +75,9 @@ public class PaperManageServiceImpl implements PaperManageService {
         quesInfo.put("questionType",4);
         paperManageDao.insertQuesIntoPaper(quesInfo);
 
-        //将试卷返回前端
+        //ToDo:如果没意外应该写一个新的接口；用于给试卷设定分数
+        // 不然卷子将没有分数；
+        // 新的接口完成后，这个接口直接跳转新接口，强制设定分数；
 
         return new JsonResult(2350,"id is:"+paperId);
     }

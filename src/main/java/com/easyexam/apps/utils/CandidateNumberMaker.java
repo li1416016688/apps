@@ -20,7 +20,7 @@ public class CandidateNumberMaker {
     public int getCandidateNumber(){
         Date date = new Date();
         int year = date.getYear() + 1900;
-        CandidateNumber = year * 10000;
+        CandidateNumber = year * 1000000;
 
         //从redis获取该年份的编号
         String number = (String) stringRedisTemplate.opsForHash().get("numberOfRegisteredStuOfYear", String.valueOf(year));
