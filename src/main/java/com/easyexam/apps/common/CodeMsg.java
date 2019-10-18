@@ -69,6 +69,18 @@ public class CodeMsg {
     @Value("${code.2343}")
     private String ExcelCellIsNull;
 
+    @Value("${code.3211}")
+    private String DeleteException;
+
+    @Value("${code.2231}")
+    private String NoPointException;
+
+    @Value("${code.3212}")
+    private String InsertException;
+
+    @Value("${code.3213}")
+    private String UpdateException;
+
     @Value("${code.2001}")
     private String deleteQuesFail;
 

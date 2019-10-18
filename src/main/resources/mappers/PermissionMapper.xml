@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easyexam.apps.dao.PermissionDao">
+    <select id="findAllPermission" resultType="com.easyexam.apps.entity.Permission">
+        select * from p_permission
+    </select>
+
+    <insert id="addPermission">
+        insert into p_permission (perm_name,perm_desc,type,url,parent_id)
+        values (#{permName}, #{permDesc}, #{type}, #{url}, #{parentId})
+    </insert>
+
+    <delete id="deletePermission">
+        delete from p_permission where pid = #{pid}
+    </delete>
+    <delete id="deletePermissionRole">
+        delete from p_role_permission where pid = #{pid}
+    </delete>
+
+    <update id="updatePermission">
+        update p_permission set perm_name=#{permName}, perm_desc=#{permDesc},
+        type=#{type}, url=#{url}, parent_id=#{parentId}
+        where pid=#{pid}
+    </update>
+
+</mapper>

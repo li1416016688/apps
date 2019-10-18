@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easyexam.apps.dao.RolePermissionDao">
+
+    <delete id="deleteRolePermission">
+        delete from p_role_permission where rid = #{rid}
+    </delete>
+
+    <insert id="addRolePermission">
+        insert into p_role_permission (rid, pid) values
+
+        <foreach collection="pid" item="pid" separator="," >
+            ( #{rid},#{pid})
+        </foreach>
+
+    </insert>
+
+    <resultMap id="findPermission" type="com.easyexam.apps.entity.RolePermission">
+        <id column="id" property="id"></id>
+        <collection property="permission" ofType="com.easyexam.apps.entity.Permission">
+            <result property="permName" column="perm_name"></result>
+            <result property="permDesc" column="perm_desc"></result>
+            <result property="url" column="url"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findById" resultMap="findPermission">
+        select * from p_role_permission rp
+        left join p_permission p on rp.pid = p.pid
+        where rp.rid = #{rid}
+    </select>
+
+
+
+</mapper>
