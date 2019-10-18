@@ -2,6 +2,7 @@ package com.easyexam.apps.dao;
 
 import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.entity.StudentPaper;
+import com.easyexam.apps.entity.StudentRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,5 +19,9 @@ public interface StudentManageDao {
 
     public  void  updateExaminee(Student student);
 
+
+    public void addExaminee(Student student);
+
+    public void addExamineeRole(StudentRole studentRole);
 
 }

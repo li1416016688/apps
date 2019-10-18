@@ -119,7 +119,11 @@ public class CodeMsg {
     private String studentFindoneSuccess;
     @Value("${code.1005}")
     private String studentUpdateSuccess;
+    @Value("${code.1006}")
+    private String studentaddSuccess;
 
     @Value("${code.2401}")
     private String studentphoneError;
+    @Value("${code.2402}")
+    private String studentidCardError;
 }

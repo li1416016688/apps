@@ -3,10 +3,7 @@ package com.easyexam.apps.controller;
 import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
-import com.easyexam.apps.entity.ExaminationRoom;
-import com.easyexam.apps.entity.Student;
-import com.easyexam.apps.entity.StudentPaper;
-import com.easyexam.apps.entity.User;
+import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentManageService;
 import com.github.pagehelper.Page;
@@ -54,16 +51,16 @@ public class StudentManageController {
         System.out.println(oneExaminee);
         return new JsonResult(1019,codeMsg.getStudentFindoneSuccess());
     }
-        @PostMapping("/Examinee/update")
+    @PostMapping("/Examinee/update")
     public JsonResult updateExaminee(Student student){
-            int id = student.getId();
-            if ("".equals(id)){
-                return new JsonResult(2400,codeMsg.getStudentFindoneError());
-            }
+        int id = student.getId();
+        if ("".equals(id)){
+            return new JsonResult(2400,codeMsg.getStudentFindoneError());
+        }
         studentManageService.updateExaminee(student);
         return new JsonResult(1005,codeMsg.getStudentUpdateSuccess());
     }
-//    @PostMapping("/Examinee/update")
+    //    @PostMapping("/Examinee/update")
 //    public JsonResult updateExaminee(Student student){
 //        int id = student.getId();
 //        String phone = student.getPhone();
@@ -87,8 +84,36 @@ public class StudentManageController {
 //        studentManageService.updateExaminee(student);
 //        return new JsonResult(1005,codeMsg.getStudentUpdateSuccess());
 //    }
+    @PostMapping("/Examinee/add")
+    public JsonResult addExaminee(Student student){
+        String phone = student.getPhone();
+        String idCard = student.getIdCard();
+        StudentRole studentRole = new StudentRole();
+        List<Student> allExamineeId = studentManageService.findAllExamineeId();
 
+        String stuphone =null;
+        String stuidCard=null;
+        for (Student stu:allExamineeId){
+            stuphone = stu.getPhone();
+            stuidCard=stu.getIdCard();
+            System.out.println(stuidCard+"===="+stuphone);
+        }
+        if (!phone.equals(stuphone)){
+            if (!idCard.equals(stuidCard)){
+                studentRole.setStudentId(student.getId());
+                studentRole.setRoleId(3);
+                studentManageService.addExamineeRole(studentRole);
 
+                studentManageService.addExaminee(student);
+
+                return new JsonResult(1006,codeMsg.getStudentaddSuccess());
+            }
+            return new JsonResult(2402,codeMsg.getStudentidCardError());
+
+        }
+        return new JsonResult(2401,codeMsg.getStudentphoneError());
+
+    }
 
 
 }

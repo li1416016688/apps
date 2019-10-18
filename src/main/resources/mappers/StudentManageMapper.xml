@@ -22,10 +22,10 @@
             <result property="rdesc" column="rdesc"></result>
 
         </association>
-<association property="room" javaType="com.easyexam.apps.entity.ExaminationRoom" autoMapping="true">
-    <id property="id" column="id"></id>
-    <result property="roomName" column="room_name"></result>
-</association>
+        <association property="room" javaType="com.easyexam.apps.entity.ExaminationRoom" autoMapping="true">
+            <id property="id" column="id"></id>
+            <result property="roomName" column="room_name"></result>
+        </association>
 
     </resultMap>
     <!--考场-->
@@ -55,7 +55,7 @@ on EasyExam.examination_room.id =EasyExam.student_paper.room_id
 where p_role.rid=3
 
 </select>
-<select id="findOneExaminee" resultMap="studentMap">
+    <select id="findOneExaminee" resultMap="studentMap">
 SELECT
 student.id,
 student.`name` stuName,
@@ -86,10 +86,18 @@ where p_role.rid=3 and student.id=#{stuId}
     </select>
 
 
-<update id="updateExaminee" parameterType="com.easyexam.apps.entity.Student">
+    <update id="updateExaminee" parameterType="com.easyexam.apps.entity.Student">
 UPDATE student set student.name=#{name} ,
 student.`password`=#{password},
 student.phone=#{phone},student.sex=#{sex} WHERE student.id =#{id}
 </update>
+
+ <insert id="addExaminee" parameterType="com.easyexam.apps.entity.Student">
+        INSERT into student (student.name ,student.id_card ,student.phone,student.`password`,student.sex)VALUES(#{name},#{idCard},#{phone},#{password},#{sex})
+ </insert>
+    <insert id="addExamineeRole" parameterType="com.easyexam.apps.entity.StudentRole">
+    INSERT INTO student_role (student_role.student_id,student_role.role_id)VALUES(#{studentId},#{roleId})
+    </insert>
+
 
 </mapper>

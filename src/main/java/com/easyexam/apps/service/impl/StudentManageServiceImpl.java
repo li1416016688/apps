@@ -3,6 +3,7 @@ package com.easyexam.apps.service.impl;
 import com.easyexam.apps.dao.StudentManageDao;
 import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.entity.StudentPaper;
+import com.easyexam.apps.entity.StudentRole;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentManageService;
 import com.github.pagehelper.PageHelper;
@@ -37,6 +38,16 @@ public class StudentManageServiceImpl implements StudentManageService {
     @Override
     public void updateExaminee(Student student) {
         studentManageDao.updateExaminee(student);
+    }
+
+    @Override
+    public void addExaminee(Student student) {
+        studentManageDao.addExaminee(student);
+    }
+
+    @Override
+    public void addExamineeRole(StudentRole studentRole) {
+        studentManageDao.addExamineeRole(studentRole);
     }
 
 
