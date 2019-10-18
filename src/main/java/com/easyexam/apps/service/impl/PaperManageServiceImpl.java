@@ -17,7 +17,7 @@ import java.util.List;
 public class PaperManageServiceImpl implements PaperManageService {
     @Autowired
     CodeMsg codeMsg;
-    @Autowired
+    @Autowired(required = false)
     PaperManageDao paperManageDao;
     @Autowired
     RandomQues randomQues;
