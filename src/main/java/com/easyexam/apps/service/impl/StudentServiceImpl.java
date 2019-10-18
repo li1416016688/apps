@@ -7,13 +7,10 @@ import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentService;
 import com.easyexam.apps.utils.CreateRandom;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +22,9 @@ public class StudentServiceImpl implements StudentService{
     private CodeMsg codeMsg;
     @Autowired
     private StudentDao studentDao;
+
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
     @Override
     public Student studentLogin(String idCard, String password) {
         Student student = studentDao.studentLogin(idCard);
@@ -62,6 +60,8 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Map<String, List<Object>> createPaper(Integer subjectId, Integer level, Integer num1,
                                            Integer num2, Integer num3, Integer num4){
+
+
         if (level == null){
             level=2;
         }
@@ -77,45 +77,72 @@ public class StudentServiceImpl implements StudentService{
         if (num4 == null){
             num4=0;
         }
-        //按照难度试题类型生产各自的总试题
-        //单选题
-        List<QuesSingleChoose> allSingleChoose = studentDao.findAllSingleChooseByLevel(subjectId, level);
-        if (num1 > allSingleChoose.size()){
-            throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+        //将所有试题存入redis里面，在redis里面随机获取
+        Object paperQues1 = redisTemplate.opsForList().leftPop("paperQues");
+        if (paperQues1 !=null){
+            PaperQues paperQues = (PaperQues) paperQues1;
+            //按照规定随机生成对应类型的试题
+            List<Object> singleChooses = CreateRandom.getList(paperQues.getQuesSingleChooses(), num1);
+            List<Object> multipleChooses = CreateRandom.getList(paperQues.getQuesMultipleChooses(), num2);
+            List<Object> judges = CreateRandom.getList(paperQues.getQuesJudges(), num3);
+            List<Object> questionsAnswers = CreateRandom.getList(paperQues.getQuesQuestionsAnswers(), num4);
+
+            LinkedHashMap<String, List<Object>> randomTopic = new LinkedHashMap<>();
+            randomTopic.put("singleChooses",singleChooses);
+            randomTopic.put("multipleChooses",multipleChooses);
+            randomTopic.put("judges",judges);
+            randomTopic.put("questionsAnswers",questionsAnswers);
+
+            return randomTopic;
+        }else {
+            //按照难度试题类型生产各自的总试题
+            //单选题
+            List<QuesSingleChoose> allSingleChoose = studentDao.findAllSingleChooseByLevel(subjectId, level);
+            if (num1 > allSingleChoose.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
+
+            //多选题
+            List<QuesMultipleChoose> allMultipleChoose = studentDao.findAllMultipleChooseByLevel(subjectId, level);
+            if (num2 > allMultipleChoose.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
+            //判断题
+            List<QuesJudge> allJudge = studentDao.findAllJudgeByLevel(subjectId, level);
+            if (num3 > allJudge.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
+            //简答题
+            List<QuesQuestionsAnswers> allQuestionsAnswers = studentDao.findAllQuestionsAnswers(subjectId, level);
+            if (num4 > allQuestionsAnswers.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
+
+            //存试题库所有的试题，并放进redis里面
+            PaperQues paperQues = new PaperQues();
+            paperQues.setQuesSingleChooses(allSingleChoose);
+            paperQues.setQuesMultipleChooses(allMultipleChoose);
+            paperQues.setQuesJudges(allJudge);
+            paperQues.setQuesQuestionsAnswers(allQuestionsAnswers);
+            redisTemplate.opsForList().leftPush("paperQues",paperQues);
+
+
+            //按照规定随机生成对应类型的试题
+            List<Object> singleChooses = CreateRandom.getList(allSingleChoose, num1);
+            List<Object> multipleChooses = CreateRandom.getList(allMultipleChoose, num2);
+            List<Object> judges = CreateRandom.getList(allJudge, num3);
+            List<Object> questionsAnswers = CreateRandom.getList(allQuestionsAnswers, num4);
+
+            LinkedHashMap<String, List<Object>> randomTopic = new LinkedHashMap<>();
+            randomTopic.put("singleChooses",singleChooses);
+            randomTopic.put("multipleChooses",multipleChooses);
+            randomTopic.put("judges",judges);
+            randomTopic.put("questionsAnswers",questionsAnswers);
+
+            return randomTopic;
         }
 
-        //多选题
-        List<QuesMultipleChoose> allMultipleChoose = studentDao.findAllMultipleChooseByLevel(subjectId, level);
-        if (num2 > allMultipleChoose.size()){
-            throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
-        }
-        //判断题
-        List<QuesJudge> allJudge = studentDao.findAllJudgeByLevel(subjectId, level);
-        if (num3 > allJudge.size()){
-            throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
-        }
-        //简答题
-        List<QuesQuestionsAnswers> allQuestionsAnswers = studentDao.findAllQuestionsAnswers(subjectId, level);
-        if (num4 > allQuestionsAnswers.size()){
-            throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
-        }
 
-
-        //按照规定随机生成对应类型的试题
-        List<Object> singleChooses = CreateRandom.getList(allSingleChoose, num1);
-        List<Object> multipleChooses = CreateRandom.getList(allMultipleChoose, num2);
-        List<Object> judges = CreateRandom.getList(allJudge, num3);
-        List<Object> questionsAnswers = CreateRandom.getList(allQuestionsAnswers, num4);
-
-
-        //存储的是生成的练习试题
-        LinkedHashMap<String, List<Object>> randomTopic = new LinkedHashMap<>();
-        randomTopic.put("singleChooses",singleChooses);
-        randomTopic.put("multipleChooses",multipleChooses);
-        randomTopic.put("judges",judges);
-        randomTopic.put("questionsAnswers",questionsAnswers);
-
-        return randomTopic;
     }
 
 

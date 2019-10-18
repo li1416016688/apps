@@ -2,8 +2,10 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Student {
+public class Student implements Serializable {
     private int id;
     private String name;
     private String idCard;  //身份证

@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyexam.apps.dao.StudentExaminationDao">
+<!--    科目信息-->
+    <select id="selectSubject" resultType="Subject">
+        select * from subject where id=#{subjectId}
+    </select>
+<!--    生成人姓名-->
+    <select id="selectMakerUser" resultType="User">
+        select p_user.uid, p_user.name from p_user where uid=#{makeId}
+    </select>
+<!--    试卷的相关信息，需要嵌套查询到生成人和改卷人-->
+    <resultMap id="PaperMap" type="Paper">
+        <association property="maker" column="make_id" javaType="User" select="selectMakerUser"></association>
+    </resultMap>
+    <select id="selectPaper" resultMap="PaperMap">
+        select * from paper where id=#{paperId}
+    </select>
+
+    <resultMap id="ExaminationRoomMap" type="ExaminationRoom">
+        <association property="subject" column="subject_id" javaType="Subject" select="selectSubject"></association>
+        <association property="paper" column="paper_id" javaType="Paper" select="selectPaper"></association>
+    </resultMap>
+    <select id="findAllExaminationRoom" resultMap="ExaminationRoomMap">
+        select * from examination_room er
+        <where>
+            <if test="roomName != null">
+                and er.room_name=#{roomName}
+            </if>
+            <if test="subjectId != null">
+                and er.subject_id=#{subjectId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="createPaper" resultType="PaperQuestion">
+        select * from paper_question where paper_id=#{paperId}
+    </select>
+
+
+    <select id="addStudentPaper">
+        insert into student_paper (paper_ques)values(#{paperQues})
+    </select>
+
+
+
+
+
+
+
+
+
+
+</mapper>
