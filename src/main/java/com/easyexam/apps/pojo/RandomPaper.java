@@ -13,6 +13,7 @@ import java.util.List;
 
 @Data
 public class RandomPaper {
+    private String name;    //试卷的名称
     private Integer level;  //整张试卷的难度
     private int subjectId;  //学科的id
     private List<Integer> questionCount;  //题目的数量，针对题型而言
