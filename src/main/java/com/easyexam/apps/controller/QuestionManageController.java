@@ -7,7 +7,6 @@ import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.QuestionManageService;
 import com.github.pagehelper.Page;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,7 @@ public class QuestionManageController {
     @Autowired
     QuestionManageService questionManageService;
 
-    @RequiresPermissions({"test:type"})
+    //    @RequiresPermissions({"test:type"})
     @RequestMapping("/singleChoose")
     public String singleChoose() {
         return "questUpdate";
@@ -46,7 +45,7 @@ public class QuestionManageController {
      */
     @RequestMapping("/singleChooseList.do")
     @ResponseBody
-    @RequiresPermissions({"test:type"})
+//    @RequiresPermissions({"test:type"})
     public Map listQuesChoose(Integer page, Integer limit, Integer subjectId, Integer quesId, String questionInfo) {
 
 
@@ -78,12 +77,11 @@ public class QuestionManageController {
 
     }
 
-
     /**
      * 导入excel
-     * @param file 必须为xlsx后缀文件
+     *
+     * @param file      必须为xlsx后缀文件
      * @param sheetName ="singleChoose"/"multipleChoose"/"judge"/"questionsAnswers"/"all" 不区分大小写
-     * @return
      */
     @PostMapping("/importExcel")
     @ResponseBody
@@ -100,8 +98,6 @@ public class QuestionManageController {
 
     /**
      * 添加一个单选题；其中选项不能为空A；其他约束参见config/questionConfig.properties
-     * @param quesSingleChoose
-     * @return
      */
     @PostMapping("/addQuesSingleChoose")
     @ResponseBody
@@ -112,8 +108,6 @@ public class QuestionManageController {
 
     /**
      * 添加一个多选题，其中答案必须包含&符号，其他约束参见config/questionConfig.properties
-     * @param quesMultipleChoose
-     * @return
      */
     @PostMapping("/addQuesMultipleChoose")
     @ResponseBody
@@ -125,8 +119,6 @@ public class QuestionManageController {
 
     /**
      * 添加一个判断题，其中答案必须为boolean类型，其他约束参见config/questionConfig.properties
-     * @param quesJudge
-     * @return
      */
     @PostMapping("/addQuesJudge")
     @ResponseBody
@@ -137,15 +129,7 @@ public class QuestionManageController {
     }
 
     /**
-     * 添加一个问答题，约束参见config/questionConfig.properties
-     * @param quesQuestionsAnswers
-     * @return
-     */
-
-    /**
-     * 添加简答题
-     * @param quesQuestionsAnswers
-     * @return
+     * 添加简答题 添加一个问答题，约束参见config/questionConfig.properties
      */
     @PostMapping("/addQuesQuestionsAnswers")
     @ResponseBody
@@ -154,8 +138,6 @@ public class QuestionManageController {
         return jsonResult;
 
     }
-
-
 
     /**
      * 删除试题
@@ -231,12 +213,9 @@ public class QuestionManageController {
 
     /**
      * 下载文件的方法，其中传入的fileName如果为quesTemplate，则下载试题导入的模板文件
-     * @param request
-     * @param response
-     * @param fileName
      */
     @RequestMapping("/d")
-    public void downloadFile(HttpServletRequest request, HttpServletResponse response,String fileName){
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response, String fileName) {
         response.setCharacterEncoding(request.getCharacterEncoding());
         response.setContentType("application/octet-stream");
         FileInputStream inputStream = null;
@@ -245,8 +224,8 @@ public class QuestionManageController {
             if ("quesTemplate".equals(fileName)) {
                 File file = new File(ClassUtils.getDefaultClassLoader().getResource("").getPath() + "/static/tempExcel/quesTemplate.xlsx");
                 inputStream = new FileInputStream(file);
-                response.setHeader("Content-Disposition", "attachment; filename="+file.getName());
-                IOUtils.copy(inputStream,response.getOutputStream());
+                response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
+                IOUtils.copy(inputStream, response.getOutputStream());
                 response.flushBuffer();
             }
         } catch (FileNotFoundException e) {
@@ -254,10 +233,10 @@ public class QuestionManageController {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(inputStream != null){
-                try{
+            if (inputStream != null) {
+                try {
                     inputStream.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -270,7 +249,7 @@ public class QuestionManageController {
     @RequestMapping("/addQuestToRedis")
     @ResponseBody
     public JsonResult addQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
-        questionManageService.addQuestPaperRedis(paperQuestion, uid);
+        questionManageService.addQuestPaperRedis(paperQuestion, 4);
         return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
@@ -279,29 +258,40 @@ public class QuestionManageController {
      */
     @RequestMapping("/deleteQuestToRedis")
     @ResponseBody
-    public JsonResult deleteQuestToRedis(PaperQuestion paperQuestion, Integer uid) {
-        questionManageService.deleteQuestToRedis(paperQuestion, uid);
+    public JsonResult deleteQuestToRedis(Integer id, Integer quesTypeId, Integer uid) {
+        questionManageService.deleteQuestToRedis(id, quesTypeId, 4);
         return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
     /**
      * 手动生成试卷,将试题redis购物车中试题展示到前台
      */
-    @RequestMapping("/showPaperListOnRedis")
+    @RequestMapping("/showPaperListOnRedis.do")
     @ResponseBody
-    public JsonResult showPaperListOnRedis(Integer uid) {
-        Map<String, Object> map = questionManageService.showPaperListOnRedis(uid);
-        return new JsonResult(1, map);
+    public Map showPaperListOnRedis(Integer questType, Integer page, Integer limit) {
+
+        List<ShowQuestFromRedis> list =questionManageService.showPaperListOnRedis1(4, questType, page, limit);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("count", ((Page) list).getTotal());
+        map.put("data", list);
+        map.put("code", 0);
+
+        return map;
     }
 
     /**
      * 手动生成试卷,将试题redis购物车中试题提交到MySQL
      */
-    @RequestMapping("/addQuesToMySql")
+    @RequestMapping("/addQuesToMySql.do")
     @ResponseBody
     public JsonResult addQuesToMySql(Paper paper) {
         questionManageService.addQuestToMysql(paper, true);
         return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
+    }
+
+    @RequestMapping("createPaper")
+    public String createPaper() {
+        return "createTestPaper.html";
     }
 
 }
