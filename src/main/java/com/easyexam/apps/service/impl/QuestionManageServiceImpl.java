@@ -593,7 +593,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 } else if (paperQuestion.getQuestionType() == 4) {
                     questionsAnswersList.add(questionManageDao.findQuestionsAnswerById(paperQuestion.getQuestionId()));
                 } else {
-                    throw new MyException(0, "展示添加的数据异常");
+                    throw new MyException(ErrorCode.SHOW_QUES_LIST_REDIS_FAIL, codeMsg.getShowQuesListOnRedis());
                 }
 
             }
@@ -647,7 +647,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
 
             int i1 = questionManageDao.autoCreatePaper(paper);
             if (i1 <= 0) {
-                throw new MyException(0, "生成试卷失败");
+                throw new MyException(ErrorCode.AUTO_CREATE_PAPER_FAIL, codeMsg.getAutoCreatePaper());
             }
 
             int id = paper.getId();
@@ -661,7 +661,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             int j = questionManageDao.addPaperToMySql(paperQuestionsList);
 
             if (j != i) {
-                throw new MyException(0, "试卷生成失败");
+                throw new MyException(ErrorCode.AUTO_CREATE_PAPER_FAIL, codeMsg.getAutoCreatePaper());
             }
         }
 

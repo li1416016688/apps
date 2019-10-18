@@ -86,4 +86,7 @@ public class ErrorCode {
 
     public static int ADD_QUES_REDIS_FAIL=2401; //添加试题到redis失败
 
+    public static int SHOW_QUES_LIST_REDIS_FAIL=2101;
+
+    public static int AUTO_CREATE_PAPER_FAIL=2102;
 }
