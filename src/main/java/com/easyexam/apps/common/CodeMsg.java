@@ -137,11 +137,7 @@ public class CodeMsg {
     @Value("${code.2102}")
     private String AutoCreatePaper;
 
-    @Value("${code.2350}")
-    private String CreatePaperSuccess;
 
-    @Value("${code.2351}")
-    private String CreatePaperParamLost;
 
     @Value("${code.2400}")
     private String studentFindoneError;
@@ -158,4 +154,6 @@ public class CodeMsg {
     private String studentphoneError;
     @Value("${code.2402}")
     private String studentidCardError;
+    @Value("${code.2403}")
+    private String studentIdCardFormatError;
 }

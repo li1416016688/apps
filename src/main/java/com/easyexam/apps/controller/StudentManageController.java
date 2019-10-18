@@ -6,6 +6,7 @@ import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.service.StudentManageService;
 import com.easyexam.apps.utils.CandidateNumberMaker;
+import com.easyexam.apps.utils.IDCardVerify;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ public class StudentManageController {
     private ErrorCode errorCode;
     @Autowired
     private CandidateNumberMaker candidateNumberMaker;
+    @Autowired
+    private IDCardVerify idCardVerify;
 
     //查找所有的考场信息
     @RequestMapping(value = "/Examinee/findAll" ,method = RequestMethod.GET)
@@ -52,25 +55,25 @@ public class StudentManageController {
         return new JsonResult(1019,codeMsg.getStudentFindoneSuccess());
     }
 
-        @PostMapping("/Examinee/update")
+    @PostMapping("/Examinee/update")
     public JsonResult updateExaminee(Student student) {
-            int id = student.getId();
-            String phone = student.getPhone();
-            List<Student> allExamineeId = studentManageService.findAllExamineeId();
-            Integer id1 = null;
-            String phone1 = null;
+        int id = student.getId();
+        String phone = student.getPhone();
+        List<Student> allExamineeId = studentManageService.findAllExamineeId();
+        Integer id1 = null;
+        String phone1 = null;
 
-            for (Student student1 : allExamineeId) {
-                id1 = student1.getId();
-                phone1 = student1.getPhone();
-                if(phone1.equals(phone)){
-                    return new JsonResult(2401, codeMsg.getStudentphoneError());
-                }
+        for (Student student1 : allExamineeId) {
+            id1 = student1.getId();
+            phone1 = student1.getPhone();
+            if(phone1.equals(phone)){
+                return new JsonResult(2401, codeMsg.getStudentphoneError());
             }
-                studentManageService.updateExaminee(student);
-                return new JsonResult(1005, codeMsg.getStudentUpdateSuccess());
-
         }
+        studentManageService.updateExaminee(student);
+        return new JsonResult(1005, codeMsg.getStudentUpdateSuccess());
+
+    }
 
     @PostMapping("/Examinee/add")
     public JsonResult addExaminee(Student student){
@@ -84,27 +87,30 @@ public class StudentManageController {
         for (Student stu:allExamineeId){
             stuphone = stu.getPhone();
             stuidCard=stu.getIdCard();
-            System.out.println(stuidCard+"===="+stuphone);
-        }
-        if (!phone.equals(stuphone)){
-            if (!idCard.equals(stuidCard)){
-                int idNumber = candidateNumberMaker.getCandidateNumber();
 
-                student.setCandidateNumber(idNumber);
-                studentManageService.addExaminee(student);
-                System.out.println(student.getId());
-                studentRole.setStudentId(student.getId());
-                studentRole.setRoleId(3);
-                studentManageService.addExamineeRole(studentRole);
-
-                return new JsonResult(1006,codeMsg.getStudentaddSuccess());
+            if (phone.equals(stuphone)){
+                return new JsonResult(2401,codeMsg.getStudentphoneError());
             }
-            return new JsonResult(2402,codeMsg.getStudentidCardError());
+            if (idCard.equals(stuidCard)){
+                return new JsonResult(2402,codeMsg.getStudentidCardError());
+
+            }
+        }
+
+        boolean verify = idCardVerify.verify(student.getIdCard(), student.getSex());
+        if (verify==false){
+            return new JsonResult(2403,codeMsg.getStudentIdCardFormatError());
 
         }
-        return new JsonResult(2401,codeMsg.getStudentphoneError());
+
+        int idNumber = candidateNumberMaker.getCandidateNumber();
+        student.setCandidateNumber(idNumber);
+
+        studentManageService.addExaminee(student);
+        studentRole.setStudentId(student.getId());
+        studentRole.setRoleId(3);
+        studentManageService.addExamineeRole(studentRole);
+        return new JsonResult(1006,codeMsg.getStudentaddSuccess());
 
     }
-
-
 }
