@@ -99,6 +99,9 @@ public class CodeMsg {
     @Value("${code.2351}")
     private String CreatePaperParamLost;
 
+    @Value("${code.2352}")
+    private String DeletePaperSuccess ;
+
     @Value("${code.1103}")
     private String FindUserError;
 

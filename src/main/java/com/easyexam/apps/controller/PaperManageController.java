@@ -7,8 +7,11 @@ import com.easyexam.apps.service.PaperManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.constraints.Min;
 
 @Controller
 public class PaperManageController {
@@ -38,6 +41,18 @@ public class PaperManageController {
         //ToDo:删除这个测试用makeId
         int makeId = 1;
         JsonResult jsonResult = paperManageService.createRandomPaper(randomPaper,makeId);
+        return jsonResult;
+    }
+
+    /**
+     * 删除试卷（模板）的接口，根据传入的id删除指定试卷的id值
+     * @param id 试卷的id
+     * @return
+     */
+    @PostMapping("/deletePaper")
+    @ResponseBody
+    public JsonResult deletePaper(@Min(0) int id){
+        JsonResult jsonResult = paperManageService.deletePaper(id);
         return jsonResult;
     }
 }

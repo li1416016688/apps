@@ -79,5 +79,15 @@ public class PaperManageServiceImpl implements PaperManageService {
 
         return new JsonResult(2350,"id is:"+paperId);
     }
+
+    @Override
+    public JsonResult deletePaper(int id) {
+        int i = paperManageDao.deletePaper(id);
+        if(i != 1){
+            return new JsonResult(ErrorCode.SERVER_ERROR,codeMsg.getServerError());
+        }else{
+            return new JsonResult(ErrorCode.DELETE_PAPER_SUCCESS,codeMsg.getDeletePaperSuccess());
+        }
+    }
 }
 

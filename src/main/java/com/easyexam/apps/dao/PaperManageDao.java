@@ -23,4 +23,7 @@ public interface PaperManageDao {
 
     //对卷子写入题目
     int insertQuesIntoPaper(HashMap info);
+
+    //根据id删除指定的试卷(模板)
+    int deletePaper(@Param("pid") int pid);
 }

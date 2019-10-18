@@ -79,6 +79,9 @@ public class ErrorCode {
     //随机生成失败，缺少必要的参数
     public static int CREATE_PAPER_PARAM_LOST=2351;
 
+    //试卷模板删除成功
+    public static int DELETE_PAPER_SUCCESS=2352;
+
     public static int FIND_USER_ERROR=1103;
 
     public static int ADD_QUES_REDIS_FAIL=2401; //添加试题到redis失败
