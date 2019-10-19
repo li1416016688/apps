@@ -5,10 +5,11 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class ExaminationRoom {
+public class ExaminationRoom implements Serializable {
     private int id;
     private String roomName;    //考场名称
     private int joinPeopleNum;  //本次考试实际参与人数

@@ -2,8 +2,10 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class QuesMultipleChoose {
+public class QuesMultipleChoose implements Serializable {
     private int id;
     private String question;
     private String chooseA;
@@ -13,6 +15,7 @@ public class QuesMultipleChoose {
     private String chooseE;
     private String chooseF;
     private String answer;
+    private String studentAnswer;//考生答案
     private int subjectId;
     private Subject subject;
     private int level;

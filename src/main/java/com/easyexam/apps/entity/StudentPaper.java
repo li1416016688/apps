@@ -1,12 +1,11 @@
 package com.easyexam.apps.entity;
 
 import lombok.Data;
-import springfox.documentation.spring.web.json.Json;
 
-import java.util.List;
+import java.io.Serializable;
 
 @Data
-public class StudentPaper {
+public class StudentPaper implements Serializable {
     private int id;
     private Integer stuId;
     private Student student;
