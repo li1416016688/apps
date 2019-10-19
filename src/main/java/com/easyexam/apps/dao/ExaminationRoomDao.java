@@ -20,14 +20,6 @@ public interface ExaminationRoomDao {
     public List<ExaminationRoom>findAllExaminationRoomId();
 
 
-    public List<Paper> findPaper();
-
-    public List<Subject> findSubject();
-
-    public List<User> findInvigilate();
-
-
-
     public Paper findPaperId(String  paperName);
 
     public Subject findSubjectId(String  subjectName);

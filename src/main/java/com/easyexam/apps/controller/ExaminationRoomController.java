@@ -44,7 +44,7 @@ public class ExaminationRoomController {
     @PostMapping("examinationRoom/update")
     public JsonResult updateExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName){
         examinationRoomService.updateExaminationRoom( room,subjectName,paperName,invigilateName);
-        return new JsonResult(1017,codeMsg.getFindoneExaminationroom());
+        return new JsonResult(1017,codeMsg.getUpdateExaminationroom());
     }
 
 //    删除一个考场的信息

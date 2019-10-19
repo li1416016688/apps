@@ -94,22 +94,6 @@
         delete from  examination_room where id=#{id}
     </delete>
 
-    <resultMap id="invigilateMap" type="com.easyexam.apps.entity.User" autoMapping="true">
-        <id property="uid" column="uid"></id>
-        <result property="name" column="name"></result>
-        <result property="password" column="password"></result>
-    </resultMap>
-    <select id="findPaper" resultType="com.easyexam.apps.entity.Paper" >
-    SELECT * FROM paper ;
-    </select>
-    <select id="findSubject" resultType="com.easyexam.apps.entity.Subject" >
-    SELECT  * from `subject`;
-    </select>
-    <select id="findInvigilate"  resultType="com.easyexam.apps.entity.User">
-    SELECT* from p_user;
-    </select>
-
-
     <select id="findPaperId" resultType="com.easyexam.apps.entity.Paper" parameterType="string">
     SELECT paper.id  FROM paper  where paper.name =#{name};
     </select>
@@ -119,8 +103,6 @@
     <select id="findInvigilateId"  resultType="com.easyexam.apps.entity.User" parameterType="string">
     SELECT p_user.uid from p_user   WHERE p_user.name =#{name} ;
     </select>
-
-
 
 
     <insert id="addExaminationRoom" parameterType="com.easyexam.apps.entity.ExaminationRoom">
