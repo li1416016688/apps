@@ -42,7 +42,56 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
     }
 
     @Override
-    public void updateExaminationRoom(ExaminationRoom room) {
+    public void updateExaminationRoom(ExaminationRoom room ,String subjectName,String paperName,String invigilateName) {
+
+        String roomName = room.getRoomName();
+        List<ExaminationRoom> allExaminationRoomId = examinationRoomDao.findAllExaminationRoomId();
+        for (ExaminationRoom Room:allExaminationRoomId){
+            String room1 = Room.getRoomName();
+
+            if (room1.equals(roomName)){
+                throw new MyException(ErrorCode.ADD_ROOM_NAME_REPEAT,codeMsg.getAddRoomNameRepeat());
+
+            }
+        }
+        int joinPeopleNum = room.getJoinPeopleNum();
+        int totalPeopleNum = room.getTotalPeopleNum();
+        if (joinPeopleNum>totalPeopleNum){
+            throw new MyException(ErrorCode.ADD_ROOM_NUM_OVERSTEP,codeMsg.getAddRoomNumOverstep());
+        }
+
+        if (invigilateName==""||invigilateName==null){
+            throw new MyException(ErrorCode.ADD_USER_PAGE_NULL,codeMsg.getAddUserPageNull());
+        }
+
+        User user = examinationRoomDao.findInvigilateId(invigilateName);
+        Integer invigilateId = user.getUid();
+
+
+        if (subjectName == ""||subjectName==null) {
+            throw new MyException(ErrorCode.ADD_SUBJECT_PAGE_NULL,codeMsg.getAddSubjectPageNull());
+        }
+
+        Subject subject = examinationRoomDao.findSubjectId(subjectName);
+        int subjectId = subject.getId();
+
+
+        if (paperName==""||paperName==null){
+            throw  new MyException(ErrorCode.ADD_PAPER_PAGE_NULL,codeMsg.getAddPaperPageNull());
+        }
+
+        Paper paper = examinationRoomDao.findPaperId(paperName);
+        int paperId = paper.getId();
+
+
+
+        if ("".equals(subjectId)&&"".equals(invigilateId)&&"".equals(paperId)){
+            throw new MyException(ErrorCode.ADD_USER_PAPER_SUJECT_ID__NULL,codeMsg.getAddUserPaperSujectIdNull());
+        }
+        room.setSubjectId(subjectId);
+        room.setInvigilateId(invigilateId);
+        room.setPaperId(paperId);
+
         examinationRoomDao.updateExaminationRoom(room);
     }
 
@@ -51,64 +100,60 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
         examinationRoomDao.deleteExaminationRoom(id);
     }
 
+
     @Override
     public void addExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName) {
+        String roomName = room.getRoomName();
+        List<ExaminationRoom> allExaminationRoomId = examinationRoomDao.findAllExaminationRoomId();
+        for (ExaminationRoom Room:allExaminationRoomId){
+            String room1 = Room.getRoomName();
 
-        List<Subject> subjectList = examinationRoomDao.findSubject();
-        Integer  subId=null;
-        String subName=null;
+            if (room1.equals(roomName)){
+                throw new MyException(ErrorCode.ADD_ROOM_NAME_REPEAT,codeMsg.getAddRoomNameRepeat());
+
+            }
+        }
+        int joinPeopleNum = room.getJoinPeopleNum();
+        int totalPeopleNum = room.getTotalPeopleNum();
+        if (joinPeopleNum>totalPeopleNum){
+            throw new MyException(ErrorCode.ADD_ROOM_NUM_OVERSTEP,codeMsg.getAddRoomNumOverstep());
+        }
+
+        if (invigilateName==""||invigilateName==null){
+            throw new MyException(ErrorCode.ADD_USER_PAGE_NULL,codeMsg.getAddUserPageNull());
+        }
+
+        User user = examinationRoomDao.findInvigilateId(invigilateName);
+        Integer invigilateId = user.getUid();
+
+
         if (subjectName == ""||subjectName==null) {
             throw new MyException(ErrorCode.ADD_SUBJECT_PAGE_NULL,codeMsg.getAddSubjectPageNull());
         }
-        for (Subject subject:subjectList){
-            subId=subject.getId();
-            subName= subject.getName();
-            if (subName != subjectName){
-                throw new MyException(ErrorCode.ADD_SUBJECT_SQL_NULL,codeMsg.getAddSubjectSqlNull());
-            }
-            }
+
         Subject subject = examinationRoomDao.findSubjectId(subjectName);
         int subjectId = subject.getId();
 
 
-        List<User> invigilateList = examinationRoomDao.findInvigilate();
-        Integer invId=null;
-        String invName=null;
-        if (invigilateName==""||invigilateName==null){
-            throw new MyException(ErrorCode.ADD_USER_PAGE_NULL,codeMsg.getAddUserPageNull());
-        }
-        for (User user: invigilateList){
-            invName=user.getName();
-            invId=user.getUid();
-            if (invName!=invigilateName){
-                throw new MyException(ErrorCode.ADD_USER_SQL_NULL,codeMsg.getAddUserSqlNull());
-            }
-        }
-        User user = examinationRoomDao.findInvigilateId(invigilateName);
-        Integer userId = user.getUid();
-
-
-        List<Paper> paperList = examinationRoomDao.findPaper();
-        String papName=null;
-        Integer papId=null;
         if (paperName==""||paperName==null){
             throw  new MyException(ErrorCode.ADD_PAPER_PAGE_NULL,codeMsg.getAddPaperPageNull());
         }
-        for (Paper paper:paperList){
-            papId=paper.getId();
-            papName=paper.getName();
-            if (papName!=paperName){
-                throw new MyException(ErrorCode.ADD_PAPER_SQL_NULL,codeMsg.getAddPaperSqlNull());
-            }
-        }
+
         Paper paper = examinationRoomDao.findPaperId(paperName);
         int paperId = paper.getId();
 
-        if ("".equals(subjectId)&&"".equals(userId)&&"".equals(paperId)){
+
+
+        if ("".equals(subjectId)&&"".equals(invigilateId)&&"".equals(paperId)){
+            throw new MyException(ErrorCode.ADD_USER_PAPER_SUJECT_ID__NULL,codeMsg.getAddUserPaperSujectIdNull());
         }
+        room.setSubjectId(subjectId);
+        room.setInvigilateId(invigilateId);
+        room.setPaperId(paperId);
         examinationRoomDao.addExaminationRoom(room);
 
     }
+
 
     @Override
     public List<ExaminationRoom> findAllExaminationRoomId() {

@@ -58,9 +58,8 @@ public class ExaminationRoomController {
 //    增加一个考场的信息
 
     @PostMapping("examinationRoom/add")
-    public JsonResult addExaminationRoom(ExaminationRoom room) {
-
-//        examinationRoomService.addExaminationRoom();
+    public JsonResult addExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName) {
+        examinationRoomService.addExaminationRoom( room,subjectName,paperName,invigilateName);
         return new JsonResult(1419,codeMsg.getDeleteExaminationroom());
     }
 }

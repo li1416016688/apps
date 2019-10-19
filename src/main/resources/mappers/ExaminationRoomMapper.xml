@@ -94,7 +94,11 @@
         delete from  examination_room where id=#{id}
     </delete>
 
-
+    <resultMap id="invigilateMap" type="com.easyexam.apps.entity.User" autoMapping="true">
+        <id property="uid" column="uid"></id>
+        <result property="name" column="name"></result>
+        <result property="password" column="password"></result>
+    </resultMap>
     <select id="findPaper" resultType="com.easyexam.apps.entity.Paper" >
     SELECT * FROM paper ;
     </select>
@@ -102,7 +106,7 @@
     SELECT  * from `subject`;
     </select>
     <select id="findInvigilate"  resultType="com.easyexam.apps.entity.User">
-    SELECT* from user;
+    SELECT* from p_user;
     </select>
 
 
@@ -113,21 +117,17 @@
     SELECT subject.id  from `subject` where subject.name=#{name};
     </select>
     <select id="findInvigilateId"  resultType="com.easyexam.apps.entity.User" parameterType="string">
-    SELECT user.uid from user   WHERE user.name =#{name} ;
+    SELECT p_user.uid from p_user   WHERE p_user.name =#{name} ;
     </select>
 
 
+
+
     <insert id="addExaminationRoom" parameterType="com.easyexam.apps.entity.ExaminationRoom">
- insert  into examination_room(
- examination_room.room_name,
- examination_room.join_people_num,
- examination_room.total_people_num,
- examination_room.address,
- examination_room.begin_time,
- examination_room.end_time,
- examination_room.subject_id,
- examination_room.invigilate_id,
- examination_room.paper_id
- VALUES(roomName ,joinPeopleNum,totalPeopleNum,address,beginTime,endTime,subject.id ,user.uid,paper.id )
+ insert  into examination_room(room_name ,join_people_num  ,total_people_num ,
+address,begin_time,end_time ,subject_id,invigilate_id, paper_id)
+ VALUES(#{roomName},#{joinPeopleNum},#{totalPeopleNum},#{address},#{beginTime},#{endTime},#{subjectId} ,#{invigilateId},#{paperId} )
 </insert>
+
+
 </mapper>

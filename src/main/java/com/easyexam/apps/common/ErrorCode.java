@@ -103,19 +103,18 @@ public class ErrorCode {
 
 
 
-    //考场：没有此学科名称
-    public static int ADD_SUBJECT_SQL_NULL=2061;
+    //考场：
+    public static int ADD_ROOM_NAME_REPEAT=2061;
     //考场：没有获取到学科名字
     public static int ADD_SUBJECT_PAGE_NULL=2062;
 
-    //考场：没有此试卷名称
-    public static int ADD_PAPER_SQL_NULL=2063;
+    public static int ADD_ROOM_NUM_OVERSTEP=2063;
     //考场：没有获取到试卷的名称
     public static int ADD_PAPER_PAGE_NULL=2064;
 
-    //考场：没有这个老师
-    public static int ADD_USER_SQL_NULL=2065;
     //考场：没写监考老师的名字
     public static int ADD_USER_PAGE_NULL=2066;
 
+    //没得到老师、学科、试卷的id
+    public static int ADD_USER_PAPER_SUJECT_ID__NULL=2067;
 }
