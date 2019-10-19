@@ -15,6 +15,7 @@ public class QuesMultipleChoose implements Serializable {
     private String chooseE;
     private String chooseF;
     private String answer;
+    private String studentAnswer;//考生答案
     private int subjectId;
     private Subject subject;
     private int level;

@@ -5,6 +5,7 @@ import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.dao.StudentDao;
+import com.easyexam.apps.dao.StudentExaminationDao;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentExaminationService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StudentExaminationController {
@@ -26,6 +28,8 @@ public class StudentExaminationController {
     private CodeMsg codeMsg;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private StudentExaminationDao studentExaminationDao;
 
     /**
      * @param subjectId  非必要传参，传参表示哪个学科，目前，1表示语文，2表示数学，3表示英语
@@ -38,7 +42,7 @@ public class StudentExaminationController {
         return new JsonResult(ErrorCode.SUCCESS,allExaminationRoom);
     }
 
-    /**
+    /**生成试卷，把完整的试卷放在redis，取出时，把答案除去，
      * @param paperId 试卷的id,必填项
      * @param idCard 学生的身份证号，必填项
      * @return
@@ -50,7 +54,6 @@ public class StudentExaminationController {
         if (student == null){
             throw new MyException(ErrorCode.ILLEGAL_STUDENT,codeMsg.getIllegalStudent());
         }
-
 
         Object opaper = redisTemplate.opsForHash().get("easyexam","paperId"+paperId );
         if(opaper != null){
@@ -119,6 +122,20 @@ public class StudentExaminationController {
             paper2.setStudent(student);
             return new JsonResult(ErrorCode.SUCCESS,paper2);
         }
+    }
+
+
+    /**保存试卷
+     * @param paperId  试卷的id
+     * @param idCard 考生的身份证号
+     * @param map 考生的答案，key是四个类型的题型
+     */
+    @RequestMapping("saveStudentPaper" )
+    public void saveStudentPaper(Integer paperId, Integer idCard, Map<String,List<String>> map){
+        //在redis取出当时开始考试生成的试卷，含有答案，不含有考生信息，含有考场信息
+        Object opaper2 = redisTemplate.opsForHash().get("easyexam","paperId"+paperId );
+        StudentPaper paper2 = (StudentPaper)opaper2;
+
     }
 
 

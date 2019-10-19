@@ -37,18 +37,13 @@
     <select id="createPaper" resultType="PaperQuestion">
         select * from paper_question where paper_id=#{paperId}
     </select>
-
-
-    <select id="addStudentPaper">
-        insert into student_paper (paper_ques)values(#{paperQues})
+    <select id="findOneByPaperId" resultType="ExaminationRoom">
+        select * from examination_room where paper_id=#{paperId}
     </select>
 
-
-
-
-
-
-
+    <insert id="addStudentPaper" >
+        insert into student_paper (stu_id,room_id,paper_ques)values(#{stuId},#{roomId},#{paperQues})
+    </insert>
 
 
 

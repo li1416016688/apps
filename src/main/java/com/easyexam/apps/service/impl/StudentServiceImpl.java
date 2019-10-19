@@ -81,12 +81,24 @@ public class StudentServiceImpl implements StudentService{
         Object paperQues1 = redisTemplate.opsForList().leftPop("paperQues");
         if (paperQues1 !=null){
             PaperQues paperQues = (PaperQues) paperQues1;
+
             //按照规定随机生成对应类型的试题
             List<Object> singleChooses = CreateRandom.getList(paperQues.getQuesSingleChooses(), num1);
+            if (num1 > singleChooses.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
             List<Object> multipleChooses = CreateRandom.getList(paperQues.getQuesMultipleChooses(), num2);
+            if (num2 > multipleChooses.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
             List<Object> judges = CreateRandom.getList(paperQues.getQuesJudges(), num3);
+            if (num3 > judges.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
             List<Object> questionsAnswers = CreateRandom.getList(paperQues.getQuesQuestionsAnswers(), num4);
-
+            if (num4 > questionsAnswers.size()){
+                throw new MyException(ErrorCode.TOPIC_NOT_ENOUGH,codeMsg.getTopicNotEnough());
+            }
             LinkedHashMap<String, List<Object>> randomTopic = new LinkedHashMap<>();
             randomTopic.put("singleChooses",singleChooses);
             randomTopic.put("multipleChooses",multipleChooses);

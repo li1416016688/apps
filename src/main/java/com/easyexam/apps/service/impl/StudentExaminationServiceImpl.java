@@ -43,8 +43,12 @@ public class StudentExaminationServiceImpl implements StudentExaminationService 
         //如果选择考试场次，判断该试卷的开始时间和当前时间进行比较，超过时间抛异常提示
         if (roomName!=null && allExaminationRoom != null){
             Date beginTime = allExaminationRoom.get(0).getBeginTime();
-            if (beginTime.compareTo(new Date()) < 0){
-                throw new MyException(ErrorCode.EXAM_TIME_STARTED,codeMsg.getExamTimeStarted());
+            Date endTime = allExaminationRoom.get(0).getEndTime();
+            if (beginTime.compareTo(new Date()) > 0){
+                throw new MyException(ErrorCode.EXAM_TIME_NO_START,codeMsg.getExamTimeNoStart());
+            }
+            if (endTime.compareTo(new Date()) < 0){
+                throw new MyException(ErrorCode.EXAM_TIME_OVER,codeMsg.getExamTimeOver());
             }
         }
         return allExaminationRoom;
@@ -103,16 +107,24 @@ public class StudentExaminationServiceImpl implements StudentExaminationService 
         StudentPaper studentPaper = new StudentPaper();
         //将paperQues转化成JSONObject,存入studentPaper中
         studentPaper.setPaperQues((JSONObject) JSONObject.toJSON(paperQues));
-
+        ExaminationRoom examinationRoom = studentExaminationDao.findOneByPaperId(paperId);
+        studentPaper.setRoom(examinationRoom);
         return studentPaper;
     }
 
-//    public void createPaperQueue(Integer paperId, String idCard){
-//        //将试卷放进普通消息队列中，
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("paperId",paperId);
-//        map.put("idCard",idCard);
-//        amqpTemplate.convertAndSend("paper.queue",map);
-//    }
+    @Override
+    public void saveStudentPaper(StudentPaper studentPaper) {
+
+
+        //下面将前台试卷放进队列中，这是模拟得到的数据
+        StudentPaper paper = createPaper(34, "121231");
+        Student student = studentDao.studentLogin("121231");
+        paper.setStuId(student.getId());
+        int roomId1 = paper.getRoom().getId();
+        paper.setRoomId(roomId1);
+        studentExaminationDao.addStudentPaper(paper);
+    }
+
+
 
 }

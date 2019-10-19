@@ -140,9 +140,11 @@ public class CodeMsg {
     @Value("${code.2506}")
     private String ShowExaminationError;
     @Value("${code.2507}")
-    private String ExamTimeStarted;
+    private String ExamTimeOver;
     @Value("${code.2508}")
     private String CreatePaperFail;
     @Value("${code.2509}")
     private String IllegalStudent;
+    @Value("${code.2510}")
+    private String ExamTimeNoStart;
 }
