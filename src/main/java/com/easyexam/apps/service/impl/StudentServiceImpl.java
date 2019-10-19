@@ -2,6 +2,7 @@ package com.easyexam.apps.service.impl;
 
 import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
+import com.easyexam.apps.dao.QuestionManageDao;
 import com.easyexam.apps.dao.StudentDao;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
@@ -11,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -22,6 +21,8 @@ public class StudentServiceImpl implements StudentService{
     private CodeMsg codeMsg;
     @Autowired
     private StudentDao studentDao;
+    @Autowired
+    private QuestionManageDao questionManageDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -157,7 +158,35 @@ public class StudentServiceImpl implements StudentService{
 
     }
 
+    @Override
+    public Map<String, Object> findSubjectScore() {
+        List<ScoreStatistics> statisticsList = studentDao.findSubjectScore();
+        List<Subject> subjectList = questionManageDao.findSubject();
 
+        List<String> list = new ArrayList<>();
+        for (Subject subject : subjectList) {
+            list.add(subject.getName());
+        }
+
+        List<Integer> maxList = new ArrayList<>();
+        for (ScoreStatistics statistics : statisticsList) {
+            maxList.add(statistics.getMax());
+        }
+
+        List<Integer> auxList = new ArrayList<>();
+        for (ScoreStatistics scoreStatistics : statisticsList) {
+            auxList.add(scoreStatistics.getAverageScore());
+        }
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("maxList", maxList);
+        map.put("auxList", auxList);
+
+        System.out.println(map);
+
+        return map;
+    }
 
 
 }

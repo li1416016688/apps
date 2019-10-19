@@ -8,15 +8,15 @@ import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.entity.Subject;
 import com.easyexam.apps.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 public class StudentController {
     @Autowired
     private CodeMsg codeMsg;
@@ -24,6 +24,7 @@ public class StudentController {
     private StudentService studentService;
 
     @RequestMapping(value = "student/login")
+    @ResponseBody
     public JsonResult studentLogin(String idCard, String password, HttpSession session){
         Student student = studentService.studentLogin(idCard, password);
         session.setAttribute("student",student);
@@ -31,6 +32,7 @@ public class StudentController {
     }
 
     @RequestMapping("student/register")
+    @ResponseBody
     public JsonResult studentRegister(Student student){
         System.out.println("=="+student);
         studentService.studentRegister(student);
@@ -38,11 +40,13 @@ public class StudentController {
     }
 
     @RequestMapping("student/subject")
+    @ResponseBody
     public JsonResult studentSubject(){
         List<Subject> allSubject = studentService.findAllSubject();
         return new JsonResult(ErrorCode.SUCCESS,allSubject);
     }
     @RequestMapping("subject/complexity")
+    @ResponseBody
     public JsonResult subjectComplexity(){
         List<Complexity> allComplexity = studentService.findAllComplexity();
         return new JsonResult(ErrorCode.SUCCESS,allComplexity);
@@ -54,5 +58,17 @@ public class StudentController {
                             Integer num2, Integer num3, Integer num4){
         Map<String, List<Object>> map = studentService.createPaper(subjectId, level, num1, num2, num3, num4);
         return new JsonResult(ErrorCode.SUCCESS,map);
+    }
+
+    @RequestMapping("/findSubjectScore")
+    public String findScore(){
+        return "subjectScores";
+    }
+
+    @RequestMapping(value = "/findSubjectScores")
+    @ResponseBody
+    public JsonResult findSubjectScore() {
+        Map<String, Object> map = studentService.findSubjectScore();
+        return new JsonResult(ErrorCode.SUCCESS, map);
     }
 }

@@ -77,4 +77,15 @@
     <select id="findQuesQuestionsAnswersById" resultType="com.easyexam.apps.entity.QuesQuestionsAnswers">
         select * from q_questions_answers where id=#{id}
     </select>
+
+
+    <select id="findSubjectScore" resultType="ScoreStatistics">
+        SELECT
+            er.subject_id,
+            MAX( CASE WHEN er.subject_id THEN sp.score ELSE 0 END ) AS 'max',
+            AVG(sp.score) as 'averageScore'
+        FROM
+            student_paper sp
+                LEFT JOIN examination_room er ON sp.room_id = er.id GROUP BY er.subject_id
+    </select>
 </mapper>

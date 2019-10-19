@@ -1,7 +1,6 @@
 package com.easyexam.apps.controller;
 
 import com.easyexam.apps.common.CodeMsg;
-import com.easyexam.apps.entity.ExaminationRoom;
 import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.service.StudentManageService;
 import com.github.pagehelper.Page;
@@ -22,6 +21,8 @@ import java.util.Map;
 public class StudentManageController {
     @Autowired
     private StudentManageService studentManageService;
+
+
     @Autowired
     private CodeMsg codeMsg;
 
@@ -36,8 +37,6 @@ public class StudentManageController {
 //        System.out.println();
         return map;
     }
-
-
 
 
 

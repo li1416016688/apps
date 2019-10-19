@@ -352,6 +352,10 @@
         select * from subject where name = #{subjectName}
     </select>
 
+    <select id="findSubject" resultType="subject">
+        select * from subject
+    </select>
+
     <insert id="autoCreatePaper" parameterType="paper" keyProperty="id" useGeneratedKeys="true">
         insert into paper (subject_id, make_id, name, create_time, level)
         values (#{subjectId}, #{makeId}, #{name}, now(), #{level})
