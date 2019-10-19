@@ -56,6 +56,20 @@
     INNER JOIN paper on examination_room.paper_id = paper.id
     </select>
 
+
+    <select id="findAllExaminationRoomId" resultMap="ExaminationRoomMap" >
+    SELECT examination_room.id ,examination_room.room_name ,
+    examination_room.join_people_num  ,examination_room.total_people_num ,
+    examination_room.address,  subject.name sname,
+    p_user.name uname,   examination_room.begin_time,
+    examination_room.end_time  ,  paper.name  pname ,paper.level
+    from examination_room
+    INNER JOIN subject on examination_room.subject_id = subject.id
+    INNER JOIN  p_user  on examination_room.invigilate_id = p_user.uid
+    INNER JOIN paper on examination_room.paper_id = paper.id
+    </select>
+
+
     <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
       SELECT examination_room.id ,examination_room.room_name ,
       examination_room.join_people_num  ,examination_room.total_people_num ,
@@ -79,6 +93,23 @@
     <delete id="deleteExaminationRoom" parameterType="int">
         delete from  examination_room where id=#{id}
     </delete>
+
+    <select id="findPaperId" resultType="com.easyexam.apps.entity.Paper" parameterType="string">
+    SELECT paper.id  FROM paper  where paper.name =#{name};
+    </select>
+    <select id="findSubjectId" resultType="com.easyexam.apps.entity.Subject" parameterType="string">
+    SELECT subject.id  from `subject` where subject.name=#{name};
+    </select>
+    <select id="findInvigilateId"  resultType="com.easyexam.apps.entity.User" parameterType="string">
+    SELECT p_user.uid from p_user   WHERE p_user.name =#{name} ;
+    </select>
+
+
+    <insert id="addExaminationRoom" parameterType="com.easyexam.apps.entity.ExaminationRoom">
+ insert  into examination_room(room_name ,join_people_num  ,total_people_num ,
+address,begin_time,end_time ,subject_id,invigilate_id, paper_id)
+ VALUES(#{roomName},#{joinPeopleNum},#{totalPeopleNum},#{address},#{beginTime},#{endTime},#{subjectId} ,#{invigilateId},#{paperId} )
+</insert>
 
 
 </mapper>
