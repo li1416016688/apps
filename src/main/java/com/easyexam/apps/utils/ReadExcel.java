@@ -138,7 +138,7 @@ public class ReadExcel {
             XSSFRow row = sheet.getRow(i);
             //先判断是否为空再放入
             quesJudge.setQuestion(getCellStringValue(row.getCell(0)));
-            quesJudge.setAnswer(getCellBooleanValue(row.getCell(1)));
+            quesJudge.setAnswer(getCellBooleanValue(row.getCell(1))?1:0);   //如果为true存入1，否则存入0
             //根据输入的学科名称获取放入的id
             int id = getSubjectId(filePath, getCellStringValue(row.getCell(2)));
             quesJudge.setSubjectId(id);
