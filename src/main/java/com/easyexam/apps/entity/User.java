@@ -2,10 +2,16 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class User {
-    private int uid;
+public class User implements Serializable {
+    private Integer uid;
     private String name;
     private String password;
-    private String info;
+    private Integer age;
+    private String sex;
+    private String position;
+    private String remark;
+
 }

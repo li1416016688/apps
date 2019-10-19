@@ -9,4 +9,25 @@
         select id from ${table} where level=#{level} and subject_id=#{subjectId}
     </select>
 
+    <insert id="createPaper" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+        insert into paper(`subject_id`,`make_id`,`name`,`level`,`create_time`)
+         values
+         (#{subjectId},#{makeId},#{name},#{level},CURRENT_TIME())
+    </insert>
+
+    <insert id="insertQuesIntoPaper" parameterType="java.util.HashMap">
+        insert into paper_question(`paper_id`,`question_id`,`question_type`)
+         values
+         <foreach collection="questionId" item="qid" separator=",">
+         (#{paperId},#{qid},#{questionType})
+         </foreach>
+    </insert>
+
+    <select id="deletePaper" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        {call delete_paper(#{pid,mode=IN,jdbcType=INTEGER})}
+    </select>
+
 </mapper>
