@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 public class PaperQues implements Serializable {
+
     private List<QuesSingleChoose> quesSingleChooses;
     private List<QuesMultipleChoose> quesMultipleChooses;
     private List<QuesJudge> quesJudges;

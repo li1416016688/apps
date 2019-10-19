@@ -97,4 +97,11 @@ public class ErrorCode {
     public static int SHOW_QUES_LIST_REDIS_FAIL=2101;
 
     public static int AUTO_CREATE_PAPER_FAIL=2102;
+
+    public static int SHOW_EXAMINATION_ERROR=2506;
+    public static int EXAM_TIME_OVER=2507;
+    public static int EXAM_TIME_NO_START=2510;
+    public static int CREATE_PAPER_FAIL=2508;
+    public static int ILLEGAL_STUDENT=2509;
+
 }
