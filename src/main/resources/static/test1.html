@@ -26,23 +26,7 @@
 
     <div class="layui-form-item">
         <div class="layui-input-inline">
-            <select name="subjectId" id="subjectId">
-                <option value="">科目</option>
-                <option value="1">语文</option>
-                <option value="2">英语</option>
-                <option value="3">数学</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select name="quesId" id="quesId">
-                <option value="1">单选题</option>
-                <option value="2">多选题</option>
-                <option value="3">判断题</option>
-                <option value="4">简答题</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <input type="text" name="questionInfo" id="questionInfo" placeholder="请输入题目" class="layui-input">
+            <input type="text" name="questionInfo" id="questionInfo" placeholder="请输入用户名" class="layui-input">
         </div>
 
         <div class="layui-input-inline">
@@ -51,8 +35,6 @@
                 </button>
             </div>
         </div>
-        <button class="layui-btn" id="addButton">添加</button>
-        <button class="layui-btn" id="addByExcelButton">模板添加</button>
     </div>
 
     <form class="layui-form" id="add-form" style="display: none" lay-filter="example">
@@ -60,232 +42,25 @@
         <input hidden type="text" id="ques_id" name="id">
 
         <div class="layui-form-item">
-            <label class="layui-form-label">科目：</label>
-            <div class="layui-input-block">
-                <select name="subjectId" id="subject_Id" class="courseName" style="width: 300px">
-                    <option value="">请选择科目...</option>
-                    <option value="1">语文</option>
-                    <option value="2">英语</option>
-                    <option value="3">数学</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">题目类型：</label>
-            <div class="layui-input-block">
-                <select name="questId" id="quest_Id" class="typeName" style="width: 300px">
-                    <option value="">请选择题目类型...</option>
-                    <option value="1">单选题</option>
-                    <option value="2">多选题</option>
-                    <option value="3">判断题</option>
-                    <option value="4">简答题</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">题干：</label>
+            <label class="layui-form-label">职位：</label>
             <div class="layui-input-block">
                 <input type="text" name="question" id="question" lay-verify="title" class="layui-input"
                        style="width: 300px">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">选项A：</label>
+            <label class="layui-form-label">备注：</label>
             <div class="layui-input-block">
                 <input type="text" name="chooseA" id="chooseA" lay-verify="title" class="layui-input"
                        style="width: 300px">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项B：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseB" id="chooseB" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项C：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseC" id="chooseC" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项D：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseD" id="chooseD" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">答案：</label>
-            <div class="layui-input-block">
-                <input type="text" name="answer" id="answer" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">难度：</label>
-            <div class="layui-input-block">
-                <input type="number" name="level" id="level" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">自定义：</label>
-            <div class="layui-input-block">
-                <input type="text" name="tag" id="tag" lay-verify="title" class="layui-input" style="width: 300px">
-            </div>
-        </div>
-
-        <!--<div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
-        </div>-->
-    </form>
-    <form class="layui-form" id="add-form2" style="display: none" lay-filter="example2">
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">科目：</label>
-            <div class="layui-input-block">
-                <select name="subjectId" id="" class="courseName" style="width: 300px">
-                    <option value="">请选择科目...</option>
-                    <option value="1">语文</option>
-                    <option value="2">英语</option>
-                    <option value="3">数学</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">题目类型：</label>
-            <div class="layui-input-block">
-                <select name="questId"  class="typeName" style="width: 300px">
-                    <option value="">请选择题目类型...</option>
-                    <option value="1">单选题</option>
-                    <option value="2">多选题</option>
-                    <option value="3">判断题</option>
-                    <option value="4">简答题</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">题干：</label>
-            <div class="layui-input-block">
-                <input type="text" name="question"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项A：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseA"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项B：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseB"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项C：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseC"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选项D：</label>
-            <div class="layui-input-block">
-                <input type="text" name="chooseD" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">答案：</label>
-            <div class="layui-input-block">
-                <input type="text" name="answer"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">难度：</label>
-            <div class="layui-input-block">
-                <input type="number" name="level"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">自定义：</label>
-            <div class="layui-input-block">
-                <input type="text" name="tag"  lay-verify="title" class="layui-input" style="width: 300px">
-            </div>
-        </div>
-
-        <!--<div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
-        </div>-->
     </form>
 
-    <form class="layui-form" id="excelAddForm" style="display: none" lay-filter="example3">
-        <div class="layui-form-item" style="margin: 10px 0 20px 8px">
-            <a href="d?fileName=quesTemplate" download="" class="layui-btn">下载模板文件</a>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">解析类型：</label>
-            <div class="layui-input-block" style="width:270px">
-                <select name="sheetName"  class="typeName" id="sheetName">
-                    <option value="">请选择需要解析的表格...</option>
-                    <option value="singleChoose">单选题</option>
-                    <option value="multipleChoose">多选题</option>
-                    <option value="judge">判断题</option>
-                    <option value="questionsAnswers">简答题</option>
-                    <option value="all">全部</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">上传模板：</label>
-            <div class="layui-input-block"  style="width:270px">
-                <input type="file" name="file" id="excelFile" />
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-input-block"  style="width:270px">
-                <input type="button" id="uploadExcel" value="上传" class="layui-btn" />
-            </div>
-        </div>
-
-        <div class="layui-form-item" style="margin: 20px 40px;font-size:14px;color:#999;">
-            模板导入说明：<br/>
-            &nbsp;&nbsp;&nbsp;下载模板文件后，可以将题目放入表格中，每行一题，不同类型的题目分别
-            放入不同的表中。其中灰色的单元格不可修改编辑，否则可能导致上传失败。<br/>
-            &nbsp;&nbsp;&nbsp;上传成功后，系统会自动进行解析，稍等片刻后即可提示成功导入总条数。<br/>
-            &nbsp;&nbsp;&nbsp;注意：模板中的"学科"和"judge"单元格不可进行任何编辑，否则会导致上传失败！<br/><br/>
-            &nbsp;&nbsp;&nbsp;请正确选择题目类型，系统会根据选择的类型读取对应的表格，如果有多种体型，请选择
-            "全部解析"，但使用模板前请确定模板各表格均为空白，避免题目重复导入。
-        </div>
-    </form>
 </div>
 
-
-<table class="layui-hide" id="questionTable" lay-filter="test"></table>
+<table class="layui-hide" id="questionTable" lay-filter="test2"></table>
 
 </body>
 
@@ -295,6 +70,7 @@
 <script src="js/jquery-1.12.2.min.js"></script>
 
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">角色</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -306,88 +82,52 @@
             , table = layui.table //表格
             , element = layui.element; //元素操作
 
-        var bo = $("#quesId").val();
 
-        var resData = null;
         table.render({
             elem: '#questionTable'
-            , height: 520
-            , url: 'singleChooseList.do' //数据接口
+            , height: 600
+            , url: 'findAllUser.do' //数据接口
             , title: '单选列表'
             , page: true //开启分页
             , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             , cols: [
-                [
-                    {type: 'numbers', fixed: 'left', title: 'ID'}
-                    , {field: 'question', title: '题目', width: 500}
-                    , {field: 'chooseA', title: '选项A', width: 100, align: 'center', hide: true}
-                    , {field: 'chooseB', title: '选项B', width: 100, align: 'center', hide: true}
-                    , {field: 'chooseC', title: '选项C', width: 100, align: 'center', hide: true}
-                    , {field: 'chooseD', title: '选项D', width: 100, align: 'center', hide: true}
-                    , {field: 'answer', title: '答案', width: 60, align: 'center', hide: true}
-                    , {
-                    field: 'name', title: '科目', templet: function (d) {
-                        return d.subject.name;
-                    }, width: 60, align: 'center'
-                }
-                    , {field: 'level', title: '难度等级', width: 60, sort: true, align: 'center'}
-                    , {field: 'tag', title: '自定义', width: 100, align: 'center'}
-                    , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
-                ]
+                [ //表头
+                {field: 'u', title: '序号', width: 90, type: 'numbers'}
+                , {field: 'uid', title: 'ID', width: 90, sort: true, fixed: 'left', hide: true}
+                , {field: 'name', title: '用户名', width: 90}
+                , {field: 'password', title: '密码', width: 240}
+                , {field: 'sex', title: '性别', width: 90, sort: true}
+                , {field: 'age', title: '年龄', width: 90, sort: true, totalRow: true}
+                , {field: 'position', title: '职位', width: 150}
+                , {field: 'remark', title: '备注', width: 270}
+                , {fixed: 'right', width: 260, align: 'center', toolbar: '#barDemo'}
             ]
-            , done: function (res, curr, count) {
+            ]
+            , done: function(res, curr, count){
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                // console.log(res);
-                // var resDaata = res;
-                //
-                // resData = res;
-                //
-                // //得到当前页码
+                console.log(res);
+
+                //得到当前页码
                 // console.log(curr);
-                //
-                // //得到数据总量
+
+                //得到数据总量
                 // console.log(count);
             }
         });
 
 
-        //监听头工具栏事件
-        table.on('toolbar(test)', function (obj) {
-            var checkStatus = table.checkStatus(obj.config.id)
-                , data = checkStatus.data; //获取选中的数据
-            switch (obj.event) {
-                case 'update':
-                    if (data.length === 0) {
-                        layer.msg('请选择一行');
-                    } else if (data.length > 1) {
-                        layer.msg('只能同时编辑一个');
-                    } else {
-                        layer.alert('编辑 [id]：' + checkStatus.data[0].id);
-                    }
-                    break;
-                case 'delete':
-                    if (data.length === 0) {
-                        layer.msg('请选择一行');
-                    } else {
-                        layer.msg('删除');
-                    }
-                    break;
-            }
-        });
-
         //监听行工具事件
-        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值
-            var quesId = $("#quesId").val();
+        table.on('tool(test2)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
             console.log(data);
+            alert(data.name);
+            alert(2);
             if (layEvent === 'del') {
                 layer.confirm('真的删除行么', function (index) {
-
                     $.ajax({
-                        //type:"delete",answer
-                        url: "deleteQues.do?id=" + data.id + "&quesId=" + quesId,
+                        url: "deleteOneUser.do?uid=" + data.uid,
                         dataType: "json",
                         success: function (data) {
                             if (data.code == 1100) {
@@ -406,6 +146,7 @@
             } else if (layEvent === 'edit') {
                 //编辑
                 form.val("example", data);
+                console.log(data);
                 layer.open({
                     type: 1,
                     area: ['500px', '600px'],
@@ -414,24 +155,11 @@
                     shade: 0,
                     btn: ['提交', '重置']
                     , btn1: function (index, layero) {
-                        $("#ques_id").val(0);
-                        var questId = $("#quesId").val();
-                        var url = "";
-                        if (questId == 1) {
-                            url = "updateQuesSingleChoose.do"
-                        } else if (questId == 2) {
-                            url = "updateQuesMultipleChoose.do"
-                        } else if (questId == 3) {
-                            url = "updateQuesJudge.do"
-                        } else if (questId == 4) {
-                            url = "updateQuesQuestionsAnswers.do"
-                        }
-
                         $.ajax({
-                            url: url,
+                            url: "updateUser.do?uid=" + data.id,
                             type: "post",
                             dataType: "json",
-                            data : $("#add-form").serialize(),
+                            data: $("#add-form").serialize(),
                             success: function (data) {
                                 if (data.code == 1101) {
                                     layer.closeAll();
@@ -441,123 +169,48 @@
                                 }
                             }
                         });
-
                     },
                     btn2: function (index, layero) {
-                        alert("2222");
                         return false;
                     },
                     cancel: function (layero, index) {
                         layer.closeAll();
                     }
-
                 });
                 table.reload("questionTable");
-            }
-        });
-
-        $("#addButton").click(function () {
-            //添加
-            table.reload("questionTable");
-
-            layer.open({
-                type: 1,
-                area: ['500px', '600px'],
-                title: '添加'
-                , content: $("#add-form2"),
-                shade: 0,
-                btn: ['提交', '重置']
-                , btn1: function (index, layero) {
-                    var questId = $("#quesId").val();
-                    var url = "";
-                    if (questId == 1) {
-                        url = "addQuesSingleChoose"
-                    } else if (questId == 2) {
-                        url = "addQuesMultipleChoose"
-                    } else if (questId == 3) {
-                        url = "addQuesJudge"
-                    } else if (questId == 4) {
-                        url = "addQuesQuestionsAnswer"
+            } else if (layEvent === 'detail') {
+                //角色
+                var index = layer.open({
+                    type: 2,
+                    area: ['500px', '600px'],
+                    title: '角色'
+                    , content: [''],  //角色路径
+                    success: function (layero, index) {
+                        var iframe = window['layui-layer-frame' + index];
+                        //调用子页面的全局函数
                     }
+                });
 
-
-
-                    $.ajax({
-                        url: url,
-                        type: "post",
-                        data : $("#add-form2").serialize(),
-                        success: function (data) {
-                            if (data.code == 2330) {
-                                layer.closeAll();
-                                layer.msg("添加成功");
-                            } else {
-                                layer.msg(data.info);
-                            }
+                function tableReload() {
+                    //表格重新加载
+                    table.reload('questionTable', {
+                        //设定异步数据接口的额外参数，任意设
+                        where: {
+                            quesId: $("#quesId").val(),
+                            subjectId: $("#subjectId").val(),
+                            questionInfo: $("#questionInfo").val()
+                        }
+                        , page: {
+                            curr: 1
                         }
                     });
-                },
-                btn2: function (index, layero) {
-                    return false;
-                },
-                cancel: function (layero, index) {
-                    layer.closeAll();
                 }
 
-            });
-        });
-
-        //表格模板导入添加
-        $("#addByExcelButton").click(function (){
-            // table.reload("questionTable");
-
-            layer.open({
-                type: 1,
-                area: ['500px', '600px'],
-                title: '模板添加'
-                , content: $("#excelAddForm"),
-                shade: 0
-            });
-        });
-
-        function tableReload() {
-            //表格重新加载
-            table.reload('questionTable', {
-                //设定异步数据接口的额外参数，任意设
-                where: {
-                    quesId: $("#quesId").val(),
-                    subjectId: $("#subjectId").val(),
-                    questionInfo: $("#questionInfo").val()
-                }
-                , page: {
-                    curr: 1
-                }
-            });
-        }
-
-        $('#queryButton').on('click', function () {
-            tableReload();
-        });
-
-        $("#uploadExcel").on('click',function () {
-            var files = $("#excelFile").prop('files');
-            var data = new FormData();
-            data.append('file',files[0]);
-            data.append('sheetName',$('#sheetName').val());
-            $.ajax({
-                type:"POST",
-                url:"importExcel",
-                data:data,
-                cache:false,
-                processData:false,
-                contentType:false,
-                success:function(retData){
-                    layer.msg(retData.info);
-                },
-                error:function (retData) {
-                    layer.msg(retData.info);
-                }
-            });
-        });
+                $('#queryButton').on('click', function () {
+                    tableReload();
+                });
+            }
+        })
     });
 </script>
 </html>
