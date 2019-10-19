@@ -585,19 +585,18 @@ public class QuestionManageServiceImpl implements QuestionManageService {
 
         Map<String, Object> map = new LinkedHashMap<>();
 
-
-
         QuesSingleChoose quesSingleChoose = new QuesSingleChoose();
         QuesMultipleChoose quesMultipleChoose = new QuesMultipleChoose();
         QuesJudge quesJudge = new QuesJudge();
         QuesQuestionsAnswers quesQuestionsAnswers = new QuesQuestionsAnswers();
-        ShowQuestFromRedis showQuestFromRedis = new ShowQuestFromRedis();
+
         List<ShowQuestFromRedis> showQuestFromRedisList = new Page<>();
         //遍历生成试卷的中间表
         for (PaperQuestion paperQuestion : paperQuestions) {
             if (questionManageDao.findQuestionType(paperQuestion.getQuestionType()) != null) {
                 if (paperQuestion.getQuestionType() == 1 && questType == 1) {
                     PageHelper.startPage(page, limit);
+                    ShowQuestFromRedis showQuestFromRedis = new ShowQuestFromRedis();
                     quesSingleChoose = questionManageDao.findQuesSingleChooseById(paperQuestion.getQuestionId());
                     showQuestFromRedis.setQuestionId(quesSingleChoose.getId());
                     showQuestFromRedis.setQuestion(quesSingleChoose.getQuestion());
@@ -607,6 +606,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                     showQuestFromRedisList.add(showQuestFromRedis);
                 } else if (paperQuestion.getQuestionType() == 2 && questType == 2) {
                     PageHelper.startPage(page, limit);
+                    ShowQuestFromRedis showQuestFromRedis = new ShowQuestFromRedis();
                     quesMultipleChoose = questionManageDao.findQuesMultipleChooseById(paperQuestion.getQuestionId());
                     showQuestFromRedis.setQuestionId(quesMultipleChoose.getId());
                     showQuestFromRedis.setQuestion(quesMultipleChoose.getQuestion());
@@ -614,8 +614,10 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                     showQuestFromRedis.setTag(quesMultipleChoose.getTag());
                     showQuestFromRedis.setQuestionType(String.valueOf(quesMultipleChoose.getQuestionType()));
                     showQuestFromRedisList.add(showQuestFromRedis);
+                    quesMultipleChoose = null;
                 } else if (paperQuestion.getQuestionType() == 3 && questType == 3) {
                     PageHelper.startPage(page, limit);
+                    ShowQuestFromRedis showQuestFromRedis = new ShowQuestFromRedis();
                     quesJudge = questionManageDao.findQuesJudgeById(paperQuestion.getQuestionId());
                     showQuestFromRedis.setQuestionId(quesJudge.getId());
                     showQuestFromRedis.setQuestion(quesJudge.getQuestion());
@@ -623,8 +625,10 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                     showQuestFromRedis.setTag(quesJudge.getTag());
                     showQuestFromRedis.setQuestionType(String.valueOf(quesJudge.getQuestionType()));
                     showQuestFromRedisList.add(showQuestFromRedis);
+                    quesJudge = null;
                 } else if (paperQuestion.getQuestionType() == 4 && questType == 4) {
                     PageHelper.startPage(page, limit);
+                    ShowQuestFromRedis showQuestFromRedis = new ShowQuestFromRedis();
                     quesQuestionsAnswers = questionManageDao.findQuestionsAnswerById(paperQuestion.getQuestionId());
                     showQuestFromRedis.setQuestionId(quesQuestionsAnswers.getId());
                     showQuestFromRedis.setQuestion(quesQuestionsAnswers.getQuestion());
@@ -632,7 +636,8 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                     showQuestFromRedis.setTag(quesQuestionsAnswers.getTag());
                     showQuestFromRedis.setQuestionType(String.valueOf(quesQuestionsAnswers.getQuestionType()));
                     showQuestFromRedisList.add(showQuestFromRedis);
-                } else if (questType < 1 || questType > 4){
+                    quesQuestionsAnswers = null;
+                } else if (questType < 1 || questType > 4) {
                     throw new MyException(ErrorCode.SHOW_QUES_LIST_REDIS_FAIL, codeMsg.getShowQuesListOnRedis());
                 }
 

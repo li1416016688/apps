@@ -426,7 +426,6 @@
                         } else if (questId == 4) {
                             url = "updateQuesQuestionsAnswers.do"
                         }
-
                         $.ajax({
                             url: url,
                             type: "post",
@@ -441,6 +440,8 @@
                                 }
                             }
                         });
+                        table.reload("questionTable");
+
 
                     },
                     btn2: function (index, layero) {
@@ -452,13 +453,12 @@
                     }
 
                 });
-                table.reload("questionTable");
+
             }
         });
 
         $("#addButton").click(function () {
             //添加
-            table.reload("questionTable");
 
             layer.open({
                 type: 1,
