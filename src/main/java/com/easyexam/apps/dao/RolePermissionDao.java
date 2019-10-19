@@ -3,7 +3,6 @@ package com.easyexam.apps.dao;
 import com.easyexam.apps.entity.RolePermission;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository

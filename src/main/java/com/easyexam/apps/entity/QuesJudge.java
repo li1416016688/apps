@@ -5,11 +5,14 @@ package com.easyexam.apps.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class QuesJudge {
+public class QuesJudge implements Serializable {
     private int id;
     private String question;
-    private boolean answer; //数据库中1为true；0为false；可以自动注入
+    private int answer; //-1为空，0为错，1为对
+    private int studentAnswer;//考生答案;-1为空，0为错，1为对
     private int subjectId;
     private Subject subject;
     private int level;

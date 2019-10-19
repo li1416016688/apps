@@ -7,6 +7,7 @@ import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.QuestionManageService;
 import com.github.pagehelper.Page;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,11 +35,22 @@ public class QuestionManageController {
     @Autowired
     QuestionManageService questionManageService;
 
-    //    @RequiresPermissions({"test:type"})
+    /**
+     * 跳转页面  试题分类管理
+     * @return
+     */
+    @RequiresPermissions({"test:type"})
     @RequestMapping("/singleChoose")
     public String singleChoose() {
         return "questUpdate";
     }
+
+    @RequiresPermissions({"test:generate"})
+    @RequestMapping("/createTestPaper")
+    public String createTestPaper() {
+        return "createTestPaper";
+    }
+
 
     /**
      * 展示所有的题目并进行分页
