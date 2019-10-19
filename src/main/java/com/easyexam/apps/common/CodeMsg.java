@@ -168,7 +168,8 @@ public class CodeMsg {
     private String addRoomNumOverstep;
     @Value("${code.2064}")
     private String addPaperPageNull;
-
+    @Value("${code.2068}")
+    private String addRoomNumLess;
     @Value("${code.2066}")
     private String addUserPageNull;
     @Value("${code.2067}")
@@ -187,4 +188,7 @@ public class CodeMsg {
     private String IllegalStudent;
     @Value("${code.2510}")
     private String ExamTimeNoStart;
+    @Value("${code.2405}")
+    private String ExamineeDoublePasswordSame;
+
 }

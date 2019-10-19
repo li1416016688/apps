@@ -82,7 +82,7 @@
 
     <update id="updateExaminationRoom" parameterType="ExaminationRoom">
     update examination_room
-    set room_name=#{roomName},join_people_num=#{joinPeopleNum},
+    set room_name=#{roomName}
     total_people_num=#{totalPeopleNum},address=#{address},
     subject_id=#{subjectId},invigilate_id=#{invigilateId},
     begin_time=#{beginTime},end_time=#{endTime},
@@ -102,6 +102,10 @@
     </select>
     <select id="findInvigilateId"  resultType="com.easyexam.apps.entity.User" parameterType="string">
     SELECT p_user.uid from p_user   WHERE p_user.name =#{name} ;
+    </select>
+
+    <select id="ExamineeNumOneRoom" parameterType="int">
+        SELECT count(sid) from student_room where rid=#{rid};
     </select>
 
 

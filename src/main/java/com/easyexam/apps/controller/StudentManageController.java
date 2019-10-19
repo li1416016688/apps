@@ -56,13 +56,16 @@ public class StudentManageController {
     }
 
     @PostMapping("/Examinee/update")
-    public JsonResult updateExaminee(Student student) {
+    public JsonResult updateExaminee(Student student,String repeatPassword) {
         int id = student.getId();
         String phone = student.getPhone();
+        String password= student.getPassword();
         List<Student> allExamineeId = studentManageService.findAllExamineeId();
         Integer id1 = null;
         String phone1 = null;
-
+        if (!password.equals(repeatPassword)){
+            return new JsonResult(2405,codeMsg.getExamineeDoublePasswordSame());
+        }
         for (Student student1 : allExamineeId) {
             id1 = student1.getId();
             phone1 = student1.getPhone();

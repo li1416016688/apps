@@ -21,9 +21,11 @@ public interface ExaminationRoomDao {
 
 
     public Paper findPaperId(String  paperName);
-
     public Subject findSubjectId(String  subjectName);
-
     public User findInvigilateId(String uname);
+
+    //查找一个考场的学生人数
+    public Integer ExamineeNumOneRoom(Integer rid);
+
 
 }

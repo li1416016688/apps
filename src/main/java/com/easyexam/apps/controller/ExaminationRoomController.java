@@ -21,9 +21,25 @@ public class ExaminationRoomController {
     @Autowired
     private CodeMsg codeMsg;
 
+    /**
+     * 跳转页面  考场管理
+     * @return
+     */
+     @RequiresPermissions({"room:list"})
+    @RequestMapping("/Examinationlist")
+    public String ExaminationRoomList() {
+        return "room";
+    }
+    @RequestMapping("/Examineelist")
+    public String ExamineeList() {
+        return "student";
+    }
+
+
+
     //查找所有的考场信息
-    @RequiresPermissions({"room:list"})
-    @RequestMapping(value = "/examinationRoom/findAll" ,method = RequestMethod.GET)
+//    @RequiresPermissions({"room:list"})
+    @RequestMapping(value = "/examinationRoom/findAll")
     public Map findAllexaminationRoom(Integer page, Integer limit){
         HashMap<String, Object> map = new HashMap<>();
         List<ExaminationRoom> examinationRoomList = examinationRoomService.findAllExaminationRoom(page, limit);
@@ -34,11 +50,6 @@ public class ExaminationRoomController {
         return map;
     }
 
-
-    @RequestMapping("/Examination/list")
-    public String ExaminationRoomList() {
-        return "room";
-    }
 
 
     //查找一个考场的信息
@@ -57,7 +68,6 @@ public class ExaminationRoomController {
 //    删除一个考场的信息
     @PostMapping("examinationRoom/delete")
     public JsonResult deleteExaminationRoom(Integer id){
-
         examinationRoomService.deleteExaminationRoom(id);
         return new JsonResult(1018,codeMsg.getDeleteExaminationroom());
     }

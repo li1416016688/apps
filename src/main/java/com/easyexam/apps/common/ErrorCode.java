@@ -106,7 +106,7 @@ public class ErrorCode {
     public static int EXAM_TIME_NO_START=2510;
     public static int CREATE_PAPER_FAIL=2508;
     public static int ILLEGAL_STUDENT=2509;
-
+    public static int ADD_ROOM_NUM_LESS=2064;
 
 
 

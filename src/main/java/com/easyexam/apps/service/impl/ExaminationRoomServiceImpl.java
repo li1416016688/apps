@@ -57,7 +57,7 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
         int joinPeopleNum = room.getJoinPeopleNum();
         int totalPeopleNum = room.getTotalPeopleNum();
         if (joinPeopleNum>totalPeopleNum){
-            throw new MyException(ErrorCode.ADD_ROOM_NUM_OVERSTEP,codeMsg.getAddRoomNumOverstep());
+            throw new MyException(ErrorCode.ADD_ROOM_NUM_LESS,codeMsg.getAddRoomNumLess());
         }
 
         if (invigilateName==""||invigilateName==null){
@@ -107,15 +107,14 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
         List<ExaminationRoom> allExaminationRoomId = examinationRoomDao.findAllExaminationRoomId();
         for (ExaminationRoom Room:allExaminationRoomId){
             String room1 = Room.getRoomName();
-
             if (room1.equals(roomName)){
                 throw new MyException(ErrorCode.ADD_ROOM_NAME_REPEAT,codeMsg.getAddRoomNameRepeat());
-
             }
         }
-        int joinPeopleNum = room.getJoinPeopleNum();
+        int id = room.getId();
+        Integer stuNum = examinationRoomDao.ExamineeNumOneRoom(id);
         int totalPeopleNum = room.getTotalPeopleNum();
-        if (joinPeopleNum>totalPeopleNum){
+        if (stuNum>totalPeopleNum){
             throw new MyException(ErrorCode.ADD_ROOM_NUM_OVERSTEP,codeMsg.getAddRoomNumOverstep());
         }
 
@@ -147,6 +146,7 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
         if ("".equals(subjectId)&&"".equals(invigilateId)&&"".equals(paperId)){
             throw new MyException(ErrorCode.ADD_USER_PAPER_SUJECT_ID__NULL,codeMsg.getAddUserPaperSujectIdNull());
         }
+        room.setJoinPeopleNum(stuNum);
         room.setSubjectId(subjectId);
         room.setInvigilateId(invigilateId);
         room.setPaperId(paperId);
