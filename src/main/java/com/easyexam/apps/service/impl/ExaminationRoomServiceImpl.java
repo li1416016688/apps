@@ -37,4 +37,15 @@ public class ExaminationRoomServiceImpl implements ExaminationRoomService {
     public void deleteExaminationRoom(Integer id) {
         examinationRoomDao.deleteExaminationRoom(id);
     }
+
+    @Override
+    public void addExaminationRoom(ExaminationRoom room) {
+        examinationRoomDao.addExaminationRoom(room);
+
+    }
+
+    @Override
+    public List<ExaminationRoom> findAllExaminationRoomId() {
+        return examinationRoomDao.findAllExaminationRoomId();
+    }
 }

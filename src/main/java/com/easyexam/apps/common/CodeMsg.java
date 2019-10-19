@@ -156,4 +156,7 @@ public class CodeMsg {
     private String studentidCardError;
     @Value("${code.2403}")
     private String studentIdCardFormatError;
+    @Value("${code.1419}")
+    private String examinationRoomAddSuccess;
+
 }

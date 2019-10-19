@@ -9,4 +9,8 @@ public interface ExaminationRoomService {
     public ExaminationRoom findOneExaminationRoom(Integer id);
     public void  updateExaminationRoom(ExaminationRoom room);
     public void deleteExaminationRoom(Integer id);
+    public void  addExaminationRoom(ExaminationRoom room);
+    public List<ExaminationRoom>findAllExaminationRoomId();
+
+
 }

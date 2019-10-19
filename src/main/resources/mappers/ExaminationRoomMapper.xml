@@ -56,6 +56,20 @@
     INNER JOIN paper on examination_room.paper_id = paper.id
     </select>
 
+
+    <select id="findAllExaminationRoomId" resultMap="ExaminationRoomMap" >
+    SELECT examination_room.id ,examination_room.room_name ,
+    examination_room.join_people_num  ,examination_room.total_people_num ,
+    examination_room.address,  subject.name sname,
+    p_user.name uname,   examination_room.begin_time,
+    examination_room.end_time  ,  paper.name  pname ,paper.level
+    from examination_room
+    INNER JOIN subject on examination_room.subject_id = subject.id
+    INNER JOIN  p_user  on examination_room.invigilate_id = p_user.uid
+    INNER JOIN paper on examination_room.paper_id = paper.id
+    </select>
+
+
     <select id="findOneExaminationRoom" resultMap="ExaminationRoomMap">
       SELECT examination_room.id ,examination_room.room_name ,
       examination_room.join_people_num  ,examination_room.total_people_num ,
@@ -80,5 +94,7 @@
         delete from  examination_room where id=#{id}
     </delete>
 
+<insert id="addExaminationRoom" parameterType="com.easyexam.apps.entity.ExaminationRoom">
 
+</insert>
 </mapper>

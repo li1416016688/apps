@@ -15,6 +15,6 @@ public interface ExaminationRoomDao {
     public void  updateExaminationRoom(ExaminationRoom room);
     public void  deleteExaminationRoom(Integer id);
     public void  addExaminationRoom(ExaminationRoom room);
-
+    public List<ExaminationRoom>findAllExaminationRoomId();
 
 }
