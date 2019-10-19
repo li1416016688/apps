@@ -79,7 +79,7 @@ public class PaperManageServiceImpl implements PaperManageService {
         // 不然卷子将使用默认分数1分;
         // 新的接口完成后，这个接口直接跳转新接口，强制设定分数；
 
-        return new JsonResult(2350,"id is:"+paperId);
+        return new JsonResult(ErrorCode.CREATE_PAPER_SUCCESS,codeMsg.getCreatePaperSuccess());
     }
 
     @Override
