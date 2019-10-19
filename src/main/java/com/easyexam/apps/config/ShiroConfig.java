@@ -47,14 +47,14 @@ public class ShiroConfig {
         // roles[] 存入角色信息
         //filterChainDefinitionMap.put("/user/list", "perms[user:list]");
 
-        filterChainDefinitionMap.put("/admin/**", "authc");
-        filterChainDefinitionMap.put("/user/**", "authc");
+//        filterChainDefinitionMap.put("/admin/**", "authc");
+//        filterChainDefinitionMap.put("/user/**", "authc");
 
         //退出时，指定logout过滤器
 //        filterChainDefinitionMap.put("/logout", "logout");
 
         //必须放在所有权限设置的最后，匹配的是不满足前面匹配条件的资源
-//        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
 
@@ -73,7 +73,7 @@ public class ShiroConfig {
     public MyRealm customRealm() {
         MyRealm customRealm = new MyRealm();
         // 设置密码匹配器
-        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+//        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
     }
 

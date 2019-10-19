@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyexam.apps.dao.TeacherManageDao">
+
+
+
+    <select id="findUserByName" parameterType="map" resultType="user">
+        select * from p_user where name = #{username}
+    </select>
+
+    <select id="findPermsByName" parameterType="String" resultType="String">
+        SELECT
+            p.perm_desc
+        FROM
+            p_permission p
+                INNER JOIN p_role_permission prp ON prp.pid = p.pid
+                INNER JOIN p_user_role pur ON pur.rid = prp.rid
+                INNER JOIN p_user u ON u.uid = pur.uid
+        WHERE
+            u.`name` = #{name}
+          AND p.perm_desc != ''
+          AND p.parent_id IS NOT NULL
+    </select>
+
+</mapper>
