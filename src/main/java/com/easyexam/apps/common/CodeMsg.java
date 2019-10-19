@@ -150,7 +150,7 @@ public class CodeMsg {
     @Value("${code.1006}")
     private String studentaddSuccess;
 
-    @Value("${code.2401}")
+    @Value("${code.2404}")
     private String studentphoneError;
     @Value("${code.2402}")
     private String studentidCardError;

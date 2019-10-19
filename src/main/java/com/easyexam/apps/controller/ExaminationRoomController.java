@@ -34,6 +34,13 @@ public class ExaminationRoomController {
         return map;
     }
 
+
+    @RequestMapping("/Examination/list")
+    public String ExaminationRoomList() {
+        return "room";
+    }
+
+
     //查找一个考场的信息
     @PostMapping("examinationRoom/findone")
     public JsonResult findOneExaminationRoom(Integer id){
