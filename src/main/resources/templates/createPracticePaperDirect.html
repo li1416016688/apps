@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>模拟考试向导 | easyExam在线考试系统</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .demo-carousel {
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+
+        .divTable {
+            float: left;
+        }
+
+        .divTable2 {
+            float: left;
+            width: 400px;
+            height: 520px;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote">模拟练习</blockquote>
+
+    <form class="layui-form" id="add-form" lay-filter="example">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">科目：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <select name="subjectId" id="subjectId" class="courseName">
+                    <option value="1">语文</option>
+                    <option value="2">英语</option>
+                    <option value="3">数学</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">试卷难度：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <select name="level" id="level" class="level">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="num1" id="ques_single_choose_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">多选题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="num2" id="ques_multiple_choose_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">判断题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="num3" id="ques_judge_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">问答题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="num4" id="ques_ques_answers_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+        <input type="hidden" name="questionCount" id="questionCount" />
+
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="width: 300px">
+                <input type="button" id="submit-button" class="layui-btn" value="提交">
+            </div>
+        </div>
+    </form>
+
+    <div style="margin: 30px 50px;color: #c2c2c2">
+        生成说明：<br/>
+        试卷随机生成会根据您设定的各种题型的题目数量和难度等级随机一键组卷；<br/>
+        生成的试卷题目不计分，不保存，若再次练习请重新生成。<br/>
+        注意：<br/>
+        1、当题库中对应题型、难度的题目数量少于输入的数量时，会导致实际试卷中的题目数量小于设定的题目数量；<br/>
+        2、如不需要某一题型，对应的数量输入0或留空即可；<br/>
+    </div>
+</body>
+
+<script src="layui/layui.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+    layui.use('form', function(){
+
+    })
+    $("#submit-button").click(
+        function () {
+            //提交
+            $.ajax({
+                url:"createPracticePaper.do",
+                type:"get",
+                dataType:"json",
+                data:$("#add-form").serialize(),
+                success:function (data) {
+                    if(data.code == 1001){
+                        layer.msg("生成成功，试卷信息如下："+data.info);
+                    }else{
+                        layer.msg("失败，错误信息："+data.info);
+                    }
+                }
+            })
+        });
+</script>
+</html>

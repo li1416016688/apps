@@ -57,6 +57,12 @@ public class QuestionManageController {
         return "createRandomTestPaper";
     }
 
+    @RequiresPermissions({"test:type"})
+    @RequestMapping("/createPracticePaperDirect")
+    public String createPracticePaperDirect(){
+        return "createPracticePaperDirect";
+    }
+
 
     /**
      * 展示所有的题目并进行分页

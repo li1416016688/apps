@@ -7,6 +7,7 @@ import com.easyexam.apps.entity.Complexity;
 import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.entity.Subject;
 import com.easyexam.apps.service.StudentService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
