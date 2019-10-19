@@ -102,4 +102,20 @@ public class ErrorCode {
     public static int AUTO_CREATE_PAPER_FAIL=2102;
 
 
+
+    //考场：没有此学科名称
+    public static int ADD_SUBJECT_SQL_NULL=2061;
+    //考场：没有获取到学科名字
+    public static int ADD_SUBJECT_PAGE_NULL=2062;
+
+    //考场：没有此试卷名称
+    public static int ADD_PAPER_SQL_NULL=2063;
+    //考场：没有获取到试卷的名称
+    public static int ADD_PAPER_PAGE_NULL=2064;
+
+    //考场：没有这个老师
+    public static int ADD_USER_SQL_NULL=2065;
+    //考场：没写监考老师的名字
+    public static int ADD_USER_PAGE_NULL=2066;
+
 }

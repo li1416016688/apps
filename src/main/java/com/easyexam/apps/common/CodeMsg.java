@@ -159,4 +159,20 @@ public class CodeMsg {
     @Value("${code.1419}")
     private String examinationRoomAddSuccess;
 
+
+    @Value("${code.2061}")
+    private String addSubjectSqlNull;
+    @Value("${code.2062}")
+    private String addSubjectPageNull;
+    @Value("${code.2063}")
+    private String addPaperSqlNull;
+    @Value("${code.2064}")
+    private String addPaperPageNull;
+    @Value("${code.2065}")
+    private String addUserSqlNull;
+    @Value("${code.2066}")
+    private String addUserPageNull;
+
+
+
 }

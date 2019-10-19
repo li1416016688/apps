@@ -60,7 +60,7 @@ public class ExaminationRoomController {
     @PostMapping("examinationRoom/add")
     public JsonResult addExaminationRoom(ExaminationRoom room) {
 
-        examinationRoomService.addExaminationRoom(room);
+//        examinationRoomService.addExaminationRoom();
         return new JsonResult(1419,codeMsg.getDeleteExaminationroom());
     }
 }
