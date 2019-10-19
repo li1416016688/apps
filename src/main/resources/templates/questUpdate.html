@@ -324,9 +324,16 @@
                     , {field: 'chooseB', title: '选项B', width: 100, align: 'center', hide: true}
                     , {field: 'chooseC', title: '选项C', width: 100, align: 'center', hide: true}
                     , {field: 'chooseD', title: '选项D', width: 100, align: 'center', hide: true}
-                    , {field: 'answer', title: '答案', width: 60, align: 'center', hide: true}
-                    , {
-                    field: 'name', title: '科目', templet: function (d) {
+                    , {field: 'answer', title: '答案', templet: function (d) {
+                        if (d.answer == 0) {
+                            return '×';
+                        } else if (d.answer == 1) {
+                            return '√';
+                        } else {
+                            return '';
+                        }
+                    }, width: 60, align: 'center', hide: true}
+                    , {field: 'name', title: '科目', templet: function (d) {
                         return d.subject.name;
                     }, width: 60, align: 'center'
                 }

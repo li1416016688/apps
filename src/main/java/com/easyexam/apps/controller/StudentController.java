@@ -23,12 +23,23 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+
+    @RequestMapping("/loginStudent")
+    public String studentLogin() {
+        return "student_login";
+    }
+
     @RequestMapping(value = "student/login")
     @ResponseBody
     public JsonResult studentLogin(String idCard, String password, HttpSession session){
         Student student = studentService.studentLogin(idCard, password);
         session.setAttribute("student",student);
         return new JsonResult(ErrorCode.SUCCESS,student);
+    }
+
+    @RequestMapping("registerStudent")
+    public String studentRegister() {
+        return "student_register";
     }
 
     @RequestMapping("student/register")
@@ -60,15 +71,5 @@ public class StudentController {
         return new JsonResult(ErrorCode.SUCCESS,map);
     }
 
-    @RequestMapping("/findSubjectScore")
-    public String findScore(){
-        return "subjectScores";
-    }
 
-    @RequestMapping(value = "/findSubjectScores")
-    @ResponseBody
-    public JsonResult findSubjectScore() {
-        Map<String, Object> map = studentService.findSubjectScore();
-        return new JsonResult(ErrorCode.SUCCESS, map);
-    }
 }

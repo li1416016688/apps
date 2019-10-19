@@ -5,6 +5,7 @@ import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.service.StudentManageService;
+import com.easyexam.apps.service.StudentService;
 import com.easyexam.apps.utils.CandidateNumberMaker;
 import com.easyexam.apps.utils.IDCardVerify;
 import com.github.pagehelper.Page;
@@ -28,6 +29,8 @@ public class StudentManageController {
     private ErrorCode errorCode;
     @Autowired
     private CandidateNumberMaker candidateNumberMaker;
+    @Autowired
+    private StudentService studentService;
     @Autowired
     private IDCardVerify idCardVerify;
 
@@ -113,5 +116,17 @@ public class StudentManageController {
         studentManageService.addExamineeRole(studentRole);
         return new JsonResult(1006,codeMsg.getStudentaddSuccess());
 
+    }
+
+    @RequestMapping("/findSubjectScore")
+    public String findScore(){
+        return "subjectScores";
+    }
+
+    @RequestMapping(value = "/findSubjectScores")
+    @ResponseBody
+    public JsonResult findSubjectScore() {
+        Map<String, Object> map = studentService.findSubjectScore();
+        return new JsonResult(ErrorCode.SUCCESS, map);
     }
 }
