@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 public interface QuestionManageService {
     public JsonResult importQuestionFromExcel(MultipartFile file, String sheetType);
@@ -43,7 +42,8 @@ public interface QuestionManageService {
 
     List<PaperQuestion> addQuestToMysql(Paper paper, boolean bo );
 
-    void deleteQuestToRedis(PaperQuestion paperQuestion, Integer uid);
+    void deleteQuestToRedis(Integer id, Integer quesTypeId, Integer uid);
 
-    Map<String, Object> showPaperListOnRedis(Integer uid);
+    List<ShowQuestFromRedis> showPaperListOnRedis1(Integer uid, Integer questType, Integer page, Integer limit);
+
 }

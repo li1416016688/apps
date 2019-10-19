@@ -11,13 +11,14 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-//@Configuration
+@Configuration
 public class ShiroConfig {
     // shiro资源过滤配置
     @Bean(name = "shiroFilter")
@@ -47,14 +48,14 @@ public class ShiroConfig {
         // roles[] 存入角色信息
         //filterChainDefinitionMap.put("/user/list", "perms[user:list]");
 
-        filterChainDefinitionMap.put("/admin/**", "authc");
-        filterChainDefinitionMap.put("/user/**", "authc");
+//        filterChainDefinitionMap.put("/admin/**", "authc");
+//        filterChainDefinitionMap.put("/user/**", "authc");
 
         //退出时，指定logout过滤器
 //        filterChainDefinitionMap.put("/logout", "logout");
 
         //必须放在所有权限设置的最后，匹配的是不满足前面匹配条件的资源
-//        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
 
@@ -73,7 +74,7 @@ public class ShiroConfig {
     public MyRealm customRealm() {
         MyRealm customRealm = new MyRealm();
         // 设置密码匹配器
-        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+//        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
     }
 

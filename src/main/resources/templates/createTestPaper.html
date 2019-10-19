@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>试题管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .demo-carousel {
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+
+        .divTable {
+            float: left;
+        }
+
+        .divTable2 {
+            float: left;
+            width: 400px;
+            height: 520px;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote">手动生成试卷</blockquote>
+
+<div class="layui-form searchDiv">
+
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <select name="subjectId" id="subjectId">
+                <option value="">科目</option>
+                <option value="1">语文</option>
+                <option value="3">英语</option>
+                <option value="2">数学</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="quesId" id="quest_Id">
+                <option value="1">单选题</option>
+                <option value="2">多选题</option>
+                <option value="3">判断题</option>
+                <option value="4">简答题</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" name="questionInfo" id="questionInfo" placeholder="请输入题目" class="layui-input">
+        </div>
+
+        <div class="layui-input-inline">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" id="queryButton" data-type="reload">查询
+                </button>
+            </div>
+        </div>
+        <button class="layui-btn" id="addButton">生成试卷</button>
+    </div>
+
+</div>
+
+<div>
+    <div class="divTable">
+        <table class="layui-hide" id="questionTable" lay-filter="test1"></table>
+    </div>
+    <div class="divTable2">
+        <table class="layui-hide" id="questionTable2" lay-filter="test2"></table>
+    </div>
+</div>
+
+<form class="layui-form" id="add-form2" style="display: none" lay-filter="example2">
+
+    <input hidden type="text" id="ques_id" name="questionId">
+    <input hidden type="text" id="ques_type" name="questionType">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">请输入分数：</label>
+        <div class="layui-input-block">
+            <input type="number" name="score" lay-verify="title" class="layui-input"
+                   style="width: 300px">
+        </div>
+    </div>
+
+</form>
+
+<form class="layui-form" id="add-form" style="display: none" lay-filter="example">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">科目：</label>
+        <div class="layui-input-block">
+            <select name="subjectId" id="subject_Id" class="courseName" style="width: 300px">
+                <option value="">请选择科目...</option>
+                <option value="1">语文</option>
+                <option value="2">英语</option>
+                <option value="3">数学</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">请输入试卷的名字：</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" id="name" lay-verify="title" class="layui-input"
+                   style="width: 300px">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">试卷难度：</label>
+        <div class="layui-input-block">
+            <input type="number" name="question" id="level" lay-verify="title" class="layui-input"
+                   style="width: 300px">
+        </div>
+    </div>
+
+
+
+
+</form>
+</body>
+
+
+<script src="layui/layui.js"></script>
+
+<script src="js/jquery-1.12.2.min.js"></script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
+</script>
+
+<script type="text/html" id="barDemo2">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">移除</a>
+</script>
+
+<script type="text/javascript">
+    var quesTypeId;
+    layui.use(['table', 'element', 'layer', 'form'], function () {
+        var layer = layui.layer
+            , form = layui.form
+            , table = layui.table //表格
+            , element = layui.element; //元素操作
+
+        table.render({
+            elem: '#questionTable'
+            , height: 520
+            , url: 'singleChooseList.do' //数据接口
+            , title: '单选列表'
+            , page: true //开启分页
+            , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , cols: [
+                [
+                    {type: 'numbers', fixed: 'left', height: 53, title: 'ID'}
+                    , {field: 'question', title: '题目', height: 53, width: 500}
+                    , {field: 'chooseA', title: '选项A', height: 53, width: 100, align: 'center', hide: true}
+                    , {field: 'chooseB', title: '选项B', height: 53, width: 100, align: 'center', hide: true}
+                    , {field: 'chooseC', title: '选项C', height: 53, width: 100, align: 'center', hide: true}
+                    , {field: 'chooseD', title: '选项D', height: 53, width: 100, align: 'center', hide: true}
+                    , {field: 'answer', title: '答案', height: 53, width: 60, align: 'center', hide: true}
+                    , {
+                    field: 'name', title: '科目', templet: function (d) {
+                        return d.subject.name;
+                    }, width: 60, align: 'center'
+                }
+                    , {field: 'level', title: '难度等级', width: 60, sort: true, align: 'center'}
+                    , {field: 'tag', title: '自定义', width: 100, align: 'center'}
+                    , {field: 'questionType', title : '题型Id', width: 100, align : 'center', hide : true}
+                    , {fixed: 'right', width: 70, align: 'center', toolbar: '#barDemo'}
+                ]
+            ]
+        });
+
+
+        table.render({
+            elem: '#questionTable2'
+            , height: 520
+            , url: 'showPaperListOnRedis.do'//数据接口
+            , title: '单选列表'
+            , page: false //开启分页
+            , cols: [
+                [
+                    {type: 'numbers', fixed: 'left', height: 53, title: 'ID'}
+                    , {field: 'question', title: '题目', height: 53, width: 500}
+                    , {field: 'level', title: '难度等级', width: 60, sort: true, align: 'center'}
+                    , {field: 'tag', title: '自定义', width: 100, align: 'center'}
+                    , {field: 'questionType', title : '题型Id', width: 100, align : 'center', hide : true}
+                    , {fixed: 'right', width: 70, align: 'center', toolbar: '#barDemo2'}
+                ]
+            ]
+        });
+
+        table.on('tool(test1)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值
+            console.log(data);
+            $("#ques_type").val(data.quesTypeId);
+            $("#ques_id").val(data.id);
+            if (layEvent === 'add') {
+                form.val("example2", data);
+                layer.open({
+                    type: 1,
+                    area: ['500px', '600px'],
+                    title: '添加'
+                    , content: $("#add-form2"),
+                    shade: 0,
+                    btn: ['提交', '重置']
+                    , btn1: function (index, layero) {
+                        $.ajax({
+                            url: 'addQuestToRedis',
+                            type: "post",
+                            data: $("#add-form2").serialize(),
+                            success: function (data) {
+                                if (data.code == 1001) {
+                                    layer.closeAll();
+                                    table.reload('questionTable2');
+                                    layer.msg("添加成功");
+                                } else {
+                                    layer.msg(data.info);
+                                }
+                            }
+                        });
+                    },
+                    btn2: function (index, layero) {
+                        return false;
+                    },
+                    cancel: function (layero, index) {
+                        layer.closeAll();
+                    }
+
+                });
+            }
+        });
+
+        table.on('tool(test2)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值
+            var questionId = data.questionId;
+            console.log(data);
+            if (layEvent === 'del') {
+
+                $.ajax({
+                    url: 'deleteQuestToRedis',
+                    type: "post",
+                    data: {"id": questionId, "quesTypeId": $("#quest_Id").val()},
+                    dataType : 'json',
+                    success: function (data) {
+                        if (data.code == 1001) {
+                            layer.closeAll();
+                            table.reload('questionTable2');
+                            layer.msg("移除成功");
+                        } else {
+                            layer.msg(data.info);
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#addButton").click(function () {
+            //添加
+            layer.open({
+                type: 1,
+                area: ['500px', '600px'],
+                title: '添加'
+                , content: $("#add-form"),
+                shade: 0,
+                btn: ['提交', '重置']
+                , btn1: function (index, layero) {
+                    $.ajax({
+                        url: 'addQuesToMySql.do',
+                        type: "post",
+                        data: $("#add-form").serialize(),
+                        success: function (data) {
+                            if (data.code == 1001) {
+                                layer.closeAll();
+                                table.reload('questionTable2');
+                                layer.msg("生成成功");
+                            } else {
+                                layer.msg(data.info);
+                            }
+                        }
+                    });
+                },
+                btn2: function (index, layero) {
+                    return false;
+                },
+                cancel: function (layero, index) {
+                    layer.closeAll();
+                }
+
+            });
+
+
+        });
+
+        function tableReload() {
+            //表格重新加载
+            table.reload('questionTable', {
+                //设定异步数据接口的额外参数，任意设
+                where: {
+                    quesId: $("#quest_Id").val(),
+                    subjectId: $("#subjectId").val(),
+                    questionInfo: $("#questionInfo").val()
+                }
+                , page: {
+                    curr: 1
+                }
+            });
+            table.reload('questionTable2', {
+                //设定异步数据接口的额外参数，任意设
+                where: {
+                    questType: $("#quest_Id").val()
+                }
+                , page: {
+                    curr: 1
+                }
+            });
+        }
+
+        $('#queryButton').on('click', function () {
+            tableReload();
+        });
+
+    });
+</script>
+</html>
