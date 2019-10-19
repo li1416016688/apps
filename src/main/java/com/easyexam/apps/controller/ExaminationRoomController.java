@@ -42,8 +42,8 @@ public class ExaminationRoomController {
     }
     //修改一个考场的信息
     @PostMapping("examinationRoom/update")
-    public JsonResult updateExaminationRoom(ExaminationRoom room){
-        examinationRoomService.updateExaminationRoom(room);
+    public JsonResult updateExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName){
+        examinationRoomService.updateExaminationRoom( room,subjectName,paperName,invigilateName);
         return new JsonResult(1017,codeMsg.getFindoneExaminationroom());
     }
 
