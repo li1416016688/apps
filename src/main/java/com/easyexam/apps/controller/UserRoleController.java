@@ -23,7 +23,8 @@ public class UserRoleController {
     public JsonResult updateUserRole(UserRole userRole){
         List<Integer> rids = userRole.getRid();
         Integer uid = userRole.getUid();
-        return userRoleService.updateUserRole(rids,uid);
+        JsonResult result = userRoleService.updateUserRole(rids, uid);
+        return result;
     }
 
     @RequestMapping("/findByIdUserRole.do")
