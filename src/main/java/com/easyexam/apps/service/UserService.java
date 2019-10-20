@@ -10,4 +10,6 @@ public interface UserService {
     public JsonResult deleteOneUser(Integer uid);
     public JsonResult updateUser(User user);
     public User findUser(Integer uid);
+    public List<Integer> findUserPermission(Integer uid);
+    public List<Integer> findUserRole(Integer uid);
 }

@@ -2,6 +2,7 @@ package com.easyexam.apps.controller;
 
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.Permission;
+import com.easyexam.apps.entity.PermissionTree;
 import com.easyexam.apps.service.PermissionService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController      //操作权限Permission
 public class PermissionController {
 
     @Autowired
@@ -41,5 +42,12 @@ public class PermissionController {
     public JsonResult updatePermission(Permission permission){
         return permissionService.updatePermission(permission);
     }
+
+    @RequestMapping("/findZtr.do")
+    public JsonResult findZtr(){
+        List<PermissionTree> list = permissionService.findZtr();
+        return new JsonResult(1,list);
+    }
+
 
 }

@@ -44,4 +44,16 @@ public class UserController {
         User user = userService.findUser(uid);
         return new JsonResult(1, user);
     }
+
+    @RequestMapping("/findUserPermission.do")
+    public JsonResult findUserPermission(Integer uid){
+        List<Integer> list = userService.findUserPermission(uid);
+        return new JsonResult(1,list);
+    }
+
+    @RequestMapping("/findUserRole.do")
+    public JsonResult findUserRole(Integer uid){
+        List<Integer> list = userService.findUserRole(uid);
+        return new JsonResult(1,list);
+    }
 }

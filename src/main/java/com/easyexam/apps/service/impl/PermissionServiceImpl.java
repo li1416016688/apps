@@ -5,6 +5,7 @@ import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.dao.PermissionDao;
 import com.easyexam.apps.entity.Permission;
+import com.easyexam.apps.entity.PermissionTree;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.PermissionService;
 import com.github.pagehelper.PageHelper;
@@ -56,5 +57,18 @@ public class PermissionServiceImpl implements PermissionService {
             throw new MyException(ErrorCode.EXCEPTION_UPDATE,codeMsg.getUpdateException());
         }
         return new JsonResult(1,"修改成功");
+    }
+
+    @Override
+    public List<PermissionTree> findZtr() {
+        List<PermissionTree> list = permissionDao.findZtrPa();
+        for (PermissionTree p : list){
+            List<PermissionTree> children = permissionDao.findZtrCh(p.getPid());
+            p.setChildren(children);
+        }
+        if (list == null || "".equals(list)){
+            throw new MyException(ErrorCode.EXCEPTION_NOPOINT,codeMsg.getNoPointException());
+        }
+        return list;
     }
 }

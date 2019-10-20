@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <base href="<%=basePath %>">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Insert title here</title>
+    <!-- 引入JQuery库 start -->
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+    <!-- 引入JQuery库 end -->
+    <link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+</head>
+
+<script>
+    var setting =
+        {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+    //查找所有权限，然后建树
+    var zNodes;
+    $.ajax({
+        type: "post",
+        url: "findRoleTree.do",
+        dataType: "json",
+        success: function (data) {
+            zNodes = data.data;
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            //获取已有角色，绑定到树上
+            getChecked();
+        }
+    });
+
+    var code;
+    function setCheck() {
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+            py = $("#py").attr("checked") ? "p" : "",
+            sy = $("#sy").attr("checked") ? "s" : "",
+            pn = $("#pn").attr("checked") ? "p" : "",
+            sn = $("#sn").attr("checked") ? "s" : "",
+            type = {"Y": py + sy, "N": pn + sn};
+        setting.check.chkboxType = type;
+        showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
+    }
+
+    function showCode(str) {
+        if (!code) code = $("#code");
+        code.empty();
+        code.append("<li>" + str + "</li>");
+    }
+
+    $(document).ready(function () {
+        setCheck();
+        $("#py").bind("change", setCheck);
+        $("#sy").bind("change", setCheck);
+        $("#pn").bind("change", setCheck);
+        $("#sn").bind("change", setCheck);
+    });
+    //从后台获取本用户有的角色     （角色有的权限id）
+    function getChecked() {
+
+        $.ajax({
+            url: "findUserRole.do",
+            data: window.location.search.substring(1,window.location.search.length),
+            dataType: "json",
+            success: function (data) {
+                result = data.info;
+                for (var i = 0; i < result.length; i++) {
+                    zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                    // zTree.checkNode(zTree.getNodeByParam("rid", result[i].rid), true); //根据id在ztree的复选框中实现自动勾选
+                    zTree.checkNode(zTree.getNodeByParam("rid", result[i]), true);
+                }
+            }
+        });
+    }
+
+    //修改权限，可以实现权限的增加或者删除，勾选即添加，取消勾选即删除
+    function setPrivilege() {
+
+        var tt = $.fn.zTree.getZTreeObj("treeDemo");
+        if (tt != null) {
+            var nodes = tt.getCheckedNodes(true);
+            var rid = '';                //要对数据进行处理
+            $(nodes).each(function () {
+                rid += this.rid + ",";
+            });
+            $.ajax({
+                type: "post",
+                url: "updateUserRole.do",
+                //传的是uid + rid
+                data:window.location.search.substring(1,window.location.search.length) +"&rid="+rid,
+                dataType: "json",
+                success: function (data) {
+                    window.parent.location.reload();
+                }
+            });
+        }
+    }
+
+</script>
+<body>
+<div class="content_wrap" style="margin-left: 150px">
+    <!--    //角色id，用于修改对应角色的权限    -->
+    <!--    <input  type="text" name="rid" id="rid" required  lay-verify="required"  th:value="${rid}" autocomplete="off" style="width: 240px" class="layui-input" th:type="hidden">    -->
+    <!--    //用于权限展示    -->
+    <div class="zTreeDemoBackground left" >
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div>
+        <button  onclick="setPrivilege()">保存</button>
+<!--        <button  onclick=window.close()>关闭</button>-->
+        <button  onclick="window.parent.location.reload()">关闭</button>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>权限管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .demo-carousel {
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote">权限管理</blockquote>
+<button class="layui-btn" id="addButton">添加</button>
+<div class="layui-form searchDiv">
+
+    <form class="layui-form" id="add-form" style="display: none" lay-filter="example">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="permName" id="permName" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限：</label>
+            <div class="layui-input-block">
+                <input type="text" name="permDesc" id="permDesc" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">级别：</label>
+            <div class="layui-input-block">
+                <input type="text" name="type" id="type" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">路径：</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" id="url" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父节点ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="parentId" id="parentId" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" id="remark" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+
+    </form>
+
+    <form class="layui-form" id="add-form2" style="display: none" lay-filter="example">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="permName"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限：</label>
+            <div class="layui-input-block">
+                <input type="text" name="permDesc"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">级别：</label>
+            <div class="layui-input-block">
+                <input type="text" name="type"  lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">路径：</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父节点ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="parentId" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<table class="layui-hide" id="questionTable" lay-filter="test"></table>
+
+</body>
+
+
+<script src="layui/layui.js"></script>
+
+<script src="js/jquery-1.12.2.min.js"></script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/javascript">
+    layui.use(['table', 'element', 'layer', 'form'], function () {
+        var layer = layui.layer
+            , form = layui.form
+            , table = layui.table //表格
+            , element = layui.element; //元素操作
+
+
+        table.render({
+            elem: '#questionTable'
+            , height: 600
+            , url: 'findAllPermission.do' //数据接口
+            , title: '单选列表'
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'u', title: '序号', width: 90, type: 'numbers'}
+                // , {field: 'pid', title: '权限ID', width: 90, sort: true, fixed: 'left'}
+                , {field: 'pid', title: 'ID', width: 90}
+                , {field: 'permName', title: '权限名', width: 140}
+                , {field: 'permDesc', title: '权限', width: 140}
+                , {field: 'type', title: '级别', width: 90, sort: true}
+                , {field: 'url', title: '路径', width: 140, sort: true, totalRow: true}
+                , {field: 'parentId', title: '父节点ID', width: 90}
+                , {field: 'remark', title: '备注', width: 270}
+                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}
+            ]]
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            console.log(obj)
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值
+            console.log(data);
+            if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    $.ajax({
+                        url: "deletePermission.do?pid=" + data.pid,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code == 1) {
+                                obj.del();
+                                layer.close(index);
+                                // table组件重新渲染
+                                layer.msg("删除成功");
+                                table.reload("questionTable");
+                            } else {
+                                layer.msg("删除失败");
+                            }
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                //编辑
+                form.val("example", data);
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['500px', '600px'],
+                    title: '编辑'
+                    , content: $("#add-form"),
+                    shade: 0,
+                    btn: ['提交']
+                    , btn1: function (index, layero) {
+                        $.ajax({
+                            url: "updatePermission.do?pid=" + data.pid,
+                            type: "post",
+                            dataType: "json",
+                            data: $("#add-form").serialize(),
+                            success: function (data) {
+                                if (data.code == 1) {
+                                    layer.closeAll();
+                                    layer.msg("修改成功");
+                                    table.reload("questionTable");
+                                } else {
+                                    layer.msg("修改失败");
+                                }
+                            }
+                        });
+                    },
+                    cancel: function (layero, index) {
+                        layer.closeAll();
+                    }
+                });
+
+            }
+            $("#addButton").click(function () {
+                //添加
+                layer.open({
+                    type: 1,
+                    area: ['500px', '600px'],
+                    title: '添加'
+                    , content: $("#add-form2"),
+                    shade: 0,
+                    btn: ['提交', '重置']
+                    , btn1: function (index, layero) {
+                        $.ajax({
+                            url: "addPermission.do",
+                            type: "post",
+                            data : $("#add-form2").serialize(),
+                            success: function (data) {
+                                if (data.code == 1) {
+                                    layer.closeAll();
+                                    layer.msg("添加成功");
+                                } else {
+                                    layer.msg(data.info);
+                                }
+                            }
+                        });
+                    },
+                    btn2: function (index, layero) {
+                        return false;
+                    },
+                    cancel: function (layero, index) {
+                        layer.closeAll();
+                    }
+
+                });
+            });
+            function tableReload() {
+                //表格重新加载
+                table.reload('questionTable', {
+                    //设定异步数据接口的额外参数，任意设
+                    where: {
+
+                    }
+                    , page: {
+                        curr: 1
+                    }
+                });
+            }
+
+            $('#findUser').on('click', function () {
+                tableReload();
+            });
+        })
+    });
+</script>
+</html>
