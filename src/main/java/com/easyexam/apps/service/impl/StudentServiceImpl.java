@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.*;
 
 @Service
@@ -138,6 +142,8 @@ public class StudentServiceImpl implements StudentService{
             paperQues.setQuesJudges(allJudge);
             paperQues.setQuesQuestionsAnswers(allQuestionsAnswers);
             redisTemplate.opsForList().leftPush("paperQues",paperQues);
+            //题库设置是7天更新一次
+            redisTemplate.expire("paperQues",7, TimeUnit.DAYS);
 
 
             //按照规定随机生成对应类型的试题
