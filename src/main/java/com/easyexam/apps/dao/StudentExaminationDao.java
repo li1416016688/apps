@@ -23,6 +23,8 @@ public interface StudentExaminationDao {
     //将前台数据存在subject_paper表的paper_desc
     public void addStudentPaper(StudentPaper studentPaper);
 
+    //在考生提交的试卷里面对比考生答案和实际答案，对比分数,系统判断单选，多选和判断题
+    public com.alibaba.fastjson.JSONObject  createScore(@Param("stuId") Integer stuId, @Param("roomId") String roomId);
 
 
 }

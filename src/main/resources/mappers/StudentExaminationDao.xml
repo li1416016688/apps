@@ -44,6 +44,17 @@
     <insert id="addStudentPaper" >
         insert into student_paper (stu_id,room_id,paper_ques)values(#{stuId},#{roomId},#{paperQues})
     </insert>
+    <select id="createScore" resultType="com.alibaba.fastjson.JSONObject">
+        select paper_ques from student_paper
+        <where>
+            <if test="stuId">
+                and stu_id=#{stuId}
+            </if>
+            <if test="roomId">
+                and room_id=#{roomId}
+            </if>
+        </where>
+    </select>
 
 
 
