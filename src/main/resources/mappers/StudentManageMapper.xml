@@ -122,7 +122,7 @@ where p_role.rid=3
     <select id="findExaminationSite" resultType="int" parameterType="string">
     select id FROM examination_room where room_name=#{roomName} and begin_time=#{beginTime} and end_time=#{endTime}
     </select>
-    <select id="findExaminationPeople" resultType="com.easyexam.apps.entity.ExaminationRoom" parameterType="int">
+    <select id="findExaminationPeopleNum" resultType="com.easyexam.apps.entity.ExaminationRoom" parameterType="int">
         SELECT join_people_num ,total_people_num from  examination_room where id =#{id}
     </select>
 
@@ -130,7 +130,11 @@ where p_role.rid=3
         insert into student_room (rid,sid) values (#{rid},#{sid})
     </insert>
 
-
-
+    <update id="updateJoinExamNum" parameterType="int">
+     update examination_room set join_people_num=#{joinPeopleNum}+1 where id=#{id}
+    </update>
+    <select id="findExaminationId" resultType="com.easyexam.apps.entity.StudentRoom" parameterType="int">
+        select rid from student_room where sid =#{sid}
+    </select>
 
 </mapper>

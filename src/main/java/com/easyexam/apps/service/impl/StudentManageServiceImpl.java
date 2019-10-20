@@ -3,10 +3,7 @@ package com.easyexam.apps.service.impl;
 import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.dao.StudentManageDao;
-import com.easyexam.apps.entity.ExaminationRoom;
-import com.easyexam.apps.entity.Student;
-import com.easyexam.apps.entity.StudentPaper;
-import com.easyexam.apps.entity.StudentRole;
+import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.ExaminationRoomService;
 import com.easyexam.apps.service.StudentManageService;
@@ -90,12 +87,23 @@ public class StudentManageServiceImpl implements StudentManageService {
             ExaminationRoom peopleNum = studentManageDao.findExaminationPeopleNum(rid);
             int totalPeopleNum = peopleNum.getTotalPeopleNum();
             int joinPeopleNum = peopleNum.getJoinPeopleNum();
-            if (joinPeopleNum>totalPeopleNum){
+            if (joinPeopleNum>=totalPeopleNum){
                 throw new MyException(ErrorCode.ADD_EXAMINEE_OVER_PEOPLE_NUM_ERRPR,codeMsg.getAddExamineeOverPeopleNumError());
             }
             System.out.println(rid);
             System.out.println(sid);
+            List<StudentRoom> examinationId = studentManageDao.findExaminationId(sid);
+            Integer roomId =null;
+            for(StudentRoom studentRoom:examinationId){
+                roomId = studentRoom.getRid();
+                if (roomId.equals(rid)){
+                    throw new MyException(ErrorCode.ADD_EXAMINATION_ID_OVER_ERROR,codeMsg.getAddExaminationIdOverError());
+                }
+            }
+
             studentManageDao.addExamineeJoinExam(rid,sid);
+
+            studentManageDao.updateJoinExamNum(joinPeopleNum,rid);
         } catch (ParseException e) {
             e.printStackTrace();
         }

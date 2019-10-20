@@ -26,8 +26,12 @@ public interface StudentManageDao {
     public Integer findExaminationSite(String beginTime,String endTime,String roomName);
     //学生加入考试
     public void addExamineeJoinExam(@Param("rid") Integer rid, @Param("sid") Integer sid);
-
+    //查找学生加入人数
     public ExaminationRoom findExaminationPeopleNum(Integer id);
 
+    //加入人数增加
+    public void updateJoinExamNum(@Param("joinPeopleNum") Integer joinPeopleNum,@Param("id") Integer id);
+    //查找考场id
+    public List<StudentRoom> findExaminationId(Integer id);
 
 }

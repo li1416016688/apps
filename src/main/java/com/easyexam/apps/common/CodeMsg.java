@@ -199,5 +199,7 @@ public class CodeMsg {
     private String AddExamineeStepError;
     @Value("${code.2513}")
     private String AddExamineeOverPeopleNumError;
+    @Value("${code.2514}")
+    private String AddExaminationIdOverError;
 
 }

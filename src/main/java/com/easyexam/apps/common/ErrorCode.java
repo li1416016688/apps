@@ -128,4 +128,5 @@ public class ErrorCode {
     public static int ADD_EXAMINEE_TIME_ERROR=2511;
     public static int ADD_EXAMINEESTEPERROR=2512;
     public static int ADD_EXAMINEE_OVER_PEOPLE_NUM_ERRPR=2513;
+    public static int ADD_EXAMINATION_ID_OVER_ERROR=2514;
 }
