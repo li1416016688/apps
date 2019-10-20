@@ -118,15 +118,5 @@ public class StudentManageController {
 
     }
 
-    @RequestMapping("/findSubjectScore")
-    public String findScore(){
-        return "subjectScores";
-    }
 
-    @RequestMapping(value = "/findSubjectScores")
-    @ResponseBody
-    public JsonResult findSubjectScore() {
-        Map<String, Object> map = studentService.findSubjectScore();
-        return new JsonResult(ErrorCode.SUCCESS, map);
-    }
 }
