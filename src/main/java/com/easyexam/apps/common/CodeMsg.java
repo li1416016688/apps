@@ -137,6 +137,46 @@ public class CodeMsg {
     @Value("${code.2102}")
     private String AutoCreatePaper;
 
+
+
+    @Value("${code.2400}")
+    private String studentFindoneError;
+    @Value("${code.4001}")
+    private String studentNotFindone;
+    @Value("${code.1019}")
+    private String studentFindoneSuccess;
+    @Value("${code.1005}")
+    private String studentUpdateSuccess;
+    @Value("${code.1006}")
+    private String studentaddSuccess;
+
+    @Value("${code.2404}")
+    private String studentphoneError;
+    @Value("${code.2402}")
+    private String studentidCardError;
+    @Value("${code.2403}")
+    private String studentIdCardFormatError;
+    @Value("${code.1419}")
+    private String examinationRoomAddSuccess;
+
+
+    @Value("${code.2061}")
+    private String addRoomNameRepeat;
+    @Value("${code.2062}")
+    private String addSubjectPageNull;
+    @Value("${code.2063}")
+    private String addRoomNumOverstep;
+    @Value("${code.2064}")
+    private String addPaperPageNull;
+
+    @Value("${code.2066}")
+    private String addUserPageNull;
+    @Value("${code.2067}")
+    private String addUserPaperSujectIdNull;
+
+
+
+
     @Value("${code.2506}")
     private String ShowExaminationError;
     @Value("${code.2507}")

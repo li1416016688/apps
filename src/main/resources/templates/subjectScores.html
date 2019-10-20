@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看科目统计分数</title>
+
+</head>
+<body>
+<script src="js/echarts.min.js"></script>
+<script src="js/infographic.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    $.ajax({
+        url: "findSubjectScores",
+        type: "get",
+        success: function (data) {
+            if (data.code = 1100) {
+                console.log(data.info);
+                console.log(data.info.list);
+                list = data.info.list;
+                maxList = data.info.list;
+                auxList = data.info.list;
+                console.log(data.info.maxList);
+                console.log(data.info.auxList);
+                setOption(data.info);
+            }
+        }
+    });
+
+    // 指定图表的配置项和数据
+
+    function setOption(data) {
+
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var list = data.list;
+        var maxList = data.maxList;
+        var auxList = data.auxList;
+
+        myChart.showLoading();
+
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['最高分', '平均分']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: list
+            },
+            series: [
+                {
+                    name: '最高分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: maxList
+                },
+                {
+                    name: '平均分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: auxList
+                }
+
+            ]
+        };
+        myChart.setOption(option);
+        myChart.hideLoading();
+    }
+
+    // 使用刚指定的配置项和数据显示图表。
+
+
+</script>
+</body>
+</html>

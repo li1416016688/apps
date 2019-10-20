@@ -87,41 +87,41 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<script type="text/javascript">
-    $("#addButton").click(function () {
-        //添加
-        layer.open({
-            type: 1,
-            area: ['500px', '600px'],
-            title: '添加'
-            , content: $("#add-form"),
-            shade: 0,
-            btn: ['提交', '重置']
-            , btn1: function (index, layero) {
-                $.ajax({
-                    url: "addPermission.do",
-                    type: "post",
-                    data : $("#add-form").serialize(),
-                    success: function (data) {
-                        if (data.code == 1) {
-                            layer.closeAll();
-                            layer.msg("添加成功");
-                        } else {
-                            layer.msg(data.info);
-                        }
-                    }
-                });
-            },
-            btn2: function (index, layero) {
-                return false;
-            },
-            cancel: function (layero, index) {
-                layer.closeAll();
-            }
+<!--<script type="text/javascript">-->
+<!--    $("#addButton").click(function () {-->
+<!--        //添加-->
+<!--        layer.open({-->
+<!--            type: 1,-->
+<!--            area: ['500px', '600px'],-->
+<!--            title: '添加'-->
+<!--            , content: $("#add-form"),-->
+<!--            shade: 0,-->
+<!--            btn: ['提交', '重置']-->
+<!--            , btn1: function (index, layero) {-->
+<!--                $.ajax({-->
+<!--                    url: "addPermission.do",-->
+<!--                    type: "post",-->
+<!--                    data : $("#add-form").serialize(),-->
+<!--                    success: function (data) {-->
+<!--                        if (data.code == 1) {-->
+<!--                            layer.closeAll();-->
+<!--                            layer.msg("添加成功");-->
+<!--                        } else {-->
+<!--                            layer.msg(data.info);-->
+<!--                        }-->
+<!--                    }-->
+<!--                });-->
+<!--            },-->
+<!--            btn2: function (index, layero) {-->
+<!--                return false;-->
+<!--            },-->
+<!--            cancel: function (layero, index) {-->
+<!--                layer.closeAll();-->
+<!--            }-->
 
-        });
-    });
-</script>
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 <script type="text/javascript">
     layui.use(['table', 'element', 'layer', 'form'], function () {

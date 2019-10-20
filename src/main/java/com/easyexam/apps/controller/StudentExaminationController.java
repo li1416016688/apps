@@ -74,7 +74,7 @@ public class StudentExaminationController {
             paperQues.setQuesMultipleChooses(quesMultipleChooses);
             List<QuesJudge> quesJudges = paperQues.getQuesJudges();
             for (int i = 0; i < quesJudges.size(); i++) {
-                quesJudges.get(i).setAnswer(false);//boolean类型的默认值是false
+                quesJudges.get(i).setAnswer(-1);
             }
             paperQues.setQuesJudges(quesJudges);
             List<QuesQuestionsAnswers> quesQuestionsAnswers = paperQues.getQuesQuestionsAnswers();
@@ -109,7 +109,7 @@ public class StudentExaminationController {
             paperQues.setQuesMultipleChooses(quesMultipleChooses);
             List<QuesJudge> quesJudges = paperQues.getQuesJudges();
             for (int i = 0; i < quesJudges.size(); i++) {
-                quesJudges.get(i).setAnswer(false);//boolean类型的默认值是false
+                quesJudges.get(i).setAnswer(-1);
             }
             paperQues.setQuesJudges(quesJudges);
             List<QuesQuestionsAnswers> quesQuestionsAnswers = paperQues.getQuesQuestionsAnswers();
