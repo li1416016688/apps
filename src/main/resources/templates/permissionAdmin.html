@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>角色管理</title>
+    <title>权限管理</title>
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <style>
         body {
@@ -20,18 +20,51 @@
     </style>
 </head>
 <body>
-<blockquote class="layui-elem-quote">角色管理</blockquote>
+<blockquote class="layui-elem-quote">权限管理</blockquote>
 <button class="layui-btn" id="addButton">添加</button>
 <div class="layui-form searchDiv">
 
     <form class="layui-form" id="add-form" style="display: none" lay-filter="example">
 
-        <input hidden type="text" id="ques_id" name="id">
-
         <div class="layui-form-item">
-            <label class="layui-form-label">角色：</label>
+            <label class="layui-form-label">权限名：</label>
             <div class="layui-input-block">
-                <input type="text" name="rdesc" id="rdesc" lay-verify="title" class="layui-input"
+                <input type="text" name="permName" id="permName" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限：</label>
+            <div class="layui-input-block">
+                <input type="text" name="permDesc" id="permDesc" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">级别：</label>
+            <div class="layui-input-block">
+                <input type="text" name="type" id="type" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">路径：</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" id="url" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父节点ID：</label>
+            <div class="layui-input-block">
+                <input type="text" name="parentId" id="parentId" lay-verify="title" class="layui-input"
+                       style="width: 300px">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" id="remark" lay-verify="title" class="layui-input"
                        style="width: 300px">
             </div>
         </div>
@@ -50,7 +83,6 @@
 <script src="js/jquery-1.12.2.min.js"></script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">权限</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -64,28 +96,30 @@
 <!--            title: '添加'-->
 <!--            , content: $("#add-form"),-->
 <!--            shade: 0,-->
-<!--            btn: ['提交']-->
+<!--            btn: ['提交', '重置']-->
 <!--            , btn1: function (index, layero) {-->
 <!--                $.ajax({-->
-<!--                    url: "addRole.do",-->
+<!--                    url: "addPermission.do",-->
 <!--                    type: "post",-->
 <!--                    data : $("#add-form").serialize(),-->
 <!--                    success: function (data) {-->
 <!--                        if (data.code == 1) {-->
 <!--                            layer.closeAll();-->
 <!--                            layer.msg("添加成功");-->
-<!--                            table.reload("questionTable");-->
 <!--                        } else {-->
 <!--                            layer.msg(data.info);-->
 <!--                        }-->
 <!--                    }-->
 <!--                });-->
 <!--            },-->
+<!--            btn2: function (index, layero) {-->
+<!--                return false;-->
+<!--            },-->
 <!--            cancel: function (layero, index) {-->
 <!--                layer.closeAll();-->
 <!--            }-->
-<!--        });-->
 
+<!--        });-->
 <!--    });-->
 <!--</script>-->
 
@@ -100,16 +134,25 @@
         table.render({
             elem: '#questionTable'
             , height: 600
-            , url: 'findAllRole.do' //数据接口
+            , url: 'findAllPermission.do' //数据接口
             , title: '单选列表'
-            // , page: true //开启分页
-            , cols: [[ //表头
+            , page: true //开启分页
+            , cols: [
+                [
                 {field: 'u', title: '序号', width: 90, type: 'numbers'}
-                , {field: 'rid', title: 'ID', width: 90, sort: true, fixed: 'left', hide: true}
-                , {field: 'rdesc', title: '角色', width: 90}
-                , {fixed: 'right', width: 260, align: 'center', toolbar: '#barDemo'}
-            ]]
+                // , {field: 'pid', title: '权限ID', width: 90, sort: true, fixed: 'left'}
+                , {field: 'pid', title: 'ID', width: 90}
+                , {field: 'permName', title: '权限名', width: 140}
+                , {field: 'permDesc', title: '权限', width: 140}
+                , {field: 'type', title: '级别', width: 90, sort: true}
+                , {field: 'url', title: '路径', width: 140, sort: true, totalRow: true}
+                , {field: 'parentId', title: '父节点ID', width: 90}
+                , {field: 'remark', title: '备注', width: 270}
+                , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}
+            ]
+            ]
         });
+
 
         $("#addButton").click(function () {
             //添加
@@ -119,28 +162,30 @@
                 title: '添加'
                 , content: $("#add-form"),
                 shade: 0,
-                btn: ['提交']
+                btn: ['提交', '重置']
                 , btn1: function (index, layero) {
                     $.ajax({
-                        url: "addRole.do",
+                        url: "addPermission.do",
                         type: "post",
                         data : $("#add-form").serialize(),
                         success: function (data) {
                             if (data.code == 1) {
                                 layer.closeAll();
                                 layer.msg("添加成功");
-                                table.reload("questionTable");
                             } else {
                                 layer.msg(data.info);
                             }
                         }
                     });
                 },
+                btn2: function (index, layero) {
+                    return false;
+                },
                 cancel: function (layero, index) {
                     layer.closeAll();
                 }
-            });
 
+            });
         });
 
         //监听行工具事件
@@ -152,7 +197,7 @@
             if (layEvent === 'del') {
                 layer.confirm('真的删除行么', function (index) {
                     $.ajax({
-                        url: "deleteRole.do?rid=" + data.rid,
+                        url: "deletePermission.do?pid=" + data.pid,
                         dataType: "json",
                         success: function (data) {
                             if (data.code == 1) {
@@ -174,13 +219,13 @@
                 layer.open({
                     type: 1,
                     area: ['500px', '600px'],
-                    title: '修改'
+                    title: '编辑'
                     , content: $("#add-form"),
                     shade: 0,
                     btn: ['提交']
                     , btn1: function (index, layero) {
                         $.ajax({
-                            url: "updateRole.do?rid=" + data.rid,
+                            url: "updatePermission.do?pid=" + data.pid,
                             type: "post",
                             dataType: "json",
                             data: $("#add-form").serialize(),
@@ -200,19 +245,8 @@
                     }
                 });
 
-            } else if (layEvent === 'detail') {
-                //权限
-                var index = layer.open({
-                    type: 2,
-                    area: ['500px', '600px'],
-                    title: '权限'
-                    , content: ['role_permission.html?rid=' + data.rid, 'no'],  //权限路径
-                    success: function (layero, index) {
-                        var iframe = window['layui-layer-frame' + index];
-                        //调用子页面的全局函数
-                    }
-                })
             }
+
             function tableReload() {
                 //表格重新加载
                 table.reload('questionTable', {

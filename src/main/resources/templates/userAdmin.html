@@ -83,7 +83,8 @@
             , url: 'findAllUser.do' //数据接口
             , title: '单选列表'
             , page: true //开启分页
-            , cols: [[ //表头
+            , cols: [
+                [
                 {field: 'u', title: '序号', width: 90, type: 'numbers'}
                 , {field: 'uid', title: 'ID', width: 90, sort: true, fixed: 'left', hide: true}
                 , {field: 'name', title: '用户名', width: 90}
@@ -93,7 +94,8 @@
                 , {field: 'position', title: '职位', width: 150}
                 , {field: 'remark', title: '备注', width: 270}
                 , {fixed: 'right', width: 260, align: 'center', toolbar: '#barDemo'}
-            ]]
+            ]
+            ]
         });
 
         //监听行工具事件
