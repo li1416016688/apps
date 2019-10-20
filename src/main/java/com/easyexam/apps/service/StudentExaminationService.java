@@ -3,6 +3,7 @@ package com.easyexam.apps.service;
 import com.easyexam.apps.entity.ExaminationRoom;
 import com.easyexam.apps.entity.StudentPaper;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,5 +18,5 @@ public interface StudentExaminationService {
     public StudentPaper saveStudentPaper(Integer paperId, String idCard, Map<String,List<String>> map);
 
     //系统自动判卷
-    public int createScore(Integer stuId,String roomId);
+    public LinkedList<Object> createScore(Integer stuId, String roomId);
 }

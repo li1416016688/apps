@@ -15,10 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Transactional//增加事务
 @Service
@@ -178,35 +175,48 @@ public class StudentExaminationServiceImpl implements StudentExaminationService 
 
     //对单选题，多选题，判断题进行评分,返回的是试卷的总分数
     @Override
-    public int createScore(Integer stuId, String roomId) {
+    public LinkedList<Object> createScore(Integer stuId, String roomId) {
         JSONObject jsonObject = studentExaminationDao.createScore(stuId, roomId);
         PaperQues paperQues = JSONObject.toJavaObject(jsonObject, PaperQues.class);
         //对选择题进行评分
         List<QuesSingleChoose> quesSingleChooses = paperQues.getQuesSingleChooses();
         int singleChoosesScore=0;
-        for (int i = 0; i < quesSingleChooses.size(); i++) {
-            QuesSingleChoose quesSingleChoose = quesSingleChooses.get(i);
-            int score = markingTestPapers.markingSingleChoice(quesSingleChoose.getAnswer(), quesSingleChoose.getStudentAnswer(), quesSingleChoose.getQuesScore());
-            singleChoosesScore += score;
+        if (quesSingleChooses != null){
+            for (int i = 0; i < quesSingleChooses.size(); i++) {
+                QuesSingleChoose quesSingleChoose = quesSingleChooses.get(i);
+                int score = markingTestPapers.markingSingleChoice(quesSingleChoose.getAnswer(), quesSingleChoose.getStudentAnswer(), quesSingleChoose.getQuesScore());
+                singleChoosesScore += score;
+            }
         }
         //对多选题进评分
         List<QuesMultipleChoose> quesMultipleChooses = paperQues.getQuesMultipleChooses();
         int multipleChoosesScore=0;
-        for (int i = 0; i <quesMultipleChooses.size() ; i++) {
-            QuesMultipleChoose quesMultipleChoose = quesMultipleChooses.get(i);
-            int score = markingTestPapers.markingMultipleChoice(quesMultipleChoose.getAnswer(), quesMultipleChoose.getStudentAnswer(), quesMultipleChoose.getQuesScore());
-            multipleChoosesScore += score;
+        if (quesMultipleChooses != null){
+            for (int i = 0; i <quesMultipleChooses.size() ; i++) {
+                QuesMultipleChoose quesMultipleChoose = quesMultipleChooses.get(i);
+                int score = markingTestPapers.markingMultipleChoice(quesMultipleChoose.getAnswer(), quesMultipleChoose.getStudentAnswer(), quesMultipleChoose.getQuesScore());
+                multipleChoosesScore += score;
+            }
         }
         //对判断题进行评分,
         List<QuesJudge> quesJudges = paperQues.getQuesJudges();
         int judgesScore=0;
-        for (int i = 0; i < quesJudges.size(); i++) {
-            QuesJudge quesJudge = quesJudges.get(i);
-            int score = markingTestPapers.markingJudge(quesJudge.getAnswer(), quesJudge.getStudentAnswer(), quesJudge.getQuesScore());
-            judgesScore += score;
-
+        if (quesJudges != null){
+            for (int i = 0; i < quesJudges.size(); i++) {
+                QuesJudge quesJudge = quesJudges.get(i);
+                int score = markingTestPapers.markingJudge(quesJudge.getAnswer(), quesJudge.getStudentAnswer(), quesJudge.getQuesScore());
+                judgesScore += score;
+            }
         }
-        return singleChoosesScore+multipleChoosesScore+judgesScore;
+        //将简答题取出放进list集合里面
+        List<QuesQuestionsAnswers> quesQuestionsAnswers = paperQues.getQuesQuestionsAnswers();
+        LinkedList<Object> list = new LinkedList<>();
+        int sumScore=singleChoosesScore+multipleChoosesScore+judgesScore;
+        list.add(sumScore);
+        if (quesQuestionsAnswers != null){
+            list.add(quesQuestionsAnswers);
+        }
+        return list;
     }
 
 
