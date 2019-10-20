@@ -71,53 +71,6 @@
 
     </form>
 
-    <form class="layui-form" id="add-form2" style="display: none" lay-filter="example">
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">权限名：</label>
-            <div class="layui-input-block">
-                <input type="text" name="permName"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">权限：</label>
-            <div class="layui-input-block">
-                <input type="text" name="permDesc"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">级别：</label>
-            <div class="layui-input-block">
-                <input type="text" name="type"  lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">路径：</label>
-            <div class="layui-input-block">
-                <input type="text" name="url" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">父节点ID：</label>
-            <div class="layui-input-block">
-                <input type="text" name="parentId" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">备注：</label>
-            <div class="layui-input-block">
-                <input type="text" name="remark" lay-verify="title" class="layui-input"
-                       style="width: 300px">
-            </div>
-        </div>
-
-    </form>
-
 </div>
 
 <table class="layui-hide" id="questionTable" lay-filter="test"></table>
@@ -132,6 +85,42 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/javascript">
+    $("#addButton").click(function () {
+        //添加
+        layer.open({
+            type: 1,
+            area: ['500px', '600px'],
+            title: '添加'
+            , content: $("#add-form"),
+            shade: 0,
+            btn: ['提交', '重置']
+            , btn1: function (index, layero) {
+                $.ajax({
+                    url: "addPermission.do",
+                    type: "post",
+                    data : $("#add-form").serialize(),
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.closeAll();
+                            layer.msg("添加成功");
+                        } else {
+                            layer.msg(data.info);
+                        }
+                    }
+                });
+            },
+            btn2: function (index, layero) {
+                return false;
+            },
+            cancel: function (layero, index) {
+                layer.closeAll();
+            }
+
+        });
+    });
 </script>
 
 <script type="text/javascript">
@@ -160,6 +149,41 @@
                 , {field: 'remark', title: '备注', width: 270}
                 , {fixed: 'right', width: 160, align: 'center', toolbar: '#barDemo'}
             ]]
+        });
+
+
+        $("#addButton").click(function () {
+            //添加
+            layer.open({
+                type: 1,
+                area: ['500px', '600px'],
+                title: '添加'
+                , content: $("#add-form"),
+                shade: 0,
+                btn: ['提交', '重置']
+                , btn1: function (index, layero) {
+                    $.ajax({
+                        url: "addPermission.do",
+                        type: "post",
+                        data : $("#add-form").serialize(),
+                        success: function (data) {
+                            if (data.code == 1) {
+                                layer.closeAll();
+                                layer.msg("添加成功");
+                            } else {
+                                layer.msg(data.info);
+                            }
+                        }
+                    });
+                },
+                btn2: function (index, layero) {
+                    return false;
+                },
+                cancel: function (layero, index) {
+                    layer.closeAll();
+                }
+
+            });
         });
 
         //监听行工具事件
@@ -220,39 +244,7 @@
                 });
 
             }
-            $("#addButton").click(function () {
-                //添加
-                layer.open({
-                    type: 1,
-                    area: ['500px', '600px'],
-                    title: '添加'
-                    , content: $("#add-form2"),
-                    shade: 0,
-                    btn: ['提交', '重置']
-                    , btn1: function (index, layero) {
-                        $.ajax({
-                            url: "addPermission.do",
-                            type: "post",
-                            data : $("#add-form2").serialize(),
-                            success: function (data) {
-                                if (data.code == 1) {
-                                    layer.closeAll();
-                                    layer.msg("添加成功");
-                                } else {
-                                    layer.msg(data.info);
-                                }
-                            }
-                        });
-                    },
-                    btn2: function (index, layero) {
-                        return false;
-                    },
-                    cancel: function (layero, index) {
-                        layer.closeAll();
-                    }
 
-                });
-            });
             function tableReload() {
                 //表格重新加载
                 table.reload('questionTable', {

@@ -21,7 +21,7 @@
 </head>
 <body>
 <blockquote class="layui-elem-quote">角色管理</blockquote>
-
+<button class="layui-btn" id="addButton">添加</button>
 <div class="layui-form searchDiv">
 
     <form class="layui-form" id="add-form" style="display: none" lay-filter="example">
@@ -55,6 +55,40 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+<!--<script type="text/javascript">-->
+<!--    $("#addButton").click(function () {-->
+<!--        //添加-->
+<!--        layer.open({-->
+<!--            type: 1,-->
+<!--            area: ['500px', '600px'],-->
+<!--            title: '添加'-->
+<!--            , content: $("#add-form"),-->
+<!--            shade: 0,-->
+<!--            btn: ['提交']-->
+<!--            , btn1: function (index, layero) {-->
+<!--                $.ajax({-->
+<!--                    url: "addRole.do",-->
+<!--                    type: "post",-->
+<!--                    data : $("#add-form").serialize(),-->
+<!--                    success: function (data) {-->
+<!--                        if (data.code == 1) {-->
+<!--                            layer.closeAll();-->
+<!--                            layer.msg("添加成功");-->
+<!--                            table.reload("questionTable");-->
+<!--                        } else {-->
+<!--                            layer.msg(data.info);-->
+<!--                        }-->
+<!--                    }-->
+<!--                });-->
+<!--            },-->
+<!--            cancel: function (layero, index) {-->
+<!--                layer.closeAll();-->
+<!--            }-->
+<!--        });-->
+
+<!--    });-->
+<!--</script>-->
+
 <script type="text/javascript">
     layui.use(['table', 'element', 'layer', 'form'], function () {
         var layer = layui.layer
@@ -75,6 +109,38 @@
                 , {field: 'rdesc', title: '角色', width: 90}
                 , {fixed: 'right', width: 260, align: 'center', toolbar: '#barDemo'}
             ]]
+        });
+
+        $("#addButton").click(function () {
+            //添加
+            layer.open({
+                type: 1,
+                area: ['500px', '600px'],
+                title: '添加'
+                , content: $("#add-form"),
+                shade: 0,
+                btn: ['提交']
+                , btn1: function (index, layero) {
+                    $.ajax({
+                        url: "addRole.do",
+                        type: "post",
+                        data : $("#add-form").serialize(),
+                        success: function (data) {
+                            if (data.code == 1) {
+                                layer.closeAll();
+                                layer.msg("添加成功");
+                                table.reload("questionTable");
+                            } else {
+                                layer.msg(data.info);
+                            }
+                        }
+                    });
+                },
+                cancel: function (layero, index) {
+                    layer.closeAll();
+                }
+            });
+
         });
 
         //监听行工具事件

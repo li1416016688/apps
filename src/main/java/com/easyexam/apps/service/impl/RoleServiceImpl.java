@@ -33,9 +33,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public JsonResult addRole(Role role,List<Integer>pid) {
-        roleDao.addRole(role);
-        Integer rid = role.getRid();
-        int i = roleDao.addRolePermission(rid, pid);
+        int i = roleDao.addRole(role);
+        //Integer rid = role.getRid();
+        //int i = roleDao.addRolePermission(rid, pid);
         if (i <= 0){
             throw new MyException(ErrorCode.EXCEPTION_INSERT,codeMsg.getInsertException());
         }
@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
         int i1 = roleDao.deleteRole(rid);
         int i2 = roleDao.deleteRoleUser(rid);
         int i3 = roleDao.deleteUser(rid);
-        if (i1 <= 0 || i2 <=0 || i3 <= 0){
+        if (i1 <= 0 && i2 <=0 && i3 <= 0){
             throw new MyException(ErrorCode.EXCEPTION_DELETE,codeMsg.getDeleteException());
         }
         return new JsonResult(1,"删除成功");
