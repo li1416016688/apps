@@ -4,6 +4,7 @@ import com.easyexam.apps.entity.Paper;
 import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.entity.StudentPaper;
 import com.easyexam.apps.entity.StudentRole;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +26,9 @@ public interface StudentManageDao {
     //增加考生的角色
     public void addExamineeRole(StudentRole studentRole);
 
+    public List<StudentPaper> findStuIdAndRoomId(@Param(value = "subjectId") Integer subjectId,
+                                                 @Param(value = "paperId") Integer paperId);
+
+    public Paper findPaperById(Integer id);
 
 }
