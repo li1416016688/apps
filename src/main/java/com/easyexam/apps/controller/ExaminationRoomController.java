@@ -25,7 +25,7 @@ public class ExaminationRoomController {
      * 跳转页面  考场管理
      * @return
      */
-     @RequiresPermissions({"room:list"})
+
     @RequestMapping("/Examinationlist")
     public String ExaminationRoomList() {
         return "room";
@@ -38,7 +38,7 @@ public class ExaminationRoomController {
 
 
     //查找所有的考场信息
-//    @RequiresPermissions({"room:list"})
+    @RequiresPermissions({"room:list"})
     @RequestMapping(value = "/examinationRoom/findAll")
     public Map findAllexaminationRoom(Integer page, Integer limit){
         HashMap<String, Object> map = new HashMap<>();

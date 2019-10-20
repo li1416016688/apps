@@ -7,6 +7,8 @@ import lombok.Data;
 public class StudentRoom {
     private Integer id;
     private Integer rid;
-    public Integer sid;
+    private ExaminationRoom examinationRoom;
+    private Integer sid;
+    private Student student;
 
 }

@@ -124,4 +124,8 @@ public class ErrorCode {
 
     //没得到老师、学科、试卷的id
     public static int ADD_USER_PAPER_SUJECT_ID__NULL=2067;
+
+    public static int ADD_EXAMINEE_TIME_ERROR=2511;
+    public static int ADD_EXAMINEESTEPERROR=2512;
+    public static int ADD_EXAMINEE_OVER_PEOPLE_NUM_ERRPR=2513;
 }
