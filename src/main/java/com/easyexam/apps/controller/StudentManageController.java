@@ -5,6 +5,7 @@ import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.service.StudentManageService;
+import com.easyexam.apps.service.StudentService;
 import com.easyexam.apps.utils.CandidateNumberMaker;
 import com.easyexam.apps.utils.IDCardVerify;
 import com.github.pagehelper.Page;
@@ -33,6 +34,8 @@ public class StudentManageController {
     @Autowired
     private CandidateNumberMaker candidateNumberMaker;
     @Autowired
+    private StudentService studentService;
+    @Autowired
     private IDCardVerify idCardVerify;
 
     //查找所有的考场信息
@@ -43,6 +46,7 @@ public class StudentManageController {
         map.put("count", ((Page) ExamineeList).getTotal());
         map.put("data", ExamineeList);
         map.put("code", 0);
+//        System.out.println();
         return map;
     }
 
@@ -137,4 +141,6 @@ public class StudentManageController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 
     }
+
+
 }

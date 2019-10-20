@@ -4,7 +4,6 @@ import com.easyexam.apps.common.CodeMsg;
 import com.easyexam.apps.common.ErrorCode;
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.dao.RolePermissionDao;
-import com.easyexam.apps.entity.RolePermission;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.RolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,8 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     }
 
     @Override
-    public List<RolePermission> findById(Integer rid) {
-        List<RolePermission> list = rolePermissionDao.findById(rid);
+    public List<Integer> findById(Integer rid) {
+        List<Integer> list = rolePermissionDao.findById(rid);
         if (list == null || "".equals(list)){
             throw new MyException(ErrorCode.EXCEPTION_NOPOINT,codeMsg.getNoPointException());
         }

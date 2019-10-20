@@ -8,15 +8,14 @@ import com.easyexam.apps.dao.StudentExaminationDao;
 import com.easyexam.apps.entity.*;
 import com.easyexam.apps.exection.MyException;
 import com.easyexam.apps.service.StudentExaminationService;
+import com.easyexam.apps.utils.MarkingTestPapers;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Transactional//增加事务
 @Service
@@ -29,9 +28,11 @@ public class StudentExaminationServiceImpl implements StudentExaminationService 
     @Autowired
     private CodeMsg codeMsg;
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
     @Autowired
     private AmqpTemplate amqpTemplate;
+    @Autowired
+    private MarkingTestPapers markingTestPapers;
     @Override
     public List<ExaminationRoom> findAllExaminationRoom(Integer subjectId,String roomName) {
         List<ExaminationRoom> allExaminationRoom = studentExaminationDao.findAllExaminationRoom(subjectId,roomName);
@@ -112,19 +113,111 @@ public class StudentExaminationServiceImpl implements StudentExaminationService 
         return studentPaper;
     }
 
+    //返回的是正确答案的和考生答案和考生信息的
     @Override
-    public void saveStudentPaper(StudentPaper studentPaper) {
+    public StudentPaper saveStudentPaper(Integer paperId, String idCard, Map<String,List<String>> map) {
 
 
-        //下面将前台试卷放进队列中，这是模拟得到的数据
-        StudentPaper paper = createPaper(34, "121231");
-        Student student = studentDao.studentLogin("121231");
-        paper.setStuId(student.getId());
-        int roomId1 = paper.getRoom().getId();
-        paper.setRoomId(roomId1);
-        studentExaminationDao.addStudentPaper(paper);
+        //在redis取出当时开始考试生成的试卷，含有答案，不含有考生信息，含有考场信息
+        Object opaper2 = redisTemplate.opsForHash().get("easyexam","paperId"+paperId );
+        StudentPaper paper2 = (StudentPaper)opaper2;
+        System.out.println(paper2);
+        //获取学生信息
+        Student student = studentDao.studentLogin(idCard);
+        System.out.println(student.getId());
+        paper2.setStuId(student.getId());
+        //假设获取前台四个关于答案的list集合,存的单选，多选，判断，简答的答案，考生未作答设置为空
+        List<String> singleChooses = map.get("quesSingleChooses");
+        List<String> multipleChooses = map.get("quesMultipleChooses");
+        List<String> judges = map.get("quesJudges");
+        List<String> questionsAnswers = map.get("quesQuestionsAnswers");
+
+        //循环遍历，将考生答案，放进对应的试题
+        JSONObject paperQues1 = paper2.getPaperQues();
+        //json对象转化为java对象
+        PaperQues paperQues = JSONObject.toJavaObject(paperQues1, PaperQues.class);
+        //将paperQues里面的四个类型的题的考生答案设置对应起来
+        //单选题
+        List<QuesSingleChoose> quesSingleChooses = paperQues.getQuesSingleChooses();
+        for (int i = 0; i < quesSingleChooses.size() ; i++) {
+            quesSingleChooses.get(i).setStudentAnswer(singleChooses.get(i));
+        }
+        paperQues.setQuesSingleChooses(quesSingleChooses);
+        //多选题
+        List<QuesMultipleChoose> quesMultipleChooses = paperQues.getQuesMultipleChooses();
+        for (int i = 0; i < quesMultipleChooses.size(); i++) {
+            quesMultipleChooses.get(i).setStudentAnswer(multipleChooses.get(i));
+        }
+        paperQues.setQuesMultipleChooses(quesMultipleChooses);
+        //判断题
+        List<QuesJudge> quesJudges = paperQues.getQuesJudges();
+        for (int i = 0; i < quesJudges.size(); i++) {
+            quesJudges.get(i).setStudentAnswer(Integer.parseInt(judges.get(i)));//boolean类型的默认值是false
+        }
+        paperQues.setQuesJudges(quesJudges);
+        //简答题
+        List<QuesQuestionsAnswers> quesQuestionsAnswers = paperQues.getQuesQuestionsAnswers();
+        for (int i = 0; i < quesQuestionsAnswers.size(); i++) {
+            quesQuestionsAnswers.get(i).setStudentAnswer(questionsAnswers.get(i));
+        }
+        paperQues.setQuesQuestionsAnswers(quesQuestionsAnswers);
+
+        paper2.setPaperQues((JSONObject) JSONObject.toJSON(paperQues));
+        //将学生信息添加进去，返回数据
+        paper2.setStudent(student);
+        //获取考场信息，将考场信息放入student_paper
+        ExaminationRoom examinationRoom = studentExaminationDao.findOneByPaperId(paperId);
+        paper2.setRoomId(examinationRoom.getId());
+        //将数据写入数据库
+        studentExaminationDao.addStudentPaper(paper2);
+        return paper2;
     }
 
+    //对单选题，多选题，判断题进行评分,返回的是试卷的总分数
+    @Override
+    public LinkedList<Object> createScore(Integer stuId, String roomId) {
+        JSONObject jsonObject = studentExaminationDao.createScore(stuId, roomId);
+        PaperQues paperQues = JSONObject.toJavaObject(jsonObject, PaperQues.class);
+        //对选择题进行评分
+        List<QuesSingleChoose> quesSingleChooses = paperQues.getQuesSingleChooses();
+        int singleChoosesScore=0;
+        if (quesSingleChooses != null){
+            for (int i = 0; i < quesSingleChooses.size(); i++) {
+                QuesSingleChoose quesSingleChoose = quesSingleChooses.get(i);
+                int score = markingTestPapers.markingSingleChoice(quesSingleChoose.getAnswer(), quesSingleChoose.getStudentAnswer(), quesSingleChoose.getQuesScore());
+                singleChoosesScore += score;
+            }
+        }
+        //对多选题进评分
+        List<QuesMultipleChoose> quesMultipleChooses = paperQues.getQuesMultipleChooses();
+        int multipleChoosesScore=0;
+        if (quesMultipleChooses != null){
+            for (int i = 0; i <quesMultipleChooses.size() ; i++) {
+                QuesMultipleChoose quesMultipleChoose = quesMultipleChooses.get(i);
+                int score = markingTestPapers.markingMultipleChoice(quesMultipleChoose.getAnswer(), quesMultipleChoose.getStudentAnswer(), quesMultipleChoose.getQuesScore());
+                multipleChoosesScore += score;
+            }
+        }
+        //对判断题进行评分,
+        List<QuesJudge> quesJudges = paperQues.getQuesJudges();
+        int judgesScore=0;
+        if (quesJudges != null){
+            for (int i = 0; i < quesJudges.size(); i++) {
+                QuesJudge quesJudge = quesJudges.get(i);
+                int score = markingTestPapers.markingJudge(quesJudge.getAnswer(), quesJudge.getStudentAnswer(), quesJudge.getQuesScore());
+                judgesScore += score;
+            }
+        }
+        //将简答题取出放进list集合里面
+        List<QuesQuestionsAnswers> quesQuestionsAnswers = paperQues.getQuesQuestionsAnswers();
+        LinkedList<Object> list = new LinkedList<>();
+        int sumScore=singleChoosesScore+multipleChoosesScore+judgesScore;
+        list.add(sumScore);
+        if (quesQuestionsAnswers != null){
+            list.add(quesQuestionsAnswers);
+        }
+        return list;
+    }
 
 
 }

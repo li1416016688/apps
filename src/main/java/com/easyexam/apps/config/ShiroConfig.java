@@ -41,7 +41,19 @@ public class ShiroConfig {
         // anon: 匿名访问
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/fonts/**", "anon");
+        filterChainDefinitionMap.put("/student/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/registerStudent", "anon");
+        filterChainDefinitionMap.put("/loginStudent", "anon");
+        filterChainDefinitionMap.put("/subject/complexity", "anon");
+        filterChainDefinitionMap.put("/createPracticePaper.do", "anon");
+        filterChainDefinitionMap.put("/showExamination.do", "anon");
+        filterChainDefinitionMap.put("/createPaper.do", "anon");
+        filterChainDefinitionMap.put("/saveStudentPaper", "anon");
+
 
         //perms访问权限，需要的权限，注意顺序问题
         // perms[] 存入权限信息

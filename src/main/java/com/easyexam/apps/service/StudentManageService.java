@@ -1,10 +1,12 @@
     package com.easyexam.apps.service;
 
     import com.easyexam.apps.entity.ExaminationRoom;
+    import com.easyexam.apps.entity.Paper;
     import com.easyexam.apps.entity.Student;
     import com.easyexam.apps.entity.StudentPaper;
     import com.easyexam.apps.entity.StudentRole;
 
+    import java.util.LinkedHashMap;
     import java.util.List;
 
     public interface StudentManageService {
@@ -18,6 +20,9 @@
         public void addExaminee(Student student);
         public void addExamineeRole(StudentRole studentRole);
 
+        public LinkedHashMap<String, List<Object>> showScore(Integer subjectId, Integer paperId);
+
+        public Paper findPaperById(Integer id);
         //学生加入考试
         public void addExamineeJoinExam(String beginTime,String endTime,String roomName,Integer rid, Integer sid);
 

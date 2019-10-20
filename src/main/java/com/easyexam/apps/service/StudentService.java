@@ -21,4 +21,6 @@ public interface StudentService {
 //    //根据题类型id和科目id和具体某一个题的id查询具体的答案
 //    public Object findTopic(Integer subjectId, Integer id);
 
+    Map<String, Object> findSubjectScore();
+
 }

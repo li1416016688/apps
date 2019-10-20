@@ -37,7 +37,6 @@ public class QuestionManageController {
 
     /**
      * 跳转页面  试题分类管理
-     * @return
      */
     @RequiresPermissions({"test:type"})
     @RequestMapping("/singleChoose")
@@ -45,6 +44,9 @@ public class QuestionManageController {
         return "questUpdate";
     }
 
+    /**
+     * 手动生成试卷跳转页面
+     */
     @RequiresPermissions({"test:generate"})
     @RequestMapping("/createTestPaper")
     public String createTestPaper() {
@@ -301,9 +303,5 @@ public class QuestionManageController {
         return new JsonResult(ErrorCode.SUCCESS, codeMsg.getSuccess());
     }
 
-    @RequestMapping("createPaper")
-    public String createPaper() {
-        return "createTestPaper.html";
-    }
 
 }

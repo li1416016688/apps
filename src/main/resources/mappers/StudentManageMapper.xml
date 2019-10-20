@@ -22,14 +22,12 @@
             <result property="rdesc" column="rdesc"></result>
 
         </association>
-        <association property="room" javaType="com.easyexam.apps.entity.ExaminationRoom" >
+        <association property="room" javaType="com.easyexam.apps.entity.ExaminationRoom">
             <id property="id" column="id"></id>
             <result property="roomName" column="room_name"></result>
         </association>
 
     </resultMap>
-
-
 
 
     <resultMap id="stuMap" type="com.easyexam.apps.entity.Student" autoMapping="true">
@@ -47,54 +45,53 @@
 
 
     <!--考场-->
-    <select id="findAllExaminee" resultMap="studentMap" >
-SELECT
-student.id,
-student.`name` stuName,
-student.id_card,
-student.phone,
-student.sex,
-student.candidate_number,
-examination_room.room_name,
-student_paper.score,
-student_paper.paper_ques,
-p_role.rdesc
-FROM
-student
+    <select id="findAllExaminee" resultMap="studentMap">
+        SELECT student.id,
+               student.`name` stuName,
+               student.id_card,
+               student.phone,
+               student.sex,
+               student.candidate_number,
+               examination_room.room_name,
+               student_paper.score,
+               student_paper.paper_ques,
+               p_role.rdesc
+        FROM student
 
-left JOIN student_role
-on EasyExam.student_role.student_id=EasyExam.student.id
-left JOIN p_role
-on EasyExam.p_role.rid =EasyExam.student_role.role_id
-left JOIN student_paper
-on EasyExam.student.id =EasyExam.student_paper.stu_id
-left JOIN examination_room
-on EasyExam.examination_room.id =EasyExam.student_paper.room_id
-where p_role.rid=3
+                 left JOIN student_role
+                           on EasyExam.student_role.student_id = EasyExam.student.id
+                 left JOIN p_role
+                           on EasyExam.p_role.rid = EasyExam.student_role.role_id
+                 left JOIN student_paper
+                           on EasyExam.student.id = EasyExam.student_paper.stu_id
+                 left JOIN examination_room
+                           on EasyExam.examination_room.id = EasyExam.student_paper.room_id
+        where p_role.rid = 3
 
 </select>
     <select id="findOneExaminee" resultMap="studentMap">
-    SELECT
-    student.id,
-    student.`name` stuName,
-    student.id_card,
-    student.phone,
-    student.sex,
-    student.candidate_number,
-    examination_room.room_name,
-    student_paper.score,
-    student_paper.paper_ques,
-    p_role.rdesc
-    FROM student
-    left JOIN student_role
-    on EasyExam.student_role.student_id=EasyExam.student.id
-    left JOIN p_role
-    on EasyExam.p_role.rid =EasyExam.student_role.role_id
-    left JOIN student_paper
-    on EasyExam.student.id =EasyExam.student_paper.stu_id
-    left JOIN examination_room
-    on EasyExam.examination_room.id =EasyExam.student_paper.room_id
-    where p_role.rid=3 and student.id=#{stuId}
+        SELECT student.id,
+               student.`name` stuName,
+               student.id_card,
+               student.phone,
+               student.sex,
+               student.candidate_number,
+               examination_room.room_name,
+               student_paper.score,
+               student_paper.paper_ques,
+               p_role.rdesc
+        FROM student
+
+                 left JOIN student_role
+                           on EasyExam.student_role.student_id = EasyExam.student.id
+                 left JOIN p_role
+                           on EasyExam.p_role.rid = EasyExam.student_role.role_id
+                 left JOIN student_paper
+                           on EasyExam.student.id = EasyExam.student_paper.stu_id
+                 left JOIN examination_room
+                           on EasyExam.examination_room.id = EasyExam.student_paper.room_id
+        where p_role.rid = 3
+          and student.id = #{stuId}
     </select>
 
     <select id="findAllExamineeId" resultMap="stuMap">
@@ -136,5 +133,26 @@ where p_role.rid=3
     <select id="findExaminationId" resultType="com.easyexam.apps.entity.StudentRoom" parameterType="int">
         select rid from student_room where sid =#{sid}
     </select>
+    <select id="findStuIdAndRoomId" resultType="StudentPaper" parameterType="map">
+        SELECT
+        sp.stu_id,
+        sp.room_id
+        FROM
+        student_paper sp
+        LEFT JOIN student_room sr ON sr.rid = sp.stu_id
+        LEFT JOIN examination_room er ON er.id = sr.rid
+        LEFT JOIN paper p ON er.paper_id = p.id
+        WHERE
+        p.subject_id = #{subjectId}
+        <if test="paperId != null">
+            AND p.id = #{paperId}
+        </if>
+    </select>
 
+    <select id="findPaperById" resultType="paper" parameterType="Integer">
+        select * from paper
+        <if test="id != null">
+            where subject_id = #{id}
+        </if>
+    </select>
 </mapper>
