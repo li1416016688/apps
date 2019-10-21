@@ -53,20 +53,20 @@ public class ExaminationRoomController {
 
 
     //查找一个考场的信息
-    @PostMapping("examinationRoom/findone")
+    @PostMapping("/examinationRoom/findone")
     public JsonResult findOneExaminationRoom(Integer id){
         ExaminationRoom oneExaminationRoom = examinationRoomService.findOneExaminationRoom(id);
         return new JsonResult(1016,codeMsg.getFindoneExaminationroom());
     }
     //修改一个考场的信息
-    @PostMapping("examinationRoom/update")
+    @PostMapping("/examinationRoom/update")
     public JsonResult updateExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName){
         examinationRoomService.updateExaminationRoom( room,subjectName,paperName,invigilateName);
         return new JsonResult(1017,codeMsg.getUpdateExaminationroom());
     }
 
 //    删除一个考场的信息
-    @PostMapping("examinationRoom/delete")
+    @PostMapping("/examinationRoom/delete")
     public JsonResult deleteExaminationRoom(Integer id){
         examinationRoomService.deleteExaminationRoom(id);
         return new JsonResult(1018,codeMsg.getDeleteExaminationroom());
@@ -74,7 +74,7 @@ public class ExaminationRoomController {
 
 //    增加一个考场的信息
 
-    @PostMapping("examinationRoom/add")
+    @PostMapping("/examinationRoom/add")
     public JsonResult addExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName) {
         examinationRoomService.addExaminationRoom( room,subjectName,paperName,invigilateName);
         return new JsonResult(1419,codeMsg.getDeleteExaminationroom());
