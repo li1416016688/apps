@@ -24,10 +24,10 @@ public class StudentController {
     private StudentService studentService;
 
 
-    @RequestMapping("/loginStudent")
-    public String studentLogin() {
-        return "student_login";
-    }
+//    @RequestMapping("/loginStudent")
+//    public String studentLogin() {
+//        return "student_login";
+//    }
 
     @RequestMapping(value = "student/login")
     @ResponseBody

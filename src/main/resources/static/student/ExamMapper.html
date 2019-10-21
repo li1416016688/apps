@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+
 
 <html>
 
@@ -52,8 +52,7 @@
                         <div class="test_content_title">
                             <h2>单选题</h2>
                             <p>
-                                <span>共</span><i class="content_lit">{{radioLen}}</i><span>题，</span><span>合计</span><i
-                                    class="content_fs">{{radioLen*4}}</i><span>分</span>
+                                <span>共</span><i class="content_lit">{{radioLen}}</i><span>题，</span><span>合计</span><i class="content_fs">{{radioLen*4}}</i><span>分</span>
                             </p>
                         </div>
                     </div>
@@ -63,66 +62,50 @@
                             <li :id="'1000'+index">
                                 <div class="test_content_nr_tt">
                                     <i>{{index+1}}</i><span>(4分)</span>
-                                    <font>{{radio.cTitle}}</font><b class="icon iconfont">&#xe881;</b>
+                                    <font>{{radio.question}}</font><b class="icon iconfont">&#xe881;</b>
                                 </div>
 
                                 <div class="test_content_nr_main">
                                     <ul>
-                                        <!--A-->
+
                                         <li class="option">
 
                                             <!--单选默认提交的操作-->
-                                            <input type="radio" class="radioOrCheck" :name="'R'+index"
-                                                   :value="'RR'+'-'+radio.cTitle+'-'+radio.sid+'-'+radio.cAnswer+'-'+radio.cScore+'-null'"
-                                                   style="display:none" checked="checked" :id="radio.cid+'-null'"/>
+                                            <!--<input type="radio" class="radioOrCheck" :name="'R'+index" :value="'R'+radio.id+'-null'" style="display:none" checked="checked" :id="'R'+radio.id+'-null'" />-->
 
-                                            <input type="radio" class="radioOrCheck" :name="'R'+index"
-                                                   :id="radio.cid+'-A'"
-                                                   :value="'RR'+'-'+radio.cTitle+'-'+radio.sid+'-'+radio.cAnswer+'-'+radio.cScore+'-A'"
-                                            />
+                                            <input type="radio" class="radioOrCheck" :name="'R'+index"  :id="'R'+radio.id+'-A'" :value="'R'+radio.id+'-A'" @click="radioClick('R'+radio.id+'-A')">
 
-                                            <label :for="index">
-                                                <p class="ue" style="display: inline;">{{radio.cOptionA}}</p>
+                                            <label :for="'R'+index">
+                                                <p class="ue" style="display: inline;">{{radio.chooseA}}</p>
                                             </label>
                                         </li>
-                                        <!--B-->
 
                                         <li class="option">
 
-                                            <input type="radio" class="radioOrCheck" :name="'R'+index"
-                                                   :id="radio.cid+'-B'"
-                                                   :value="'RR'+'-'+radio.cTitle+'-'+radio.sid+'-'+radio.cAnswer+'-'+radio.cScore+'-B'"
-                                            />
+                                            <input type="radio" class="radioOrCheck" :name="'R'+index"  :id="'R'+radio.id+'-B'" :value="'R'+radio.id+'-B'" @click="radioClick('R'+radio.id+'-B')" />
 
-                                            <label :for="index">
-                                                <p class="ue" style="display: inline;">{{radio.cOptionB}}</p>
+                                            <label :for="'R'+index">
+
+                                                <p class="ue" style="display: inline;">{{radio.chooseB}}</p>
                                             </label>
                                         </li>
-                                        <!--C-->
 
                                         <li class="option">
 
-                                            <input type="radio" class="radioOrCheck" :name="'R'+index"
-                                                   :id="radio.cid+'-C'"
-                                                   :value="'RR'+'-'+radio.cTitle+'-'+radio.sid+'-'+radio.cAnswer+'-'+radio.cScore+'-C'"
-                                            />
+                                            <input type="radio" class="radioOrCheck" :name="'R'+index"  :id="'R'+radio.id+'-C'" :value="'R'+radio.id+'-C'" @click="radioClick('R'+radio.id+'-C')" />
 
-                                            <label :for="index">
+                                            <label :for="'R'+index">
 
-                                                <p class="ue" style="display: inline;">{{radio.cOptionC}}</p>
+                                                <p class="ue" style="display: inline;">{{radio.chooseC}}</p>
                                             </label>
                                         </li>
-                                        <!--D-->
 
                                         <li class="option">
 
-                                            <input type="radio" class="radioOrCheck" :name="'R'+index"
+                                            <input type="radio" class="radioOrCheck" :name="'R'+index"   :id="'R'+radio.id+'-D'" :value="'R'+radio.id+'-D'" @click="radioClick('R'+radio.id+'-D')" />
+                                            <label :for="'R'+index">
 
-                                                   :id="radio.cid+'-D'"
-                                                   :value="'RR'+'-'+radio.cTitle+'-'+radio.sid+'-'+radio.cAnswer+'-'+radio.cScore+'-D'"
-                                            />
-                                            <label :for="index">
-                                                <p class="ue" style="display: inline;">{{radio.cOptionD}}</p>
+                                                <p class="ue" style="display: inline;">{{radio.chooseD}}</p>
                                             </label>
                                         </li>
 
@@ -132,6 +115,103 @@
                         </ul>
                     </div>
 
+                    <div class="test_content">
+                        <div class="test_content_title">
+                            <h2>多选题</h2>
+                            <p>
+                                <span>共</span><i class="content_lit">{{multipleLen}}</i><span>题，</span><span>合计</span><i
+                                    class="content_fs">{{multipleLen*4}}</i><span>分</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="test_content_nr">
+                        <ul v-for="(multiple,index) in  multipleList">
+
+                            <li :id="'1000'+index">
+                                <div class="test_content_nr_tt">
+                                    <i>{{index+1}}</i><span>(4分)</span>
+                                    <font>{{multiple.question}}</font><b class="icon iconfont">&#xe881;</b>
+                                </div>
+
+                                <div class="test_content_nr_main">
+                                    <ul>
+                                        <!--A-->
+                                        <li class="option">
+
+                                            <!--多选默认提交的操作-->
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.cAnswer+'-'+multiple.cScore+'-null'"
+                                                   style="display:none" checked="checked" :id="multiple.cid+'-null'"/>
+
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :id="multiple.cid+'-A'"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.cAnswer+'-'+multiple.cScore+'-A'"
+                                            />
+
+                                            <label :for="index">
+                                                <p class="ue" style="display: inline;">{{multiple.chooseA}}</p>
+                                            </label>
+                                        </li>
+                                        <!--B-->
+
+                                        <li class="option">
+
+                                            <!--多选默认提交的操作-->
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.cAnswer+'-'+multiple.cScore+'-null'"
+                                                   style="display:none" checked="checked" :id="multiple.cid+'-null'"/>
+
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :id="multiple.cid+'-A'"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.cAnswer+'-'+multiple.cScore+'-A'"
+                                            />
+
+                                            <label :for="index">
+                                                <p class="ue" style="display: inline;">{{multiple.chooseB}}</p>
+                                            </label>
+                                        </li>
+                                        <!--C-->
+
+                                        <li class="option">
+
+                                            <!--多选默认提交的操作-->
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.cAnswer+'-'+multiple.cScore+'-null'"
+                                                   style="display:none" checked="checked" :id="multiple.cid+'-null'"/>
+
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :id="multiple.cid+'-A'"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.cAnswer+'-'+multiple.cScore+'-A'"
+                                            />
+
+                                            <label :for="index">
+                                                <p class="ue" style="display: inline;">{{multiple.chooseC}}</p>
+                                            </label>
+                                        </li>
+                                        <!--D-->
+
+                                        <li class="option">
+
+                                            <!--多选默认提交的操作-->
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.studentAnswer+'-'+multiple.quesScore+'-null'"
+                                                   style="display:none" checked="checked" :id="multiple.cid+'-null'"/>
+
+                                            <input type="checkbox" class="multipleOrCheck" :name="'R'+index"
+                                                   :id="multiple.cid+'-A'"
+                                                   :value="'RR'+'-'+multiple.question+'-'+multiple.sid+'-'+multiple.studentAnswer+'-'+multiple.quesScore+'-A'"
+                                            />
+
+                                            <label :for="index">
+                                                <p class="ue" style="display: inline;">{{multiple.chooseD}}</p>
+                                            </label>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="test_content">
                         <div class="test_content_title">
                             <h2>判断题</h2>
@@ -147,7 +227,7 @@
                             <li :id="'2000'+index">
                                 <div class="test_content_nr_tt">
                                     <i>{{index+1}}</i><span>(2分)</span>
-                                    <font>{{judge.jTitle}}</font><b class="icon iconfont">&#xe881;</b>
+                                    <font>{{judge.question}}</font><b class="icon iconfont">&#xe881;</b>
                                 </div>
 
                             <li class="option">
@@ -198,7 +278,7 @@
                             <li :id="'3000'+index">
                                 <div class="test_content_nr_tt">
                                     <i>{{index+1}}</i><span>(10分)</span>
-                                    <font>{{short.bTitle}}</font><b class="icon iconfont">&#xe881;</b>
+                                    <font>{{short.question}}</font><b class="icon iconfont">&#xe881;</b>
                                 </div>
 
                             <li class="option">
@@ -223,7 +303,7 @@
                     <input type="hidden" :value="judgeLen" id="judgeLen"/>
                     <!--//隐藏域获取最大的radioLen-->
                     <input type="hidden" :value="radioLen" id="radioLen"/>
-
+                    <input type="hidden" :value="multipleLen" id="multipleLen"/>
                 </form>
             </div>
 
@@ -259,6 +339,23 @@
                         </div>
                     </div>
 
+                    <div class="rt_content" style="margin-top: 60px;">
+                        <div class="rt_content_tt">
+                            <h2>多选题</h2>
+                            <p>
+                                <span>共</span><i class="content_lit">{{multipleLen}}</i><span>题</span>
+                            </p>
+                        </div>
+
+                        <div class="rt_content_nr answerSheet">
+                            <ul v-for="(multiple,index) in  multipleList" style="float:left;">
+
+                                <li>
+                                    <a :href="'#1000'+index">{{index+1}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="rt_content" style="margin-top: 100px;">
                         <div class="rt_content_tt">
                             <h2>判断题</h2>
@@ -363,9 +460,7 @@
         }
 
         //判断单选题不能为空
-
         var RLen = $("#radioLen").val();
-
         var RLens = parseInt(RLen);
         for (var i = 0; i < RLens; i++) {
             var Rstr = 'R' + i;
@@ -441,6 +536,8 @@
             judgeList: {},
             radioList: {},
             shortList: {},
+            multipleList:{},
+            multipleLen:0,
             radioLen: 0,
             shortLen: 0,
             judgeLen: 0,
@@ -452,8 +549,8 @@
                 $.ajax({
                     type: "get",
                     // data: {"sid": 1, "uid": 4, "eid": 1},
-                    //url: "http://localhost:8080/examsys/getTestMapper.do?testTypeId=" + 55,
-                    url: "../examsys/getTestMapper" + window.location.search,
+                    url: "http://localhost:8080/easyExam/createPaper.do?paperId=34&idCard=123",
+                    // url: "../examsys/getTestMapper" + window.location.search,
                     dataType: "json",
                     success: function (data) {
 
@@ -462,17 +559,21 @@
                         // }
 
                         // if (data.code == 1) {
-                        _this.judgeList = data.judgeQuestion;
+                        _this.judgeList = data.info.paperQues.quesJudges;
 
-                        _this.judgeLen = data.judgeQuestion.length;
+                        _this.judgeLen = data.info.paperQues.quesJudges.length;
 
-                        _this.radioList = data.chooseQuestion;
+                        _this.radioList = data.info.paperQues.quesSingleChooses;
 
-                        _this.radioLen = data.chooseQuestion.length;
+                        _this.radioLen = data.info.paperQues.quesSingleChooses.length;
 
-                        _this.shortList = data.briefQuestion;
+                        _this.shortList = data.info.paperQues.quesQuestionsAnswers;
 
-                        _this.shortLen = data.briefQuestion.length;
+                        _this.shortLen = data.info.paperQues.quesQuestionsAnswers.length;
+
+
+                        _this.multipleList=data.info.paperQues.quesMultipleChooses;
+                        _this.multipleLen=data.info.paperQues.quesMultipleChooses.length;
 
                         // }
                     }
@@ -533,7 +634,7 @@
 </script>
 <script src="../js/jquery.easy-pie-chart.js"></script>
 <!--时间js-->
-<script src="../time/jquery.countdown.js"></script>
+<script src="../js/jquery.countdown.js"></script>
 <script>
     window.jQuery(function ($) {
         "use strict";

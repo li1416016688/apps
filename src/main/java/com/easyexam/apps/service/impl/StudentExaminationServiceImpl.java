@@ -73,27 +73,36 @@ public class StudentExaminationServiceImpl implements StudentExaminationService 
             Integer score = paper.get(i).getScore();
             if (questionType == 1){
                 QuesSingleChoose singleChoose = studentDao.findQuesSingleChooseById(questionId);
-                singleChoose.setQuesScore(score);
-                singleChooses.add(singleChoose);
-                continue;
+                if (singleChoose != null){
+                    singleChoose.setQuesScore(score);
+                    singleChooses.add(singleChoose);
+                    continue;
+                }
             }
             if (questionType == 2){
                 QuesMultipleChoose multipleChoose = studentDao.findQuesMultipleChooseById(questionId);
-                multipleChoose.setQuesScore(score);
-                quesMultipleChooses.add(multipleChoose);
-                continue;
+                if (multipleChoose != null){
+                    multipleChoose.setQuesScore(score);
+                    quesMultipleChooses.add(multipleChoose);
+                    continue;
+                }
             }
             if (questionType == 3){
                 QuesJudge judge = studentDao.findQuesJudgeById(questionId);
-                judge.setQuesScore(score);
-                quesJudges.add(judge);
-                continue;
+                if (judge != null){
+                    judge.setQuesScore(score);
+                    quesJudges.add(judge);
+                    continue;
+                }
             }
             if (questionType == 4){
                 QuesQuestionsAnswers questionsAnswer = studentDao.findQuesQuestionsAnswersById(questionId);
-                questionsAnswer.setQuesScore(score);
-                quesQuestionsAnswers.add(questionsAnswer);
-                continue;
+                if (questionsAnswer != null){
+                    questionsAnswer.setQuesScore(score);
+                    quesQuestionsAnswers.add(questionsAnswer);
+                    continue;
+                }
+
             }
         }
         //将对应类型的题目保存到paperQues中，这只是题的封装
