@@ -95,8 +95,6 @@
             $(nodes).each(function () {
                 pid += this.pid + ",";
             });
-            alert(pid);
-            alert(window.location.search.substring(1,window.location.search.length));
             $.ajax({
                 type: "post",
                 url: "updateRolePermission.do",

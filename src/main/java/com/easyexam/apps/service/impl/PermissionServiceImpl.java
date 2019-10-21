@@ -44,7 +44,7 @@ public class PermissionServiceImpl implements PermissionService {
     public JsonResult deleteOnePermission(Integer pid) {
         int i1 = permissionDao.deletePermission(pid);
         int i2 = permissionDao.deletePermissionRole(pid);
-        if (i1 <= 0){
+        if (i1 <= 0 && i2 <= 0){
             throw new MyException(ErrorCode.EXCEPTION_DELETE,codeMsg.getDeleteException());
         }
         return new JsonResult(1,"删除成功");

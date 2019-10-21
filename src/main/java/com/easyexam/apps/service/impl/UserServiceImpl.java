@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CodeMsg codeMsg;
     @Override
-    public List<User> findAll(Integer page, Integer limit) {
+    public List<User> findAll(Integer page, Integer limit, String name) {
         PageHelper.startPage(page,limit);
-        List<User> list = userDao.findAllUser();
+        List<User> list = userDao.findAllUser(name);
         if (list == null || "".equals(list)){
             throw new MyException(ErrorCode.EXCEPTION_NOPOINT,codeMsg.getNoPointException());
         }

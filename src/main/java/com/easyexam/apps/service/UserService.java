@@ -6,7 +6,7 @@ import com.easyexam.apps.entity.User;
 import java.util.List;
 
 public interface UserService {
-    public List<User> findAll(Integer page, Integer limit);
+    public List<User> findAll(Integer page, Integer limit, String name);
     public JsonResult deleteOneUser(Integer uid);
     public JsonResult updateUser(User user);
     public User findUser(Integer uid);

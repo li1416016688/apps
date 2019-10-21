@@ -117,7 +117,7 @@
                                 layer.msg("删除成功");
                                 table.reload("questionTable");
                             } else {
-                                layer.msg("删除失败");
+                                layer.msg(data.info);
                             }
                         }
                     })
@@ -129,7 +129,7 @@
                 layer.open({
                     type: 1,
                     area: ['500px', '600px'],
-                    title: 'tianxie'
+                    title: '编辑'
                     , content: $("#add-form"),
                     shade: 0,
                     btn: ['提交']
@@ -185,7 +185,7 @@
                 table.reload('questionTable', {
                     //设定异步数据接口的额外参数，任意设
                     where: {
-
+                        name: $("#name").val()
                     }
                     , page: {
                         curr: 1
