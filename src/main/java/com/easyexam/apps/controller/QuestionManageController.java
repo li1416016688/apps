@@ -38,7 +38,7 @@ public class QuestionManageController {
     /**
      * 跳转页面  试题分类管理
      */
-    @RequiresPermissions({"test:type"})
+//    @RequiresPermissions({"test:type"})
     @RequestMapping("/singleChoose")
     public String singleChoose() {
         return "questUpdate";
@@ -47,19 +47,19 @@ public class QuestionManageController {
     /**
      * 手动生成试卷跳转页面
      */
-    @RequiresPermissions({"test:generate"})
+//    @RequiresPermissions({"test:generatet"})
     @RequestMapping("/createTestPaper")
     public String createTestPaper() {
         return "createTestPaper";
     }
 
-    @RequiresPermissions({"test:type"})
+//    @RequiresPermissions({"test:typet"})
     @RequestMapping("/createRandomTestPaper")
     public String createRandomTestPaper(){
         return "createRandomTestPaper";
     }
 
-    @RequiresPermissions({"test:type"})
+//    @RequiresPermissions({"test:typet"})
     @RequestMapping("/createPracticePaperDirect")
     public String createPracticePaperDirect(){
         return "createPracticePaperDirect";

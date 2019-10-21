@@ -10,7 +10,6 @@
         <result property="stuId" column="stu_id"></result>
         <result property="roomId" column="room_id"></result>
         <result property="score" column="score"></result>
-        <result property="paperQues" column="paper_ques" typeHandler="com.easyexam.apps.config.MySqlJsonHandler"/>
         <association property="student" javaType="com.easyexam.apps.entity.Student" autoMapping="true">
             <id property="id" column="id"></id>
             <result property="name" column="stuName"></result>
@@ -54,7 +53,6 @@
                student.candidate_number,
                examination_room.room_name,
                student_paper.score,
-               student_paper.paper_ques,
                p_role.rdesc
         FROM student
 

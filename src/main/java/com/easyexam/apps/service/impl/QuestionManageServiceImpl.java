@@ -113,7 +113,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             } else if ("multipleChoose".equalsIgnoreCase(sheetName)) {
                 quesMultipleChooses = readExcel.readMultipleChoose(path + "/" + fileName);
             } else if ("judge".equalsIgnoreCase(sheetName)) {
-                quesJudges = readExcel.readJudge(path + fileName);
+                quesJudges = readExcel.readJudge(path + "/" + fileName);
             } else if ("questionsAnswers".equalsIgnoreCase(sheetName)) {
                 quesQuestionsAnswers = readExcel.readQuestionsAnswers(path + "/" + fileName);
             } else if ("all".equalsIgnoreCase(sheetName)) {
@@ -144,22 +144,22 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         //写入数据库
         int count = 0;      //计数器
         int totalCount = 0; //总数计数器
-        System.out.println(quesSingleChooses.isEmpty());
+
         try {
-            if (!quesSingleChooses.isEmpty()) {
+            if (quesSingleChooses != null) {
                 count = questionManageDao.importQuesSingleChoose(quesSingleChooses);
                 totalCount = totalCount + count;
             }
-            if (!quesMultipleChooses.isEmpty()) {
+            if (quesMultipleChooses != null) {
                 count = questionManageDao.importQuesMultipleChoose(quesMultipleChooses);
                 totalCount = totalCount + count;
             }
-            if (!quesJudges.isEmpty()) {
+            if (quesJudges != null) {
                 System.out.println(quesJudges);
                 count = questionManageDao.importQuesJudge(quesJudges);
                 totalCount = totalCount + count;
             }
-            if (!quesQuestionsAnswers.isEmpty()) {
+            if (quesQuestionsAnswers != null) {
                 System.out.println(quesQuestionsAnswers);
                 count = questionManageDao.importQuesQuestionsAnswers(quesQuestionsAnswers);
                 totalCount = totalCount + count;

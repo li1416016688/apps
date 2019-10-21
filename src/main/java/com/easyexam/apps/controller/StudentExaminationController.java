@@ -124,17 +124,39 @@ public class StudentExaminationController {
         }
     }
 
+    /**
+     * 时刻保存学生答案到redis里面
+     * @param paperId 试卷的id
+     * @param idCard 学生身份证号
+     * @param map 考生答案
+     */
+    @RequestMapping("momentSaveStudentAnswer.do")
+    public void momentSaveStudentAnswer(Integer paperId, String idCard, Map<String,List<String>> map){
+        //将考生答案一直保存到redis里面，
+        redisTemplate.opsForHash().put("easyexam","idCard"+idCard+paperId,map);
+    }
 
-    /**保存试卷
+
+
+    /**最后交卷，两种方式，时间到了强制交卷，考生自己交卷
+     * 考生答案和试卷信息都是从redis获取，同时获取后将考生答案这个键设置一个月的过期时间，以便保存失败，还能从redis获取
      * @param paperId  试卷的id
      * @param idCard 考生的身份证号
-     * @param map 考生的答案，key是四个类型的题型
      */
     @RequestMapping("saveStudentPaper" )
-    public void saveStudentPaper(Integer paperId, Integer idCard, Map<String,List<String>> map){
+    public JsonResult saveStudentPaper(Integer paperId, String idCard){
         //在redis取出当时开始考试生成的试卷，含有答案，不含有考生信息，含有考场信息
         Object opaper2 = redisTemplate.opsForHash().get("easyexam","paperId"+paperId );
         StudentPaper paper2 = (StudentPaper)opaper2;
+        //考生答案
+        Map<String,List<String>> studentAnswer = (Map<String,List<String>>)redisTemplate.opsForHash().get("easyexam", "idCard" + idCard+paperId);
+        //将考生答案和试卷加在一起放进，mysql里面以json格式存储
+        StudentPaper studentPaper = studentExaminationService.saveStudentPaper(paperId, idCard, studentAnswer);
+        if (studentPaper == null){
+            return new JsonResult(2507,"考生保存试卷失败");
+        }else {
+            return new JsonResult(ErrorCode.SUCCESS,codeMsg.getSuccess());
+        }
     }
 
 }
