@@ -7,14 +7,15 @@ import com.easyexam.apps.service.ExaminationRoomService;
 import com.github.pagehelper.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin
-@RestController
+//@CrossOrigin
+@Controller
 public class ExaminationRoomController {
     @Autowired
     private ExaminationRoomService examinationRoomService;
@@ -35,11 +36,17 @@ public class ExaminationRoomController {
         return "student";
     }
 
+    @RequestMapping("/studentExamination")
+    public String studentExamination(){
+        return "sturoom";
+    }
+
 
 
     //查找所有的考场信息
-    @RequiresPermissions({"room:list"})
+//    @RequiresPermissions({"room:list"})
     @RequestMapping(value = "/examinationRoom/findAll")
+    @ResponseBody
     public Map findAllexaminationRoom(Integer page, Integer limit){
         HashMap<String, Object> map = new HashMap<>();
         List<ExaminationRoom> examinationRoomList = examinationRoomService.findAllExaminationRoom(page, limit);
@@ -54,12 +61,14 @@ public class ExaminationRoomController {
 
     //查找一个考场的信息
     @PostMapping("/examinationRoom/findone")
+    @ResponseBody
     public JsonResult findOneExaminationRoom(Integer id){
         ExaminationRoom oneExaminationRoom = examinationRoomService.findOneExaminationRoom(id);
         return new JsonResult(1016,codeMsg.getFindoneExaminationroom());
     }
     //修改一个考场的信息
     @PostMapping("/examinationRoom/update")
+    @ResponseBody
     public JsonResult updateExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName){
         examinationRoomService.updateExaminationRoom( room,subjectName,paperName,invigilateName);
         return new JsonResult(1017,codeMsg.getUpdateExaminationroom());
@@ -67,6 +76,7 @@ public class ExaminationRoomController {
 
 //    删除一个考场的信息
     @PostMapping("/examinationRoom/delete")
+    @ResponseBody
     public JsonResult deleteExaminationRoom(Integer id){
         examinationRoomService.deleteExaminationRoom(id);
         return new JsonResult(1018,codeMsg.getDeleteExaminationroom());
@@ -75,6 +85,7 @@ public class ExaminationRoomController {
 //    增加一个考场的信息
 
     @PostMapping("/examinationRoom/add")
+    @ResponseBody
     public JsonResult addExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName) {
         examinationRoomService.addExaminationRoom( room,subjectName,paperName,invigilateName);
         return new JsonResult(1419,codeMsg.getDeleteExaminationroom());

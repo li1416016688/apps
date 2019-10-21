@@ -18,7 +18,7 @@ import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-//@Configuration
+@Configuration
 public class ShiroConfig {
     // shiro资源过滤配置
     @Bean(name = "shiroFilter")
@@ -53,6 +53,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/showExamination.do", "anon");
         filterChainDefinitionMap.put("/createPaper.do", "anon");
         filterChainDefinitionMap.put("/saveStudentPaper", "anon");
+        filterChainDefinitionMap.put("/examinationRoom/**", "anon");
+        filterChainDefinitionMap.put("/student/**", "anon");
 
 
         //perms访问权限，需要的权限，注意顺序问题

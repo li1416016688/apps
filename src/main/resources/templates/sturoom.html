@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>考场管理</title>
+  <title>考试报名</title>
   <link rel="stylesheet" href="layui/css/layui.css">
 </head>
 
@@ -20,8 +20,7 @@
 </script>
 
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">立即报名</a>
 </script>
 
 </body>
@@ -74,7 +73,7 @@
           sort: true
         }, {
           field: 'joinPeopleNum',
-          title: '参与人数',
+          title: '已报人数',
           align: 'center',
           edit: 'text',
           sort: true
@@ -108,32 +107,16 @@
             sort: true,
             templet: '<div>{{d.subject.name}}</div>',
 
-          }
-
-          , {
-          field: 'name',
-          title: '试卷',
-          align: 'center',
-          sort: true,
-          templet: '<div>{{d.paper.name}}</div>'
-
-        }, {
+          },{
           field: 'name',
           title: '监考老师',
           align: 'center',
           sort: true,
           templet: '<div>{{d.invigilate.name}}</div>'
 
-        }, {
-          field: 'level',
-          title: '试卷难度',
-          align: 'center',
-          sort: true,
-          templet: '<div>{{d.paper.level}}</div>'
-
-        }, {
+        },{
           fixed: 'right',
-          title: '操作',
+          title: '报名',
           toolbar: '#barDemo',
           align: 'center',
           sort: true,
