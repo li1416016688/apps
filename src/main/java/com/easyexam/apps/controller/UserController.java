@@ -26,8 +26,8 @@ public class UserController {
 
     @RequestMapping("/findAllUser.do")
     @ResponseBody
-    public Map<String, Object> findAll1(Integer page, Integer limit) {
-        List<User> list = userService.findAll(page, limit);
+    public Map<String, Object> findAll1(Integer page, Integer limit, String name) {
+        List<User> list = userService.findAll(page, limit, name);
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
         map.put("count", ((Page) list).getTotal());

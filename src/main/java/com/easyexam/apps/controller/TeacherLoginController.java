@@ -4,11 +4,12 @@ package com.easyexam.apps.controller;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class TeacherLoginController {
@@ -21,7 +22,7 @@ public class TeacherLoginController {
 
 
     @PostMapping("/login")
-    public String login(String name, String password) {
+    public String login(String name, String password, HttpSession session) {
         //存储输入的用户名和密码
         UsernamePasswordToken token = new UsernamePasswordToken(name, password);
         System.out.println("################" + token);
@@ -35,8 +36,12 @@ public class TeacherLoginController {
             return "admin_login";
         }
 
-        Session session = subject.getSession();
-        System.out.println(session  );
+        session.setAttribute("name",name);
+        session.setAttribute("password",password);
+
+
+//        Session session = subject.getSession();
+//        System.out.println(session  );
         return "index";
     }
 
