@@ -9,8 +9,8 @@
     </select>
 
     <insert id="addPermission">
-        insert into p_permission (perm_name,perm_desc,type,url,parent_id)
-        values (#{permName}, #{permDesc}, #{type}, #{url}, #{parentId})
+        insert into p_permission (perm_name,perm_desc,type,url,parent_id,remark)
+        values (#{permName}, #{permDesc}, #{type}, #{url}, #{parentId}, #{remark})
     </insert>
 
     <delete id="deletePermission">
@@ -22,8 +22,20 @@
 
     <update id="updatePermission">
         update p_permission set perm_name=#{permName}, perm_desc=#{permDesc},
-        type=#{type}, url=#{url}, parent_id=#{parentId}
+        type=#{type}, url=#{url}, parent_id=#{parentId} ,remark=#{remark}
         where pid=#{pid}
     </update>
+
+    <resultMap id="findPermissionTree" type="com.easyexam.apps.entity.PermissionTree">
+        <id column="pid" property="pid"></id>
+        <result property="name" column="perm_name"></result>
+    </resultMap>
+    <select id="findZtrCh" resultMap="findPermissionTree">
+        select * from p_permission where parent_id = #{id}
+    </select>
+    <select id="findZtrPa" resultMap="findPermissionTree">
+        select * from p_permission where parent_id is null
+    </select>
+
 
 </mapper>

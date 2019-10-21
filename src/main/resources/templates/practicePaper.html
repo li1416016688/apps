@@ -1,0 +1,413 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>模拟考试 | easyExam在线考试系统</title>
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+		<link href="css/iconfont.css" rel="stylesheet" type="text/css" />
+		<link href="css/test.css" rel="stylesheet" type="text/css" />
+
+		<style>
+			.hasBeenAnswer {
+				background: #5d9cec;
+				color: #fff;
+			}
+		</style>
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/font.css"/>
+		<script type="text/javascript" src="js/layer.js"></script>
+	</head>
+
+	<body>
+
+		<p class="test_time">
+			考试还剩余
+			<div id="times"></div>
+		</p>
+		<div class="main" id="app">
+			<!--nr start-->
+			<div class="test_main">
+				<div class="nr_left">
+					<div class="test">
+						<form action="#" method="post" onsubmit="return false;">
+							<div class="test_title">
+								<!--<p class="test_time">
+									<i class="icon iconfont">&#xe6fb;</i><b class="alt-1">01:40</b>
+								</p>-->
+								<font><input type="button" name="test_jiaojuan" id="jiaojuan" value="交卷" onclick="jiaojuan()"></font>
+							</div>
+
+							<div class="test_content">
+								<div class="test_content_title">
+									<h2>单选题</h2>
+									<p>
+										<span>共</span><i class="content_lit">{{radioLen}}</i><span>题，</span><span>合计</span><i class="content_fs">{{radioLen*4}}</i><span>分</span>
+									</p>
+								</div>
+							</div>
+							<div class="test_content_nr">
+								<ul v-for="(radio,index) in  radioList">
+
+									<li :id="'1000'+index">
+										<div class="test_content_nr_tt">
+											<i>{{index+1}}</i><span>(4分)</span>
+											<font>{{radio.title}}</font><b class="icon iconfont">&#xe881;</b>
+										</div>
+
+										<div class="test_content_nr_main">
+											<ul>
+
+												<li class="option">
+													<!--单选默认提交的操作-->
+													<input type="radio" class="radioOrCheck" :name="'R'+index" :value="'R'+radio.id+'-null'" style="display:none" checked="checked" />
+
+													<input type="radio" class="radioOrCheck" :name="'R'+index" :value="'R'+radio.id+'-A'" />
+
+													<label :for="'R'+index">
+												A.
+												<p class="ue" style="display: inline;">{{radio.choiceA}}</p>
+											</label>
+												</li>
+
+												<li class="option">
+
+													<input type="radio" class="radioOrCheck" :name="'R'+index" :value="'R'+radio.id+'-B'" />
+
+													<label :for="'R'+index">
+												B.
+												<p class="ue" style="display: inline;">{{radio.choiceB}}</p>
+											</label>
+												</li>
+
+												<li class="option">
+
+													<input type="radio" class="radioOrCheck" :name="'R'+index" :value="'R'+radio.id+'-C'" />
+
+													<label :for="'R'+index">
+												C.
+												<p class="ue" style="display: inline;">{{radio.choiceC}}</p>
+											</label>
+												</li>
+
+												<li class="option">
+
+													<input type="radio" class="radioOrCheck" :name="'R'+index" :value="'R'+radio.id+'-D'" />
+
+													<label :for="'R'+index">
+												D.
+												<p class="ue" style="display: inline;">{{radio.choiceD}}</p>
+											</label>
+												</li>
+												<button type="button" @click="showAnswer('R'+radio.id)">查看答案</button>
+
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<div class="test_content">
+								<div class="test_content_title">
+									<h2>判断题</h2>
+									<p>
+										<span>共</span><i class="content_lit">{{judgeLen}}</i><span>题，</span><span>合计</span><i class="content_fs">{{judgeLen*2}}</i><span>分</span>
+									</p>
+								</div>
+							</div>
+							<div class="test_content_nr">
+
+								<ul v-for="(judge,index)  in  judgeList">
+									<li :id="'2000'+index">
+										<div class="test_content_nr_tt">
+											<i>{{index+1}}</i><span>(2分)</span>
+											<font>{{judge.title}}</font><b class="icon iconfont">&#xe881;</b>
+										</div>
+
+										<li class="option">
+
+											<!--	//默认提交value-->
+											<input type="radio" class="radioOrCheck" :name="'j'+index" :value="'J'+judge.id+'-null'" style="display:none" checked="checked" />
+
+											<input type="radio" class="radioOrCheck" :name="'j'+index" :value="'J'+judge.id+'-正确'" />
+
+											<label :for="'true'+index">
+									正确.
+									<p class="ue" style="display: inline;"></p>
+								</label>
+										</li>
+										<!--:value="'R'+radio.id+'D'"-->
+										<li class="option">
+
+											<input type="radio" class="radioOrCheck" :name="'j'+index" :value="'J'+judge.id+'-错误'" />
+
+											<label :for="'false'+index">
+									错误.
+									<p class="ue" style="display: inline;"></p>
+								</label>
+										</li>
+										<button type="button" @click="showAnswer('J'+judge.id)">查看答案</button>
+								</ul>
+								</li>
+							</div>
+							<input type="hidden" :value="shortLen" id="shortLen">
+						</form>
+					</div>
+
+				</div>
+				<div class="nr_right">
+					<div class="nr_rt_main">
+						<div class="rt_nr1">
+							<div class="rt_nr1_title">
+								<h1>
+							<i class="fa fa-edit"></i>答题卡
+						</h1>
+								<p class="test_time">
+
+									<!--<i class="icon iconfont">&#xe6fb;</i><b class="alt-1">00:20</b>-->
+
+								</p>
+							</div>
+
+							<div class="rt_content">
+								<div class="rt_content_tt">
+									<h2>单选题</h2>
+									<p>
+										<span>共</span><i class="content_lit">{{shortLen}}</i><span>题</span>
+									</p>
+								</div>
+								<div class="rt_content_nr answerSheet">
+									<ul v-for="(radio,index) in  radioList" style="float:left;">
+
+										<li>
+											<a :href="'#1000'+index">{{index+1}}</a>
+										</li>
+
+									</ul>
+								</div>
+							</div>
+
+							<div class="rt_content">
+								<div class="rt_content_tt">
+									<h2>判断题</h2>
+									<p>
+										<span>共</span><i class="content_lit">{{judgeLen}}</i><span>题</span>
+									</p>
+								</div>
+								<div class="rt_content_nr answerSheet" style="margin-top:110px">
+									<ul v-for="(judge,index)  in  judgeList" style="float:left;">
+
+										<li>
+											<a :href="'#2000'+index">{{index+1}}</a>
+										</li>
+
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--nr end-->
+			<div class="foot"></div>
+		</div>
+		<script>
+		</script>
+
+		//用户查看对应的选择答案
+		<script type="text/javascript">
+			function showAnswer(id) {
+
+				$.ajax({
+					type: "get",
+					data: {
+						"id": id
+					},
+					url: "http://localhost:8080/examsys/getTestAnswer.do",
+					success: function(data) {
+						alert(data.info)
+					}
+				});
+			}
+		</script>
+
+		<script type="text/javascript">
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					judgeList: {},
+					radioList: {},
+					shortList: {},
+					radioLen: 0,
+					shortLen: 0,
+					judgeLen: 0,
+					time: 0
+
+				},
+				methods: {
+					loadData1: function() { //试题绑定
+						var _this = this;
+						$.ajax({
+							type: "get",
+							//url: "http://localhost:8080/examsys/getTestMapper.do?testTypeId=" + 55,
+							url: "http://localhost:8080/examsys/getTestMapper.do" + window.location.search,
+							dataType: "json",
+							success: function(data) {
+
+								_this.judgeList = data.judgeList;
+
+								_this.judgeLen = _this.judgeList.length
+
+								_this.radioList = data.radioList;
+
+								_this.radioLen = _this.radioList.length
+
+								_this.shortList = data.answerList;
+
+								_this.shortLen = _this.shortList.length
+
+							}
+						})
+					},
+					/*loadData2: function () {//获取用户选择题型的信息
+						var _this = this;
+			
+			
+					},*/
+					deleteInfo: function(id) {
+						var _this = this;
+						$.ajax({
+							type: "get",
+							url: "delete.do?id=" + id,
+							dataType: "json",
+							success: function(data) {
+								if(data.code == 1) {
+									_this.loadData();
+								}
+							}
+						})
+					}
+				},
+				created: function() {
+					this.loadData1();
+					this.loadData2();
+
+				}
+			})
+		</script>
+
+		//提交试卷 时间结束强制提交
+		<script type="text/javascript">
+			var times;
+			$(function() {
+				$.ajax({
+					type: "get",
+					//url: "http://localhost:8080/examsys/getTestTypeInfo.do?id=" + 55,
+					url: "http://localhost:8080/examsys/getTestTypeInfo.do" + window.location.search,
+					dataType: "json",
+					success: function(data) {
+						times = parseInt(data.p_duration)
+					}
+				})
+			})
+
+			var timeDiv = document.getElementById("times");
+			var timeObj = null;
+
+			function timer() {
+				if(times == 0) {
+					//倒计时结束，提交表单
+					// document.getElementById("frm").submit();
+					jiaojuan();
+					window.clearInterval(timeObj);
+					return;
+				}
+				var t = Math.floor(times / 60) + "分" + times % 60 + "秒"
+				timeDiv.innerHTML = t;
+				times--;
+			}
+			timeObj = window.setInterval(timer, 1000);
+
+			//正常交卷按钮时间
+			$(function() {
+				$("#jiaojuan").click(function() {
+					jiaojuan();
+
+				})
+			})
+
+			//交卷事件
+			function jiaojuan() {
+				var TestAnswer = "";
+
+				var checkInputs = document.querySelectorAll('input:checked') // 获取选中的input
+				for(var i = 0; i < checkInputs.length; i++) {
+					var v = checkInputs[i].value;
+					TestAnswer += v + "&";
+				}
+
+				//获取localStorage内的user对象
+				var json = localStorage.getItem("user");
+				var user = JSON.parse(json);
+				/*alert(user.id)*/
+
+				$.ajax({
+					//url:"http://localhost:8080/examsys/saveTestAnswer.do?testTypeId="+55,
+					url: "http://localhost:8080/examsys/saveTestAnswer.do" + window.location.search,
+					type: "get",
+					data: {
+						"TestAnswer": TestAnswer
+					},
+					dataType: "json",
+					success: function(data) {
+						if(data.code == 1) {
+							alert("总分：" + data.info)
+						}
+						if(data.code == -1) {
+							alert(data.info)
+						}
+					}
+				})
+			}
+		</script>
+		<script src="js/jquery.easy-pie-chart.js"></script>
+		<!--时间js-->
+		<script src="time/jquery.countdown.js"></script>
+		<script>
+			window.jQuery(function($) {
+				"use strict";
+
+				$('time').countDown({
+					with_separators: false
+				});
+				$('.alt-1').countDown({
+					css_class: 'countdown-alt-1'
+				});
+				$('.alt-2').countDown({
+					css_class: 'countdown-alt-2'
+				});
+
+			});
+
+			$(function() {
+				$('li.option label').click(function() {
+					debugger;
+					var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+					var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+					// 设置已答题
+					if(!cardLi.hasClass('hasBeenAnswer')) {
+						cardLi.addClass('hasBeenAnswer');
+					}
+
+				});
+			});
+		</script>
+	</body>
+
+</html>

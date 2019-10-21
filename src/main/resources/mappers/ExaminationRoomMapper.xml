@@ -82,7 +82,7 @@
 
     <update id="updateExaminationRoom" parameterType="ExaminationRoom">
     update examination_room
-    set room_name=#{roomName},join_people_num=#{joinPeopleNum},
+    set room_name=#{roomName}
     total_people_num=#{totalPeopleNum},address=#{address},
     subject_id=#{subjectId},invigilate_id=#{invigilateId},
     begin_time=#{beginTime},end_time=#{endTime},
@@ -103,9 +103,25 @@
     <select id="findInvigilateId"  resultType="com.easyexam.apps.entity.User" parameterType="string">
     SELECT p_user.uid from p_user   WHERE p_user.name =#{name} ;
     </select>
+<!--<resultMap id="studentRoomMap" type="com.easyexam.apps.entity.StudentRoom" autoMapping="true">-->
+<!--    <association property="examinationRoom" javaType="com.easyexam.apps.entity.ExaminationRoom" autoMapping="true">-->
+<!--    </association>-->
+<!--</resultMap>-->
+
+<!--    <select id="ExamineeNumOneRoom" resultMap="studentRoomMap">-->
+<!--        SELECT count(sid) from student_room-->
+<!--        INNER JOIN examination_room on examination_room.id= student_room.rid-->
+<!--        where student_room.rid=#{rid},examination_room.begin_time=#{beginTime}-->
+<!--        ,examination_room.end_time=#{endTime};-->
+<!--    </select>-->
 
 
-    <insert id="addExaminationRoom" parameterType="com.easyexam.apps.entity.ExaminationRoom">
+    <select id="ExamineeNumOneRoom" parameterType="int">
+        SELECT count(sid) from student_room
+        where student_room.rid=#{rid};
+    </select>
+
+  <insert id="addExaminationRoom" parameterType="com.easyexam.apps.entity.ExaminationRoom">
  insert  into examination_room(room_name ,join_people_num  ,total_people_num ,
 address,begin_time,end_time ,subject_id,invigilate_id, paper_id)
  VALUES(#{roomName},#{joinPeopleNum},#{totalPeopleNum},#{address},#{beginTime},#{endTime},#{subjectId} ,#{invigilateId},#{paperId} )

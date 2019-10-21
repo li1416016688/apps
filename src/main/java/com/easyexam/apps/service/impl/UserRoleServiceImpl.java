@@ -26,7 +26,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     public JsonResult updateUserRole(List<Integer> rids,Integer uid) {
         int i1 = userRoleDao.deleteUserRole(uid);
         int i2 = userRoleDao.addUserRole(rids, uid);
-        if (i1 <= 0 || i2 <= 0){
+        if (i2 <= 0){
             throw new MyException(ErrorCode.EXCEPTION_UPDATE,codeMsg.getUpdateException());
         }
         return new JsonResult(1,"修改成功");

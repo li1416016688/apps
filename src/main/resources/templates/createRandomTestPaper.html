@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>试题管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .demo-carousel {
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+
+        .divTable {
+            float: left;
+        }
+
+        .divTable2 {
+            float: left;
+            width: 400px;
+            height: 520px;
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote">自动组卷</blockquote>
+
+    <form class="layui-form" id="add-form" lay-filter="example">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">试卷名称：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="text" name="name" id="name" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">科目：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <select name="subjectId" id="subjectId" class="courseName">
+                    <option value="1">语文</option>
+                    <option value="2">英语</option>
+                    <option value="3">数学</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">试卷难度：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <select name="level" id="level" class="level">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="ques_single_choose_count" id="ques_single_choose_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">多选题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="ques_multiple_choose_count" id="ques_multiple_choose_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">判断题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="ques_judge_count" id="ques_judge_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">问答题数量：</label>
+            <div class="layui-input-block" style="width: 300px">
+                <input type="number" name="ques_ques_answers_count" id="ques_ques_answers_count" lay-verify="title" class="layui-input">
+            </div>
+        </div>
+        <input type="hidden" name="questionCount" id="questionCount" />
+
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="width: 300px">
+                <input type="button" id="submit-button" class="layui-btn" value="提交">
+            </div>
+        </div>
+    </form>
+
+    <div style="margin: 30px 50px;color: #c2c2c2">
+        生成说明：<br/>
+        试卷随机生成会根据您设定的各种题型的题目数量和难度等级随机一键组卷，非常便捷，生成后的试卷会出现在题目列表中，<br/>
+        生成的试卷所有题目的默认分值为1分，可在生成成功后前往试卷列表中对分值进行修改。<br/>
+        注意：<br/>
+        1、当题库中对应题型、难度的题目数量少于输入的数量时，会导致实际试卷中的题目数量小于设定的题目数量；<br/>
+        2、如不需要某一题型，对应的数量输入0即可；<br/>
+        3、生成后的试卷所有题目分值为1分，请修改后再进行考试；
+    </div>
+</body>
+
+<script src="layui/layui.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+    layui.use('form', function(){
+
+    })
+    $("#submit-button").click(
+        function () {
+            var quesSingleChooseCount = $("#ques_single_choose_count").val();
+            var quesMultipleChooseCount = $("#ques_multiple_choose_count").val();
+            var quesJudgeCount = $("#ques_judge_count").val();
+            var quesQuesAnswersCount = $("#ques_ques_answers_count").val();
+            var questionCount = [quesSingleChooseCount,quesMultipleChooseCount,quesJudgeCount,quesQuesAnswersCount];
+            $("#questionCount").val(questionCount);
+
+            var paperName = $("#name").val();
+
+            //提交
+            $.ajax({
+                url:"createRandomExamPaper.do",
+                type:"get",
+                dataType:"json",
+                data:$("#add-form").serializeArray(),
+                success:function (data) {
+                    if(data.code == 2350){
+                        layer.msg("生成成功，试卷名为："+paperName+"，请尽快设置试卷分值");
+                    }
+                }
+            })
+        });
+</script>
+</html>

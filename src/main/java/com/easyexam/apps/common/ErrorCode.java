@@ -106,7 +106,7 @@ public class ErrorCode {
     public static int EXAM_TIME_NO_START=2510;
     public static int CREATE_PAPER_FAIL=2508;
     public static int ILLEGAL_STUDENT=2509;
-
+    public static int ADD_ROOM_NUM_LESS=2064;
 
 
 
@@ -124,4 +124,9 @@ public class ErrorCode {
 
     //没得到老师、学科、试卷的id
     public static int ADD_USER_PAPER_SUJECT_ID__NULL=2067;
+
+    public static int ADD_EXAMINEE_TIME_ERROR=2511;
+    public static int ADD_EXAMINEESTEPERROR=2512;
+    public static int ADD_EXAMINEE_OVER_PEOPLE_NUM_ERRPR=2513;
+    public static int ADD_EXAMINATION_ID_OVER_ERROR=2514;
 }

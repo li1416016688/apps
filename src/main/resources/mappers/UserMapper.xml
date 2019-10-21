@@ -17,13 +17,34 @@
     </delete>
 
     <update id="updateUser">
-        update p_user set name=#{name}, password=#{password}, age=#{age}, sex=#{sex},
-        position=#{position}, remark=#{remark} where uid=#{uid}
+        update p_user set remark=#{remark} where uid=#{uid}
     </update>
 
     <select id="findUser" resultType="com.easyexam.apps.entity.User">
         select * from p_user where uid = #{uid}
     </select>
+
+    <select id="findUserPermission" resultType="int">
+        SELECT distinct pp.pid from p_user u
+        LEFT JOIN p_user_role ur on u.uid = ur.uid
+        LEFT JOIN p_role p on p.rid = ur.rid
+        LEFT JOIN p_role_permission rp on rp.rid = ur.rid
+        LEFT JOIN p_permission pp on pp.pid = rp.pid
+        where u.uid = #{uid} and pp.parent_id is not null
+    </select>
+
+<!--    <resultMap id="findUserRoleRdesc" type="com.easyexam.apps.entity.User">-->
+<!--        <collection property="role" ofType="com.easyexam.apps.entity.Role">-->
+<!--            <id property="rid" column="rid"></id>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+    <select id="findUserRole" resultType="int">
+        select r.rid from p_user u
+        left JOIN p_user_role ur on ur.uid = u.uid
+        left join p_role r on r.rid = ur.rid
+        where u.uid = #{uid}
+    </select>
+
 
 
 </mapper>

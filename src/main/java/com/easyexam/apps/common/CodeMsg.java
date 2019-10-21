@@ -168,7 +168,8 @@ public class CodeMsg {
     private String addRoomNumOverstep;
     @Value("${code.2064}")
     private String addPaperPageNull;
-
+    @Value("${code.2068}")
+    private String addRoomNumLess;
     @Value("${code.2066}")
     private String addUserPageNull;
     @Value("${code.2067}")
@@ -187,4 +188,18 @@ public class CodeMsg {
     private String IllegalStudent;
     @Value("${code.2510}")
     private String ExamTimeNoStart;
+    @Value("${code.2405}")
+    private String ExamineeDoublePasswordSame;
+//    code.2045=考生：两次密码输入不一致
+    @Value("${code.2511}")
+    private String AddExamineeTimeError;
+    @Value("${code.1007}")
+    private String AddExamineeRoomSuccess;
+    @Value("${code.2512}")
+    private String AddExamineeStepError;
+    @Value("${code.2513}")
+    private String AddExamineeOverPeopleNumError;
+    @Value("${code.2514}")
+    private String AddExaminationIdOverError;
+
 }

@@ -62,5 +62,23 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public List<Integer> findUserPermission(Integer uid) {
+        List<Integer> list = userDao.findUserPermission(uid);
+        if (list == null || "".equals(list)){
+            throw new MyException(ErrorCode.EXCEPTION_NOPOINT,codeMsg.getNoPointException());
+        }
+        return list;
+    }
+
+    @Override
+    public List<Integer> findUserRole(Integer uid) {
+        List<Integer> list = userDao.findUserRole(uid);
+        if (list == null || "".equals(list)){
+            throw new MyException(ErrorCode.EXCEPTION_NOPOINT,codeMsg.getNoPointException());
+        }
+        return list;
+    }
+
 
 }

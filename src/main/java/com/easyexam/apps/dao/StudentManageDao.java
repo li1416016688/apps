@@ -4,6 +4,9 @@ import com.easyexam.apps.entity.Paper;
 import com.easyexam.apps.entity.Student;
 import com.easyexam.apps.entity.StudentPaper;
 import com.easyexam.apps.entity.StudentRole;
+import org.apache.ibatis.annotations.Param;
+import com.easyexam.apps.entity.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +27,20 @@ public interface StudentManageDao {
     public void addExaminee(Student student);
     //增加考生的角色
     public void addExamineeRole(StudentRole studentRole);
+    //查找考场的场次
+    public Integer findExaminationSite(String beginTime,String endTime,String roomName);
+    //学生加入考试
+    public void addExamineeJoinExam(@Param("rid") Integer rid, @Param("sid") Integer sid);
+    //查找学生加入人数
+    public ExaminationRoom findExaminationPeopleNum(Integer id);
 
+    public List<StudentPaper> findStuIdAndRoomId(@Param(value = "subjectId") Integer subjectId,
+                                                 @Param(value = "paperId") Integer paperId);
+
+    public Paper findPaperById(Integer id);
+    //加入人数增加
+    public void updateJoinExamNum(@Param("joinPeopleNum") Integer joinPeopleNum,@Param("id") Integer id);
+    //查找考场id
+    public List<StudentRoom> findExaminationId(Integer id);
 
 }

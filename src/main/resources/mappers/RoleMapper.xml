@@ -28,9 +28,20 @@
     <delete id="deleteRoleUser">
         delete from p_role_permission where rid = #{rid}
     </delete>
+    <delete id="deleteUser">
+        delete from p_user_role where rid = #{rid}
+    </delete>
 
     <update id="updateRole">
         update p_role set rname=#{rname}, rdesc=#{rdesc} where rid=#{rid}
     </update>
+
+    <resultMap id="findTree" type="com.easyexam.apps.entity.RoleTree">
+        <id property="rid" column="rid"></id>
+        <result property="name" column="rdesc"></result>
+    </resultMap>
+    <select id="findRoleTree" resultMap="findTree">
+        select * from p_role
+    </select>
 
 </mapper>

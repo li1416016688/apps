@@ -2,6 +2,7 @@ package com.easyexam.apps.service;
 
 import com.easyexam.apps.common.JsonResult;
 import com.easyexam.apps.entity.Role;
+import com.easyexam.apps.entity.RoleTree;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface RoleService {
     public JsonResult addRole(Role role,List<Integer>pid);
     public JsonResult deleteRole(Integer rid);
     public JsonResult updateRole(Role role);
+
+    public List<RoleTree> findRoleTree();
 }
