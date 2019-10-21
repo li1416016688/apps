@@ -1,5 +1,8 @@
 package com.easyexam.apps.common;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ErrorCode {
     private int code;
     private String msg;
@@ -103,5 +106,27 @@ public class ErrorCode {
     public static int EXAM_TIME_NO_START=2510;
     public static int CREATE_PAPER_FAIL=2508;
     public static int ILLEGAL_STUDENT=2509;
+    public static int ADD_ROOM_NUM_LESS=2064;
 
+
+
+    //考场：
+    public static int ADD_ROOM_NAME_REPEAT=2061;
+    //考场：没有获取到学科名字
+    public static int ADD_SUBJECT_PAGE_NULL=2062;
+
+    public static int ADD_ROOM_NUM_OVERSTEP=2063;
+    //考场：没有获取到试卷的名称
+    public static int ADD_PAPER_PAGE_NULL=2064;
+
+    //考场：没写监考老师的名字
+    public static int ADD_USER_PAGE_NULL=2066;
+
+    //没得到老师、学科、试卷的id
+    public static int ADD_USER_PAPER_SUJECT_ID__NULL=2067;
+
+    public static int ADD_EXAMINEE_TIME_ERROR=2511;
+    public static int ADD_EXAMINEESTEPERROR=2512;
+    public static int ADD_EXAMINEE_OVER_PEOPLE_NUM_ERRPR=2513;
+    public static int ADD_EXAMINATION_ID_OVER_ERROR=2514;
 }

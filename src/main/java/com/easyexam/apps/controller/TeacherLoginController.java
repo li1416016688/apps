@@ -16,7 +16,7 @@ public class TeacherLoginController {
     //跳转到登录页面
     @GetMapping("/login")
     public String loginPage() {
-        return "login";
+        return "admin_login";
     }
 
 
@@ -32,7 +32,7 @@ public class TeacherLoginController {
             subject.login(token);
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            return "login";
+            return "admin_login";
         }
 
         Session session = subject.getSession();

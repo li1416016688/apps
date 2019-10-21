@@ -137,6 +137,47 @@ public class CodeMsg {
     @Value("${code.2102}")
     private String AutoCreatePaper;
 
+
+
+    @Value("${code.2400}")
+    private String studentFindoneError;
+    @Value("${code.4001}")
+    private String studentNotFindone;
+    @Value("${code.1019}")
+    private String studentFindoneSuccess;
+    @Value("${code.1005}")
+    private String studentUpdateSuccess;
+    @Value("${code.1006}")
+    private String studentaddSuccess;
+
+    @Value("${code.2404}")
+    private String studentphoneError;
+    @Value("${code.2402}")
+    private String studentidCardError;
+    @Value("${code.2403}")
+    private String studentIdCardFormatError;
+    @Value("${code.1419}")
+    private String examinationRoomAddSuccess;
+
+
+    @Value("${code.2061}")
+    private String addRoomNameRepeat;
+    @Value("${code.2062}")
+    private String addSubjectPageNull;
+    @Value("${code.2063}")
+    private String addRoomNumOverstep;
+    @Value("${code.2064}")
+    private String addPaperPageNull;
+    @Value("${code.2068}")
+    private String addRoomNumLess;
+    @Value("${code.2066}")
+    private String addUserPageNull;
+    @Value("${code.2067}")
+    private String addUserPaperSujectIdNull;
+
+
+
+
     @Value("${code.2506}")
     private String ShowExaminationError;
     @Value("${code.2507}")
@@ -147,4 +188,18 @@ public class CodeMsg {
     private String IllegalStudent;
     @Value("${code.2510}")
     private String ExamTimeNoStart;
+    @Value("${code.2405}")
+    private String ExamineeDoublePasswordSame;
+//    code.2045=考生：两次密码输入不一致
+    @Value("${code.2511}")
+    private String AddExamineeTimeError;
+    @Value("${code.1007}")
+    private String AddExamineeRoomSuccess;
+    @Value("${code.2512}")
+    private String AddExamineeStepError;
+    @Value("${code.2513}")
+    private String AddExamineeOverPeopleNumError;
+    @Value("${code.2514}")
+    private String AddExaminationIdOverError;
+
 }

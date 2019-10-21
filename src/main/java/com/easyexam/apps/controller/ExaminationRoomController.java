@@ -21,9 +21,25 @@ public class ExaminationRoomController {
     @Autowired
     private CodeMsg codeMsg;
 
+    /**
+     * 跳转页面  考场管理
+     * @return
+     */
+
+    @RequestMapping("/Examinationlist")
+    public String ExaminationRoomList() {
+        return "room";
+    }
+    @RequestMapping("/Examineelist")
+    public String ExamineeList() {
+        return "student";
+    }
+
+
+
     //查找所有的考场信息
     @RequiresPermissions({"room:list"})
-    @RequestMapping(value = "/examinationRoom/findAll" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/examinationRoom/findAll")
     public Map findAllexaminationRoom(Integer page, Integer limit){
         HashMap<String, Object> map = new HashMap<>();
         List<ExaminationRoom> examinationRoomList = examinationRoomService.findAllExaminationRoom(page, limit);
@@ -34,6 +50,8 @@ public class ExaminationRoomController {
         return map;
     }
 
+
+
     //查找一个考场的信息
     @PostMapping("examinationRoom/findone")
     public JsonResult findOneExaminationRoom(Integer id){
@@ -42,18 +60,23 @@ public class ExaminationRoomController {
     }
     //修改一个考场的信息
     @PostMapping("examinationRoom/update")
-    public JsonResult updateExaminationRoom(ExaminationRoom room){
-        examinationRoomService.updateExaminationRoom(room);
-        return new JsonResult(1017,codeMsg.getFindoneExaminationroom());
+    public JsonResult updateExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName){
+        examinationRoomService.updateExaminationRoom( room,subjectName,paperName,invigilateName);
+        return new JsonResult(1017,codeMsg.getUpdateExaminationroom());
     }
 
 //    删除一个考场的信息
     @PostMapping("examinationRoom/delete")
     public JsonResult deleteExaminationRoom(Integer id){
-
         examinationRoomService.deleteExaminationRoom(id);
         return new JsonResult(1018,codeMsg.getDeleteExaminationroom());
     }
 
 //    增加一个考场的信息
+
+    @PostMapping("examinationRoom/add")
+    public JsonResult addExaminationRoom(ExaminationRoom room,String subjectName,String paperName,String invigilateName) {
+        examinationRoomService.addExaminationRoom( room,subjectName,paperName,invigilateName);
+        return new JsonResult(1419,codeMsg.getDeleteExaminationroom());
+    }
 }

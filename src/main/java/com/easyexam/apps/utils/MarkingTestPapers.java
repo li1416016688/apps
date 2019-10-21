@@ -68,22 +68,22 @@ public class MarkingTestPapers {
      * @param score  该题分值
      * @return  如果学生答案正确得分score，否则得分0；如返回-1，则输入的正确答案或score存在问题！
      */
-    public int markingJudge(boolean realAnswer, boolean studentAnswer, int score){
+    public int markingJudge(int realAnswer, int studentAnswer, int score){
         //异常及白卷判断
         if(score <= 0){
             return -1;
         }
-        boolean bStudentAnswer;
+        int bStudentAnswer;
         try{
-            bStudentAnswer  = (boolean) studentAnswer;
+            bStudentAnswer = (int) studentAnswer;
         } catch (ClassCastException e){
             return 0;   //学生交了白卷
         }
 
         //正确性判断
-        if(realAnswer == bStudentAnswer){
+        if(realAnswer == studentAnswer){
             return score;
-        }else {
+        } else {
             return 0;
         }
     }

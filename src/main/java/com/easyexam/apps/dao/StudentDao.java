@@ -32,4 +32,7 @@ public interface StudentDao {
     public QuesJudge findQuesJudgeById(Integer id);
     public QuesQuestionsAnswers findQuesQuestionsAnswersById(Integer id);
 
+    //学科成绩统计
+    List<ScoreStatistics> findSubjectScore();
+
 }
