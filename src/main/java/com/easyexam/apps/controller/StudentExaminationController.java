@@ -135,11 +135,6 @@ public class StudentExaminationController {
         //在redis取出当时开始考试生成的试卷，含有答案，不含有考生信息，含有考场信息
         Object opaper2 = redisTemplate.opsForHash().get("easyexam","paperId"+paperId );
         StudentPaper paper2 = (StudentPaper)opaper2;
-
     }
-
-
-
-
 
 }
