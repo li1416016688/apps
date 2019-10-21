@@ -9,9 +9,9 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">layui 后台布局</div>
+        <div class="layui-logo">教师端管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
+        <!--<ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="">控制台</a></li>
             <li class="layui-nav-item"><a href="">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户</a></li>
@@ -23,7 +23,7 @@
                     <dd><a href="">授权管理</a></dd>
                 </dl>
             </li>
-        </ul>
+        </ul>-->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
@@ -35,7 +35,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
+            <li class="layui-nav-item"><a href="">退出登录</a></li>
         </ul>
     </div>
 
@@ -44,35 +44,45 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+                    <a class="" href="javascript:;">试题管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="singleChoose" target="myframe">试题管理</a></dd>
+                        <dd><a href="singleChoose" target="myframe">试题库</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">试卷管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="" target="myframe">试卷列表</a></dd>
                         <dd><a href="createTestPaper" target="myframe">手动组卷</a></dd>
                         <dd><a href="createRandomTestPaper" target="myframe">随机组卷</a></dd>
-                        <dd><a href="findAllUser" target="myframe">用户管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="findAllUser" target="myframe">管理员列表</a></dd>
+                        <dd><a href="" target="myframe">学生列表</a></dd>
                         <dd><a href="findAllRole" target="myframe">角色管理</a></dd>
                         <dd><a href="findAllPermission" target="myframe">权限管理</a></dd>
                     </dl>
                 </li>
+                <hr/>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">试题管理</a>
+                    <a class="" href="javascript:;">考试管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="singleChoose" target="myframe">试题分类管理</a></dd>
-                        <dd><a href="createTestPaper" target="myframe">手动生成试卷</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="" target="myframe">考试场次&报名</a></dd>
+                        <dd><a href="" target="myframe">模拟练习</a></dd>
+                        <dd><a href="" target="myframe">进入考试</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">试题管理</a>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">成绩管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">试题编辑</a></dd>
-                        <dd><a href="javascript:;">手动生成试卷</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="findSubjectScore" target="myframe">学科成绩查询</a></dd>
+                        <dd><a href="" target="myframe">历史考试</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
     </div>
